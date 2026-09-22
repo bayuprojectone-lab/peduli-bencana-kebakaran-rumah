@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Peduli Bencana - Ibu Puji Astutik</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Tambahkan SDK Supabase -->
@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         .page-hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -20,6 +20,8 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         video { width: 100%; height: 100%; object-fit: cover; }
+        /* Fix for Android input zoom */
+        input, textarea, select { font-size: 16px !important; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -37,7 +39,7 @@
         
         <!-- Navbar -->
         <nav class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-slate-100">
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('public', 'beranda')">
                     <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
                         <i class="fas fa-fire-flame-curved"></i>
@@ -58,8 +60,8 @@
                     </button>
                 </div>
                 
-                <div class="md:hidden flex items-center space-x-4">
-                    <button onclick="handleAdminAccess()" class="text-slate-500 border p-2 rounded-lg"><i class="fas fa-user-shield text-sm"></i></button>
+                <div class="md:hidden flex items-center space-x-3">
+                    <button onclick="handleAdminAccess()" class="text-slate-500 border border-slate-200 p-2 rounded-lg"><i class="fas fa-user-shield text-sm"></i></button>
                     <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-red-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
                 </div>
             </div>
@@ -77,14 +79,14 @@
             <div class="absolute inset-0 opacity-30" style="background-image: url('https://images.unsplash.com/photo-1599839575945-a9e5af0c3e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center;"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/50"></div>
             
-            <div class="relative container mx-auto px-6 py-24 md:py-36">
+            <div class="relative container mx-auto px-4 sm:px-6 py-20 md:py-36">
                 <div class="max-w-3xl">
-                    <span class="inline-flex items-center space-x-2 bg-red-600/20 border border-red-500/40 px-4 py-1.5 rounded-full text-sm font-semibold text-red-300 mb-6 backdrop-blur-sm">
+                    <span class="inline-flex items-center space-x-2 bg-red-600/20 border border-red-500/40 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-red-300 mb-6 backdrop-blur-sm">
                         <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                         <span>BENCANA KEBAKARAN - OKU TIMUR</span>
                     </span>
-                    <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Bangkit Bersama untuk Ibu Puji Astutik</h2>
-                    <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed">
+                    <h2 class="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Bangkit Bersama untuk Ibu Puji Astutik</h2>
+                    <p class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 md:mb-10 max-w-2xl font-light leading-relaxed">
                         Rumah beliau di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kec. Buay Madang dilalap api. Mari kita bantu membangun kembali harapan mereka.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
@@ -102,30 +104,29 @@
         </section>
 
         <!-- Progress Donasi -->
-        <section id="donasi" class="relative bg-white -mt-16 z-20 scroll-mt-20">
-            <div class="container mx-auto px-6">
+        <section id="donasi" class="relative bg-white z-20 scroll-mt-20 py-10 md:py-0 md:-mt-16">
+            <div class="container mx-auto px-4 sm:px-6">
                 <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden grid md:grid-cols-5">
-                    <div class="md:col-span-3 p-8 md:p-12">
+                    <div class="md:col-span-3 p-6 sm:p-8 md:p-12">
                         <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Aksi Peduli</span>
-                        <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
                         
-                        <!-- Tampilan Dana Terkumpul (Tanpa Target) -->
+                        <!-- Tampilan Dana Terkumpul -->
                         <div class="mb-8 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl">
                             <p class="text-emerald-600 font-semibold text-sm mb-2">Total Dana Terkumpul</p>
-                            <h4 class="text-4xl font-extrabold text-emerald-700" id="display-terkumpul">Rp 0</h4>
+                            <h4 class="text-3xl sm:text-4xl font-extrabold text-emerald-700 break-all" id="display-terkumpul">Rp 0</h4>
                             <p class="text-xs text-slate-400 mt-2">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
                         </div>
 
-                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative">
+                        <div class="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-100 relative">
                             <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
-                            <div class="flex items-center justify-between space-x-4 mb-4">
-                                <div class="flex items-center space-x-4">
-                                    <!-- LOGO BRI -->
-                                    <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-xl tracking-wider shadow-sm">BRI</div>
+                            <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
+                                <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                                    <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
                                     <span class="w-px h-8 bg-slate-200"></span>
-                                    <h4 id="display-rekening" class="text-2xl font-extrabold text-red-600 tracking-wide">1234567890</h4>
+                                    <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
                                 </div>
-                                <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition" title="Salin Nomor Rekening">
+                                <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
                                     <i class="fas fa-copy text-sm"></i>
                                 </button>
                             </div>
@@ -133,7 +134,7 @@
                         </div>
                     </div>
 
-                    <div class="md:col-span-2 bg-slate-900 p-8 md:p-12 text-white flex flex-col justify-center">
+                    <div class="md:col-span-2 bg-slate-900 p-6 sm:p-8 md:p-12 text-white flex flex-col justify-center">
                         <i class="fas fa-house-circle-exclamation text-5xl text-red-500 mb-6"></i>
                         <h4 class="text-xl font-bold mb-6">Informasi Korban</h4>
                         <ul class="space-y-4 text-slate-300 text-sm">
@@ -152,12 +153,12 @@
 
         <!-- Kronologi -->
         <section id="kronologi" class="py-20 bg-slate-50 scroll-mt-20">
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-4 sm:px-6">
                 <div class="max-w-4xl mx-auto">
                     <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Kronologi Kejadian</span>
                     <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 mt-2 mb-8 text-center">Musibah yang Menghancurkan, Harapan yang Tak Pernah Padam</h3>
                     
-                    <div class="prose prose-lg max-w-none text-slate-600 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="prose prose-lg max-w-none text-slate-600 bg-white p-6 sm:p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
                         <p class="mb-4 leading-relaxed">
                             Pada hari yang naas, rumah milik Ibu Puji Astutik yang berlokasi di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kecamatan Buay Madang, Kabupaten OKU Timur, dilalap api. Kebakaran ini mengakibatkan kerugian materiil yang sangat besar dan membuat keluarga kehilangan tempat tinggal satu-satunya.
                         </p>
@@ -174,14 +175,14 @@
 
         <!-- Galeri Gambar & Video -->
         <section id="galeri" class="py-20 bg-white scroll-mt-20">
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-4 sm:px-6">
                 <div class="text-center mb-12">
                     <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Dokumentasi</span>
                     <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 mt-2">Dokumentasi Kejadian</h3>
                     <div class="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full"></div>
                 </div>
                 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" id="gallery-container">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto" id="gallery-container">
                     <!-- Default Image -->
                     <div class="group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0', 'image')">
                         <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi 1" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
@@ -227,7 +228,7 @@
             </div>
         </div>
 
-        <div class="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 p-8">
+        <div class="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 p-6 sm:p-8">
             <div class="w-full max-w-md">
                 <div class="text-center mb-10 lg:hidden">
                     <div class="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg">
@@ -324,25 +325,26 @@
         <main class="flex-1 md:ml-64 min-h-screen">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center md:hidden sticky top-0 z-40">
                 <div class="flex items-center space-x-3">
+                    <button onclick="navigateTo('public', 'beranda')" class="text-slate-600 hover:text-red-600"><i class="fas fa-arrow-left text-lg"></i></button>
                     <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-fire-flame-curved text-sm"></i></div>
                     <h1 class="text-sm font-bold">Admin Panel</h1>
                 </div>
                 <button onclick="handleLogout()" class="text-red-600 text-sm font-bold">Keluar</button>
             </header>
 
-            <div class="p-6 md:p-10">
+            <div class="p-4 sm:p-6 md:p-10">
                 <!-- TAB OVERVIEW -->
                 <div id="tab-overview" class="fade-in">
-                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Ringkasan Dashboard</h2>
-                    <p class="text-slate-500 mb-8">Pantau perkembangan donasi dan aktivitas website.</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">Ringkasan Dashboard</h2>
+                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Pantau perkembangan donasi dan aktivitas website.</p>
                     
-                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                             <div class="flex items-center justify-between mb-4">
                                 <span class="text-slate-500 text-sm font-medium">Dana Terkumpul</span>
                                 <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600"><i class="fas fa-money-bill-wave"></i></div>
                             </div>
-                            <h3 class="text-2xl font-extrabold text-slate-800" id="overview-terkumpul">Rp 0</h3>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 break-all" id="overview-terkumpul">Rp 0</h3>
                             <p class="text-xs text-emerald-600 font-semibold mt-2">Aktif</p>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -350,12 +352,12 @@
                                 <span class="text-slate-500 text-sm font-medium">Total Media</span>
                                 <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-photo-film"></i></div>
                             </div>
-                            <h3 class="text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Item</h3>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Item</h3>
                             <p class="text-xs text-slate-400 font-semibold mt-2">Foto & Video</p>
                         </div>
                     </div>
 
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-100">
                         <h3 class="text-lg font-bold text-slate-800 mb-4">Status Donasi</h3>
                         <p class="text-sm text-slate-500">Mari terus sebarluaskan informasi donasi ini agar lebih banyak bantuan yang terkumpul.</p>
                     </div>
@@ -363,12 +365,12 @@
 
                 <!-- TAB GALLERY -->
                 <div id="tab-gallery" class="page-hidden fade-in">
-                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Media</h2>
-                    <p class="text-slate-500 mb-8">Unggah foto/video dokumentasi beserta deskripsinya.</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Media</h2>
+                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Unggah foto/video dokumentasi beserta deskripsinya.</p>
 
-                    <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                         <div class="lg:col-span-1">
-                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-10">
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:sticky lg:top-10">
                                 <h3 class="text-lg font-bold text-slate-800 mb-4">Unggah Media Baru</h3>
                                 
                                 <div class="mb-4">
@@ -411,7 +413,7 @@
                                     <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">Total: <span id="image-count">0</span></div>
                                 </div>
 
-                                <div id="imageList" class="grid sm:grid-cols-2 gap-6"></div>
+                                <div id="imageList" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
                                 <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl">
                                     <i class="fas fa-images text-5xl text-slate-200 mb-4"></i>
                                     <p class="text-slate-400 font-medium">Belum ada media diunggah</p>
@@ -423,13 +425,13 @@
 
                 <!-- TAB SETTINGS -->
                 <div id="tab-settings" class="page-hidden fade-in">
-                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Pengaturan Donasi</h2>
-                    <p class="text-slate-500 mb-8">Perbarui informasi rekening dan dana yang terkumpul.</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-2">Pengaturan Donasi</h2>
+                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Perbarui informasi rekening dan dana yang terkumpul.</p>
 
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-3xl">
+                    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-100 max-w-3xl">
                         <form id="settingsForm" onsubmit="saveSettings(event)">
                             <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Donasi</h4>
-                            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Dana Terkumpul (Rp)</label>
                                     <input type="number" id="set-terkumpul" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="12500000">
@@ -437,7 +439,7 @@
                             </div>
                             
                             <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening (Bank BRI)</h4>
-                            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Nomor Rekening</label>
                                     <input type="text" id="set-rekening" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="1234567890">
@@ -448,12 +450,12 @@
                                 </div>
                             </div>
                             
-                            <div class="flex items-center justify-end pt-4">
-                                <div id="settings-saved" class="page-hidden mr-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                            <div class="flex flex-col sm:flex-row items-center justify-end pt-4">
+                                <div id="settings-saved" class="page-hidden mb-4 sm:mb-0 sm:mr-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
                                     <i class="fas fa-check-circle"></i>
                                     <span>Perubahan disimpan!</span>
                                 </div>
-                                <button type="submit" class="bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center space-x-2">
+                                <button type="submit" class="w-full sm:w-auto bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
                                     <i class="fas fa-save"></i>
                                     <span>Simpan Perubahan</span>
                                 </button>
@@ -467,7 +469,6 @@
 
     <script>
         // ===== INISIALISASI SUPABASE =====
-        // GANTI DUA NILAI DI BAWAH INI DENGAN URL DAN KEY DARI PROJECT SUPABASE ANDA
         const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ'; 
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -533,7 +534,7 @@
             if (tabName === 'settings') loadSettings();
         }
 
-        // ===== AUTENTIKASI (Tetap pakai Local Storage agar simpel untuk demo) =====
+        // ===== AUTENTIKASI =====
         function handleAdminAccess() {
             if (localStorage.getItem('isAdminLoggedIn') === 'true') {
                 navigateTo('dashboard');
@@ -578,14 +579,38 @@
             lb.classList.remove('flex');
         }
 
-        // ===== COPY REKENING =====
+        // ===== COPY REKENING (Android Friendly) =====
         function copyRekening() {
             const rekening = document.getElementById('display-rekening').innerText;
-            navigator.clipboard.writeText(rekening).then(() => {
-                alert('Nomor rekening BRI berhasil disalin: ' + rekening);
-            }).catch(err => {
-                alert('Silakan salin manual: ' + rekening);
-            });
+            
+            // Modern API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(rekening).then(() => {
+                    alert('Nomor rekening BRI berhasil disalin: ' + rekening);
+                }).catch(err => {
+                    fallbackCopyTextToClipboard(rekening);
+                });
+            } else {
+                fallbackCopyTextToClipboard(rekening);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                const successful = document.execCommand('copy');
+                alert(successful ? 'Nomor rekening berhasil disalin: ' + text : 'Gagal menyalin, silakan salin manual: ' + text);
+            } catch (err) {
+                alert('Silakan salin manual: ' + text);
+            }
+            document.body.removeChild(textArea);
         }
 
         // ===== PREVIEW & UPLOAD MEDIA KE SUPABASE STORAGE =====
@@ -636,19 +661,16 @@
             btnUpload.disabled = true;
 
             try {
-                // 1. Upload file ke Supabase Storage (Pastikan bucket 'galeri' sudah dibuat dan bersifat Public)
                 const { data: storageData, error: storageError } = await sb.storage
                     .from('galeri')
                     .upload(filePath, file);
 
                 if (storageError) throw storageError;
 
-                // 2. Dapatkan URL Public
                 const { data: publicUrlData } = sb.storage.from('galeri').getPublicUrl(filePath);
                 const fileUrl = publicUrlData.publicUrl;
                 const type = file.type.startsWith('image/') ? 'image' : 'video';
 
-                // 3. Simpan data URL ke Tabel Database
                 const { error: dbError } = await sb.from('gallery').insert([
                     { url: fileUrl, type: type, desc: desc }
                 ]);
@@ -659,7 +681,6 @@
                 uploadStatus.classList.remove('page-hidden');
                 setTimeout(() => uploadStatus.classList.add('page-hidden'), 3000);
                 
-                // Reset
                 document.getElementById('mediaInput').value = '';
                 document.getElementById('media-desc').value = '';
                 document.getElementById('file-name').innerText = 'JPG, PNG, MP4, MKV';
