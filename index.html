@@ -3,161 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peduli Bencana Kebakaran - Ibu Puji Astutik</title>
+    <title>Peduli Bencana - Ibu Puji Astutik</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .hidden-page { display: none; }
+        body { font-family: 'Inter', sans-serif; }
+        /* Menggunakan page-hidden agar tidak bentrok dengan sistem Tailwind */
+        .page-hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
         html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- LIGHTBOX UNTUK GALERI GAMBAR -->
-    <div id="lightbox" class="fixed inset-0 bg-black/90 z-[100] hidden items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="page-hidden fixed inset-0 bg-black/90 z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
         <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
         <button class="absolute top-6 right-6 text-white text-3xl hover:text-red-500 transition">
             <i class="fas fa-times-circle"></i>
         </button>
     </div>
 
-    <!-- ================= NAVBAR ================= -->
-    <nav id="main-navbar" class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-100">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('public', 'beranda')">
-                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-white text-xl shadow-md">
-                    <i class="fas fa-fire-flame-curved"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg font-extrabold text-slate-800 leading-none">Peduli Bencana</h1>
-                    <p class="text-xs text-slate-400">OKU Timur</p>
-                </div>
-            </div>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 items-center">
-                <button onclick="navigateTo('public', 'beranda')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Beranda</button>
-                <button onclick="navigateTo('public', 'kronologi')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Kronologi</button>
-                <button onclick="navigateTo('public', 'galeri')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Galeri</button>
-                <button onclick="navigateTo('public', 'donasi')" class="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 font-semibold text-sm shadow-sm hover:shadow-md transition flex items-center space-x-2">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <span>Donasi</span>
-                </button>
-                <button onclick="handleAdminAccess()" class="text-slate-400 hover:text-red-600 font-medium text-sm border-l border-slate-200 pl-4 ml-2 transition flex items-center space-x-1">
-                    <i class="fas fa-user-shield text-xs"></i>
-                    <span>Admin</span>
-                </button>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center space-x-4">
-                <button onclick="handleAdminAccess()" class="text-slate-500 border p-2 rounded-lg">
-                    <i class="fas fa-user-shield text-sm"></i>
-                </button>
-                <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-red-600 focus:outline-none">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
+    <!-- ================= HALAMAN PUBLIK ================= -->
+    <div id="public-page" class="fade-in">
         
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-6 py-4 space-y-3 shadow-lg">
-            <button onclick="navigateTo('public', 'beranda')" class="block w-full text-left py-2 text-slate-600 font-medium">Beranda</button>
-            <button onclick="navigateTo('public', 'kronologi')" class="block w-full text-left py-2 text-slate-600 font-medium">Kronologi</button>
-            <button onclick="navigateTo('public', 'galeri')" class="block w-full text-left py-2 text-slate-600 font-medium">Galeri</button>
-            <button onclick="navigateTo('public', 'donasi')" class="block w-full text-left py-2 text-white bg-red-600 px-4 py-2 rounded-lg font-semibold text-center">Donasi Sekarang</button>
-        </div>
-    </nav>
+        <!-- Navbar -->
+        <nav class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b border-slate-100">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('public', 'beranda')">
+                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fas fa-fire-flame-curved"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold text-slate-800 leading-none">Peduli Bencana</h1>
+                        <p class="text-xs text-slate-400">OKU Timur</p>
+                    </div>
+                </div>
+                
+                <!-- Menu Desktop (Pasti Tampil) -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="navigateTo('public', 'beranda')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Beranda</button>
+                    <button onclick="navigateTo('public', 'kronologi')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Kronologi</button>
+                    <button onclick="navigateTo('public', 'galeri')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Galeri</button>
+                    <button onclick="navigateTo('public', 'donasi')" class="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 font-semibold text-sm shadow-sm hover:shadow-md transition">Donasi</button>
+                    <button onclick="handleAdminAccess()" class="text-slate-400 hover:text-red-600 font-medium text-sm border-l border-slate-200 pl-4 ml-2 transition">
+                        <i class="fas fa-user-shield text-xs"></i> Admin
+                    </button>
+                </div>
+                
+                <!-- Menu Mobile (Pasti Tampil) -->
+                <div class="md:hidden flex items-center space-x-4">
+                    <button onclick="handleAdminAccess()" class="text-slate-500 border p-2 rounded-lg"><i class="fas fa-user-shield text-sm"></i></button>
+                    <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-red-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
+                </div>
+            </div>
+            
+            <!-- Dropdown Mobile -->
+            <div id="mobile-menu" class="page-hidden md:hidden bg-white border-t border-slate-100 px-6 py-4 space-y-3 shadow-lg">
+                <button onclick="navigateTo('public', 'beranda')" class="block w-full text-left py-2 text-slate-600 font-medium">Beranda</button>
+                <button onclick="navigateTo('public', 'kronologi')" class="block w-full text-left py-2 text-slate-600 font-medium">Kronologi</button>
+                <button onclick="navigateTo('public', 'galeri')" class="block w-full text-left py-2 text-slate-600 font-medium">Galeri</button>
+                <button onclick="navigateTo('public', 'donasi')" class="block w-full text-left py-2 text-white bg-red-600 px-4 py-2 rounded-lg font-semibold text-center">Donasi Sekarang</button>
+            </div>
+        </nav>
 
-    <!-- ================= HALAMAN PUBLIK (DEPAN) ================= -->
-    <div id="public-page" class="main-page fade-in">
-        
         <!-- Hero Section -->
-        <section id="beranda" class="relative bg-gradient-to-br from-slate-900 via-red-950 to-slate-900 text-white overflow-hidden">
-            <div class="absolute inset-0 opacity-20" style="background-image: url('https://images.unsplash.com/photo-1599839575945-a9e5af0c3e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center;"></div>
-            <div class="relative container mx-auto px-6 py-24 md:py-32 text-center">
-                <span class="inline-flex items-center space-x-2 bg-red-600/20 border border-red-500/30 px-4 py-1.5 rounded-full text-sm font-semibold text-red-300 mb-6 backdrop-blur-sm">
-                    <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                    <span>Urgent - Bencana Kebakaran</span>
-                </span>
-                <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight max-w-3xl mx-auto">Bangkit Bersama untuk Ibu Puji Astutik</h2>
-                <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto font-light">
-                    Rumah beliau di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kec. Buay Madang, Kab. OKU Timur dilalap api. Mari kita bantu membangun kembali harapan mereka.
-                </p>
-                <div class="flex flex-col md:flex-row gap-4 justify-center">
-                    <button onclick="navigateTo('public', 'donasi')" class="bg-white text-red-600 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 shadow-xl transition transform hover:-translate-y-1 flex items-center justify-center space-x-2">
-                        <i class="fas fa-heart"></i>
-                        <span>Donasi Sekarang</span>
-                    </button>
-                    <button onclick="navigateTo('public', 'kronologi')" class="bg-transparent border-2 border-slate-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-slate-900 transition flex items-center justify-center space-x-2">
-                        <i class="fas fa-circle-info"></i>
-                        <span>Baca Kronologi</span>
-                    </button>
+        <section id="beranda" class="relative bg-slate-900 text-white overflow-hidden">
+            <div class="absolute inset-0 opacity-30" style="background-image: url('https://images.unsplash.com/photo-1599839575945-a9e5af0c3e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center;"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/50"></div>
+            
+            <div class="relative container mx-auto px-6 py-24 md:py-36">
+                <div class="max-w-3xl">
+                    <span class="inline-flex items-center space-x-2 bg-red-600/20 border border-red-500/40 px-4 py-1.5 rounded-full text-sm font-semibold text-red-300 mb-6 backdrop-blur-sm">
+                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        <span>BENCANA KEBAKARAN - OKU TIMUR</span>
+                    </span>
+                    <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Bangkit Bersama untuk Ibu Puji Astutik</h2>
+                    <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed">
+                        Rumah beliau di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kec. Buay Madang dilalap api. Mari kita bantu membangun kembali harapan mereka.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button onclick="navigateTo('public', 'donasi')" class="bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 shadow-xl transition transform hover:-translate-y-1 flex items-center justify-center space-x-2">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <span>Donasi Sekarang</span>
+                        </button>
+                        <button onclick="navigateTo('public', 'kronologi')" class="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition flex items-center justify-center space-x-2">
+                            <i class="fas fa-circle-info"></i>
+                            <span>Baca Kronologi</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Kronologi / Detail -->
-        <section id="kronologi" class="py-20 bg-white scroll-mt-20">
+        <!-- Progress Donasi -->
+        <section id="donasi" class="relative bg-white -mt-16 z-20 scroll-mt-20">
             <div class="container mx-auto px-6">
-                <div class="grid md:grid-cols-2 gap-16 items-center">
-                    <div>
-                        <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Kronologi Kejadian</span>
-                        <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 mt-2 mb-6">Musibah yang Menghancurkan, Harapan yang Tak Pernah Padam</h3>
-                        <p class="text-slate-500 mb-6 leading-relaxed">
+                <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden grid md:grid-cols-5">
+                    <!-- Kolom Kiri -->
+                    <div class="md:col-span-3 p-8 md:p-12">
+                        <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Target Donasi</span>
+                        <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
+                        
+                        <div class="mb-8">
+                            <div class="flex justify-between text-sm font-bold text-slate-700 mb-2">
+                                <span class="text-emerald-600">Terkumpul: <span id="display-terkumpul">Rp 0</span></span>
+                                <span class="text-slate-400">Target: <span id="display-target">Rp 0</span></span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden mb-2">
+                                <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-green-500 h-4 rounded-full transition-all duration-1000 flex items-center justify-end pr-2" style="width: 0%">
+                                    <span class="text-[10px] font-bold text-white" id="display-persen">0%</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative">
+                            <p class="text-sm text-slate-500 font-medium mb-2">Transfer Melalui Rekening Resmi Panitia</p>
+                            <div class="flex items-center justify-between space-x-4 mb-4">
+                                <div class="flex items-center space-x-4">
+                                    <span id="display-bank" class="font-bold text-2xl tracking-wider text-slate-800">BCA</span>
+                                    <span class="w-px h-8 bg-slate-200"></span>
+                                    <h4 id="display-rekening" class="text-2xl font-extrabold text-red-600 tracking-wide">1234567890</h4>
+                                </div>
+                                <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition" title="Salin Nomor Rekening">
+                                    <i class="fas fa-copy text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan -->
+                    <div class="md:col-span-2 bg-slate-900 p-8 md:p-12 text-white flex flex-col justify-center">
+                        <i class="fas fa-house-circle-exclamation text-5xl text-red-500 mb-6"></i>
+                        <h4 class="text-xl font-bold mb-6">Informasi Korban</h4>
+                        <ul class="space-y-4 text-slate-300 text-sm">
+                            <li class="flex items-start"><i class="fas fa-user w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Nama Korban</span><span class="font-semibold text-white">Ibu Puji Astutik</span></div></li>
+                            <li class="flex items-start"><i class="fas fa-location-dot w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Lokasi</span><span class="font-semibold text-white">Dusun Kumpul Sari, Kurungan Nyawa 1</span></div></li>
+                            <li class="flex items-start"><i class="fas fa-map w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Kecamatan & Kabupaten</span><span class="font-semibold text-white">Buay Madang, OKU Timur</span></div></li>
+                        </ul>
+                        <button onclick="alert('Hubungi WhatsApp: 0812-3456-7890')" class="mt-8 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center space-x-2">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                            <span>Hubungi via WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kronologi -->
+        <section id="kronologi" class="py-20 bg-slate-50 scroll-mt-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Kronologi Kejadian</span>
+                    <h3 class="text-3xl md:text-4xl font-extrabold text-slate-800 mt-2 mb-8 text-center">Musibah yang Menghancurkan, Harapan yang Tak Pernah Padam</h3>
+                    
+                    <div class="prose prose-lg max-w-none text-slate-600 bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100">
+                        <p class="mb-4 leading-relaxed">
                             Pada hari yang naas, rumah milik Ibu Puji Astutik yang berlokasi di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kecamatan Buay Madang, Kabupaten OKU Timur, dilalap api. Kebakaran ini mengakibatkan kerugian materiil yang sangat besar dan membuat keluarga kehilangan tempat tinggal satu-satunya.
                         </p>
-                        <p class="text-slate-500 leading-relaxed">
-                            Saat ini, Ibu Puji Astutik beserta keluarganya sedang berusaha keras untuk bangkit. Mari kita tunjukkan kepedulian kita dengan memberikan bantuan untuk meringankan beban mereka di masa sulit ini.
+                        <p class="mb-4 leading-relaxed">
+                            Saat ini, Ibu Puji Astutik beserta keluarganya sedang berusaha keras untuk bangkit. Kehilangan tempat tinggal bukanlah hal yang mudah, namun dengan dukungan dari sesama, mereka dapat memulai kembali kehidupan mereka.
                         </p>
-                    </div>
-                    <div class="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-red-100 rounded-bl-full -z-0"></div>
-                        <div class="relative z-10">
-                            <div class="w-14 h-14 bg-red-600 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 shadow-lg">
-                                <i class="fas fa-house-circle-check"></i>
-                            </div>
-                            <h4 class="text-xl font-bold mb-6 text-slate-800">Informasi Korban</h4>
-                            <ul class="space-y-4 text-slate-700">
-                                <li class="flex items-center">
-                                    <i class="fas fa-user w-8 text-red-500"></i>
-                                    <span><strong>Nama Korban:</strong> Ibu Puji Astutik</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <i class="fas fa-location-dot w-8 text-red-500"></i>
-                                    <span><strong>Lokasi:</strong> Dusun Kumpul Sari</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <i class="fas fa-map w-8 text-red-500"></i>
-                                    <span><strong>Desa:</strong> Kurungan Nyawa 1</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <i class="fas fa-signs-post w-8 text-red-500"></i>
-                                    <span><strong>Kecamatan:</strong> Buay Madang</span>
-                                </li>
-                                <li class="flex items-center">
-                                    <i class="fas fa-city w-8 text-red-500"></i>
-                                    <span><strong>Kabupaten:</strong> OKU Timur</span>
-                                </li>
-                            </ul>
-                        </div>
+                        <p class="leading-relaxed font-semibold text-slate-800">
+                            Mari kita tunjukkan kepedulian kita dengan memberikan bantuan, baik moril maupun materiil, untuk meringankan beban mereka di masa sulit ini. Setiap rupiah yang Anda donasikan akan digunakan untuk membangun kembali rumah mereka yang telah luluh lantak.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Galeri Gambar -->
-        <section id="galeri" class="py-20 bg-slate-50 scroll-mt-20">
+        <section id="galeri" class="py-20 bg-white scroll-mt-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Dokumentasi</span>
@@ -165,255 +189,273 @@
                     <div class="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full"></div>
                 </div>
                 
-                <!-- Wadah Gambar -->
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="gallery-container">
-                    <!-- Gambar Default Bawaan -->
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-sm card-hover cursor-pointer" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0')">
-                        <div class="relative overflow-hidden">
-                            <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi Bencana 1" class="w-full h-64 object-cover transition duration-500 hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
-                                <span class="text-white text-sm font-medium bg-red-600 px-3 py-1 rounded-md">Kondisi Lokasi</span>
-                            </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" id="gallery-container">
+                    <div class="group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0')">
+                        <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi 1" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                        <div class="absolute bottom-0 left-0 p-6 text-white">
+                            <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Kondisi Lokasi</span>
+                            <p class="text-sm font-medium opacity-90">Kondisi jalanan sekitar lokasi kebakaran dengan kerumunan warga dan petugas pemadam kebakaran.</p>
                         </div>
-                        <div class="p-5">
-                            <p class="text-slate-600 text-sm leading-relaxed">Kondisi jalanan sekitar lokasi kebakaran dengan kerumunan warga dan petugas pemadam kebakaran.</p>
-                        </div>
-                    </div>
-                    <!-- Gambar dari Admin akan otomatis muncul di sini -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Donasi Section -->
-        <section id="donasi" class="py-20 bg-white scroll-mt-20">
-            <div class="container mx-auto px-6">
-                <div class="max-w-4xl mx-auto bg-gradient-to-br from-red-600 to-rose-700 text-white rounded-3xl p-8 md:p-16 text-center shadow-2xl relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-full opacity-10" style="background-image: radial-gradient(circle at 20% 20%, white 2px, transparent 2px); background-size: 20px 20px;"></div>
-                    <div class="relative z-10">
-                        <i class="fas fa-hand-holding-heart text-5xl mb-6 text-red-200"></i>
-                        <h3 class="text-3xl md:text-4xl font-extrabold mb-4">Salurkan Donasi Anda</h3>
-                        <p class="text-red-100 mb-8 max-w-xl mx-auto text-lg">Setiap titik bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik untuk memulai kembali kehidupan mereka.</p>
-                        
-                        <!-- Progress Bar Donasi -->
-                        <div class="max-w-md mx-auto mb-10 bg-red-900/40 rounded-full p-1">
-                            <div class="bg-white/20 backdrop-blur-sm rounded-full p-4 text-left">
-                                <div class="flex justify-between text-sm font-bold mb-2">
-                                    <span>Terkumpul: <span id="display-terkumpul">Rp 0</span></span>
-                                    <span class="text-red-200">Target: <span id="display-target">Rp 0</span></span>
-                                </div>
-                                <div class="w-full bg-red-950/50 rounded-full h-3 overflow-hidden mb-2">
-                                    <div id="progress-bar" class="bg-white h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
-                                </div>
-                                <p class="text-xs text-red-100 text-center"><span id="display-persen">0%</span> dari target tercapai</p>
-                            </div>
-                        </div>
-
-                        <!-- Info Rekening -->
-                        <div class="bg-white text-slate-800 inline-block p-8 rounded-2xl shadow-xl transform hover:scale-105 transition duration-300 relative">
-                            <p class="text-sm text-slate-500 font-medium">Transfer Melalui Rekening Resmi Panitia</p>
-                            <div class="flex items-center justify-center space-x-4 my-4">
-                                <span id="display-bank" class="font-bold text-2xl tracking-wider">BCA</span>
-                                <span class="w-px h-8 bg-slate-200"></span>
-                                <h4 id="display-rekening" class="text-3xl font-extrabold text-red-600">1234567890</h4>
-                            </div>
-                            <p class="font-semibold text-slate-700">a.n. <span id="display-atasnama">Panitia Peduli</span></p>
-                            
-                            <!-- Tombol Copy Rekening -->
-                            <button onclick="copyRekening()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-lg transition" title="Salin Nomor Rekening">
-                                <i class="fas fa-copy text-sm"></i>
-                            </button>
-                        </div>
-                        <p class="mt-8 text-red-200 text-sm">Atau hubungi kami di WhatsApp: <a href="javascript:void(0)" onclick="alert('Buka WhatsApp: 0812-3456-7890')" class="font-bold text-white underline underline-offset-4">0812-3456-7890</a></p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="bg-slate-900 text-slate-400 py-10 text-center">
+        <footer class="bg-slate-900 text-slate-400 py-12 text-center">
             <div class="container mx-auto px-6">
-                <div class="flex justify-center space-x-4 mb-4">
-                    <button onclick="alert('Buka Facebook')" class="hover:text-white transition"><i class="fab fa-facebook-f"></i></button>
-                    <button onclick="alert('Buka Instagram')" class="hover:text-white transition"><i class="fab fa-instagram"></i></button>
-                    <button onclick="alert('Buka WhatsApp')" class="hover:text-white transition"><i class="fab fa-whatsapp"></i></button>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <button onclick="alert('Facebook')" class="hover:text-white transition"><i class="fab fa-facebook-f text-xl"></i></button>
+                    <button onclick="alert('Instagram')" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></button>
+                    <button onclick="alert('WhatsApp')" class="hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></button>
                 </div>
-                <p>&copy; 2024 Peduli Bencana Ibu Puji Astutik. Dibangun dengan penuh kepedulian.</p>
+                <p class="text-sm">&copy; 2024 Peduli Bencana Ibu Puji Astutik. Dibangun dengan penuh kepedulian.</p>
             </div>
         </footer>
     </div>
 
     <!-- ================= HALAMAN LOGIN ADMIN ================= -->
-    <div id="login-page" class="main-page hidden-page min-h-screen flex items-center justify-center bg-slate-100 py-12">
-        <div class="w-full max-w-md px-6">
-            <div class="bg-white rounded-3xl shadow-xl p-8 border border-slate-100 fade-in">
-                <div class="text-center mb-8">
+    <div id="login-page" class="page-hidden min-h-screen flex">
+        <div class="hidden lg:flex w-1/2 bg-slate-900 relative">
+            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="absolute inset-0 w-full h-full object-cover opacity-20">
+            <div class="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('public', 'beranda')">
+                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fas fa-fire-flame-curved"></i>
+                    </div>
+                    <h1 class="text-lg font-extrabold leading-none">Peduli Bencana</h1>
+                </div>
+                <div>
+                    <h2 class="text-4xl font-extrabold mb-4">Portal Admin</h2>
+                    <p class="text-slate-300 text-lg max-w-md">Kelola informasi donasi, pantau dana yang terkumpul, dan perbarui dokumentasi kejadian dengan mudah.</p>
+                </div>
+                <div class="text-xs text-slate-400">© 2024 Peduli Bencana OKU Timur</div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 p-8">
+            <div class="w-full max-w-md">
+                <div class="text-center mb-10 lg:hidden">
                     <div class="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg">
                         <i class="fas fa-user-shield"></i>
                     </div>
                     <h2 class="text-2xl font-bold text-slate-800">Login Admin</h2>
-                    <p class="text-slate-400 text-sm mt-2">Masuk untuk mengelola website</p>
                 </div>
 
-                <div id="login-error" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-4 flex items-center space-x-2">
+                <div class="hidden lg:block mb-10">
+                    <h2 class="text-3xl font-extrabold text-slate-800">Selamat Datang Kembali 👋</h2>
+                    <p class="text-slate-500 mt-2">Silakan masuk untuk mengakses dashboard admin.</p>
+                </div>
+
+                <div id="login-error" class="page-hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-6 flex items-center space-x-2">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>Username atau password salah!</span>
                 </div>
 
-                <form id="loginForm" onsubmit="handleLogin(event)">
-                    <div class="mb-5">
+                <div class="space-y-5">
+                    <div>
                         <label class="block text-slate-700 text-sm font-semibold mb-2">Username</label>
                         <div class="relative">
                             <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="username" class="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 transition" placeholder="Masukkan username" required>
+                            <input type="text" id="username" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" placeholder="Masukkan username" required>
                         </div>
                     </div>
-                    <div class="mb-6">
+                    <div>
                         <label class="block text-slate-700 text-sm font-semibold mb-2">Password</label>
                         <div class="relative">
                             <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="password" id="password" class="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 transition" placeholder="Masukkan password" required>
+                            <input type="password" id="password" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" placeholder="Masukkan password" required>
                         </div>
                     </div>
-                    <button type="submit" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
-                        <i class="fas fa-right-to-bracket"></i>
-                        <span>Masuk</span>
-                    </button>
-                </form>
 
-                <button onclick="navigateTo('public', 'beranda')" class="w-full mt-4 text-slate-500 hover:text-slate-800 text-sm font-medium transition flex items-center justify-center space-x-2">
+                    <button onclick="handleLogin()" class="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold hover:bg-red-700 transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                        <i class="fas fa-right-to-bracket"></i>
+                        <span>Masuk ke Dashboard</span>
+                    </button>
+                </div>
+
+                <button onclick="navigateTo('public', 'beranda')" class="w-full mt-6 text-slate-500 hover:text-slate-800 text-sm font-medium transition flex items-center justify-center space-x-2">
                     <i class="fas fa-arrow-left text-xs"></i>
-                    <span>Kembali ke Beranda</span>
+                    <span>Kembali ke Halaman Utama</span>
                 </button>
 
-                <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-                    <p class="text-xs text-slate-400">Default Login:</p>
-                    <p class="text-xs text-slate-500 font-mono mt-1">admin | peduli123</p>
+                <div class="mt-10 pt-6 border-t border-slate-200 text-center">
+                    <p class="text-xs text-slate-400">Kredensial Demo:</p>
+                    <div class="flex justify-center gap-4 mt-2 text-xs text-slate-500 font-mono">
+                        <span>User: <span class="font-bold text-slate-700">admin</span></span>
+                        <span>Pass: <span class="font-bold text-slate-700">peduli123</span></span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= HALAMAN DASHBOARD ADMIN ================= -->
-    <div id="dashboard-page" class="main-page hidden-page min-h-screen bg-slate-100">
-        <!-- Dashboard Header -->
-        <header class="bg-white shadow-sm border-b border-slate-100 sticky top-0 z-40">
-            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- ================= DASHBOARD ADMIN ================= -->
+    <div id="dashboard-page" class="page-hidden min-h-screen bg-slate-100 flex">
+        <aside class="w-64 bg-slate-900 text-white flex-col hidden md:flex fixed inset-y-0 z-50">
+            <div class="p-6 border-b border-slate-700/50">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-                        <i class="fas fa-gauge-high"></i>
+                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
+                        <i class="fas fa-fire-flame-curved"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg font-bold text-slate-800 leading-none">Dashboard Admin</h1>
-                        <p class="text-xs text-slate-400">Kelola Konten Website</p>
+                        <h1 class="text-base font-extrabold leading-none">Admin Panel</h1>
+                        <p class="text-[10px] text-slate-400">Peduli Bencana</p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="navigateTo('public', 'beranda')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition flex items-center space-x-2 border border-slate-200 px-4 py-2 rounded-lg hover:bg-slate-50">
-                        <i class="fas fa-eye text-xs"></i>
-                        <span class="hidden sm:inline">Lihat Website</span>
-                    </button>
-                    <button onclick="handleLogout()" class="bg-red-50 text-red-600 hover:bg-red-100 font-medium text-sm transition flex items-center space-x-2 px-4 py-2 rounded-lg">
-                        <i class="fas fa-right-from-bracket text-xs"></i>
-                        <span class="hidden sm:inline">Keluar</span>
-                    </button>
-                </div>
             </div>
-        </header>
-
-        <div class="container mx-auto px-6 py-10">
             
-            <!-- Tabs Menu -->
-            <div class="flex space-x-2 mb-8 bg-white p-2 rounded-xl shadow-sm w-fit border border-slate-100">
-                <button onclick="switchTab('gallery')" id="tab-gallery-btn" class="px-6 py-2 rounded-lg font-medium text-sm transition bg-slate-900 text-white flex items-center space-x-2">
-                    <i class="fas fa-images"></i>
-                    <span>Galeri Foto</span>
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="switchTab('overview')" id="btn-overview" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm bg-slate-800 text-white transition">
+                    <i class="fas fa-gauge-high w-5"></i><span>Dashboard</span>
                 </button>
-                <button onclick="switchTab('settings')" id="tab-settings-btn" class="px-6 py-2 rounded-lg font-medium text-sm transition text-slate-500 hover:bg-slate-100 flex items-center space-x-2">
-                    <i class="fas fa-sliders"></i>
-                    <span>Pengaturan Donasi</span>
+                <button onclick="switchTab('gallery')" id="btn-gallery" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fas fa-images w-5"></i><span>Galeri Foto</span>
+                </button>
+                <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fas fa-sliders w-5"></i><span>Pengaturan Donasi</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-700/50">
+                <button onclick="navigateTo('public', 'beranda')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition mb-2">
+                    <i class="fas fa-eye w-5"></i><span>Lihat Website</span>
+                </button>
+                <button onclick="handleLogout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-red-400 hover:bg-red-500/10 transition">
+                    <i class="fas fa-right-from-bracket w-5"></i><span>Keluar (Logout)</span>
                 </button>
             </div>
+        </aside>
 
-            <!-- ====== PANEL 1: GALERI FOTO ====== -->
-            <div id="tab-gallery" class="grid lg:grid-cols-3 gap-8 fade-in">
-                <!-- Upload Form -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-24">
-                        <h3 class="text-lg font-bold text-slate-800 mb-1">Unggah Foto Baru</h3>
-                        <p class="text-slate-400 text-sm mb-6">Format: JPG, PNG, JPEG</p>
-                        
-                        <form id="uploadForm" onsubmit="handleUpload(event)">
-                            <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-red-400 transition cursor-pointer" onclick="document.getElementById('imageInput').click()">
-                                <i class="fas fa-cloud-arrow-up text-4xl text-slate-300 mb-3"></i>
-                                <p class="text-sm text-slate-500 font-medium">Klik untuk memilih file</p>
-                                <p id="file-name" class="text-xs text-slate-400 mt-1">Tidak ada file dipilih</p>
-                                <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="previewImage(this)">
-                            </div>
-
-                            <div id="previewWrapper" class="hidden mt-4">
-                                <p class="text-sm text-slate-600 font-medium mb-2">Pratinjau:</p>
-                                <img id="imagePreview" class="w-full h-48 object-cover rounded-xl border border-slate-200">
-                            </div>
-
-                            <button type="submit" class="w-full mt-4 bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-sm hover:shadow-md flex items-center justify-center space-x-2">
-                                <i class="fas fa-upload"></i>
-                                <span>Upload Foto</span>
-                            </button>
-                        </form>
-
-                        <div id="uploadStatus" class="hidden mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Berhasil diunggah!</span>
-                        </div>
-                    </div>
+        <main class="flex-1 md:ml-64 min-h-screen">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center md:hidden sticky top-0 z-40">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-fire-flame-curved text-sm"></i></div>
+                    <h1 class="text-sm font-bold">Admin Panel</h1>
                 </div>
+                <button onclick="handleLogout()" class="text-red-600 text-sm font-bold">Keluar</button>
+            </header>
 
-                <!-- Image List -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-6">
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-800">Daftar Foto Terunggah</h3>
-                                <p class="text-slate-400 text-sm">Foto yang tampil di halaman depan publik</p>
-                            </div>
-                            <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">
-                                Total: <span id="image-count">0</span>
-                            </div>
-                        </div>
-
-                        <div id="imageList" class="grid sm:grid-cols-2 gap-6"></div>
-                        <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl">
-                            <i class="fas fa-images text-5xl text-slate-200 mb-4"></i>
-                            <p class="text-slate-400 font-medium">Belum ada foto diunggah</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ====== PANEL 2: PENGATURAN DONASI ====== -->
-            <div id="tab-settings" class="hidden fade-in">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-3xl mx-auto">
-                    <h3 class="text-lg font-bold text-slate-800 mb-1">Pengaturan Donasi</h3>
-                    <p class="text-slate-400 text-sm mb-8">Perbarui informasi rekening dan progress donasi yang akan tampil di publik.</p>
+            <div class="p-6 md:p-10">
+                <!-- TAB OVERVIEW -->
+                <div id="tab-overview" class="fade-in">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Ringkasan Dashboard</h2>
+                    <p class="text-slate-500 mb-8">Pantau perkembangan donasi dan aktivitas website.</p>
                     
-                    <form id="settingsForm" onsubmit="saveSettings(event)">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-slate-700 text-sm font-semibold mb-2">Target Donasi (Rp)</label>
-                                <input type="number" id="set-target" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="contoh: 50000000">
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-slate-500 text-sm font-medium">Dana Terkumpul</span>
+                                <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600"><i class="fas fa-money-bill-wave"></i></div>
                             </div>
-                            <div>
-                                <label class="block text-slate-700 text-sm font-semibold mb-2">Dana Terkumpul (Rp)</label>
-                                <input type="number" id="set-terkumpul" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="contoh: 12500000">
+                            <h3 class="text-2xl font-extrabold text-slate-800" id="overview-terkumpul">Rp 0</h3>
+                            <p class="text-xs text-emerald-600 font-semibold mt-2">Aktif</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-slate-500 text-sm font-medium">Target Donasi</span>
+                                <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center text-red-600"><i class="fas fa-bullseye"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-800" id="overview-target">Rp 0</h3>
+                            <p class="text-xs text-slate-400 font-semibold mt-2">Target Awal</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-slate-500 text-sm font-medium">Total Foto</span>
+                                <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-images"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Foto</h3>
+                            <p class="text-xs text-slate-400 font-semibold mt-2">Dokumentasi</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">Progress Donasi</h3>
+                        <div class="w-full bg-slate-100 rounded-full h-6 overflow-hidden mb-2">
+                            <div id="overview-progress" class="bg-gradient-to-r from-emerald-500 to-green-500 h-6 rounded-full transition-all duration-1000 flex items-center justify-end pr-3" style="width: 0%">
+                                <span class="text-xs font-bold text-white" id="overview-persen">0%</span>
                             </div>
                         </div>
-                        
-                        <div class="pt-4 border-t border-slate-100 mt-6">
-                            <h4 class="font-bold text-slate-800 mb-4 text-sm">Informasi Rekening</h4>
-                            <div class="grid md:grid-cols-3 gap-6">
+                        <p class="text-sm text-slate-500">Mari terus sebarluaskan informasi donasi ini agar target dapat tercapai.</p>
+                    </div>
+                </div>
+
+                <!-- TAB GALLERY -->
+                <div id="tab-gallery" class="page-hidden fade-in">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Foto</h2>
+                    <p class="text-slate-500 mb-8">Unggah foto dokumentasi untuk ditampilkan di halaman publik.</p>
+
+                    <div class="grid lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-1">
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-10">
+                                <h3 class="text-lg font-bold text-slate-800 mb-4">Unggah Foto Baru</h3>
+                                
+                                <div id="uploadArea" class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-red-400 transition cursor-pointer mb-4" onclick="document.getElementById('imageInput').click()">
+                                    <i class="fas fa-cloud-arrow-up text-4xl text-slate-300 mb-3"></i>
+                                    <p class="text-sm text-slate-500 font-medium">Klik untuk memilih file</p>
+                                    <p id="file-name" class="text-xs text-slate-400 mt-1">JPG, PNG, JPEG</p>
+                                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="previewImage(this)">
+                                </div>
+
+                                <div id="previewWrapper" class="page-hidden mb-4">
+                                    <p class="text-sm text-slate-600 font-medium mb-2">Pratinjau:</p>
+                                    <img id="imagePreview" class="w-full h-48 object-cover rounded-xl border border-slate-200">
+                                </div>
+
+                                <button onclick="handleUpload()" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
+                                    <i class="fas fa-upload"></i>
+                                    <span>Upload Foto</span>
+                                </button>
+
+                                <div id="uploadStatus" class="page-hidden mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Berhasil diunggah!</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-2">
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-lg font-bold text-slate-800">Foto Terunggah</h3>
+                                    <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">Total: <span id="image-count">0</span></div>
+                                </div>
+
+                                <div id="imageList" class="grid sm:grid-cols-2 gap-6"></div>
+                                <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl">
+                                    <i class="fas fa-images text-5xl text-slate-200 mb-4"></i>
+                                    <p class="text-slate-400 font-medium">Belum ada foto diunggah</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB SETTINGS -->
+                <div id="tab-settings" class="page-hidden fade-in">
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Pengaturan Donasi</h2>
+                    <p class="text-slate-500 mb-8">Perbarui informasi rekening dan progress donasi.</p>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-3xl">
+                        <form id="settingsForm" onsubmit="saveSettings(event)">
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Donasi</h4>
+                            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Target Donasi (Rp)</label>
+                                    <input type="number" id="set-target" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="50000000">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Dana Terkumpul (Rp)</label>
+                                    <input type="number" id="set-terkumpul" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="12500000">
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening</h4>
+                            <div class="grid md:grid-cols-3 gap-6 mb-8">
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Nama Bank</label>
-                                    <input type="text" id="set-bank" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 uppercase" placeholder="BCA / BRI / BNI">
+                                    <input type="text" id="set-bank" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 uppercase" placeholder="BCA">
                                 </div>
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Nomor Rekening</label>
@@ -421,101 +463,129 @@
                                 </div>
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Atas Nama</label>
-                                    <input type="text" id="set-atasnama" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Panitia Peduli">
+                                    <input type="text" id="set-atasnama" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Panitia">
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="flex items-center justify-between pt-8">
-                            <div id="settings-saved" class="hidden bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Pengaturan berhasil disimpan!</span>
+                            
+                            <div class="flex items-center justify-end pt-4">
+                                <div id="settings-saved" class="page-hidden mr-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Perubahan disimpan!</span>
+                                </div>
+                                <button type="submit" class="bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center space-x-2">
+                                    <i class="fas fa-save"></i>
+                                    <span>Simpan Perubahan</span>
+                                </button>
                             </div>
-                            <button type="submit" class="ml-auto bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm hover:shadow-md flex items-center space-x-2">
-                                <i class="fas fa-save"></i>
-                                <span>Simpan Perubahan</span>
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-        </div>
+        </main>
     </div>
 
     <script>
-        // ===== SYSTEM NAVIGASI =====
+        // ===== SYSTEM NAVIGASI UTAMA =====
         function navigateTo(page, sectionId = null) {
-            // Tutup mobile menu jika terbuka
-            document.getElementById('mobile-menu').classList.add('hidden');
-            
-            // Sembunyikan semua halaman utama
-            document.querySelectorAll('.main-page').forEach(el => el.classList.add('hidden-page'));
-            
-            const targetPage = document.getElementById(page + '-page');
-            if(targetPage) {
-                targetPage.classList.remove('hidden-page');
-                targetPage.classList.add('fade-in');
+            document.getElementById('public-page').classList.add('page-hidden');
+            document.getElementById('login-page').classList.add('page-hidden');
+            document.getElementById('dashboard-page').classList.add('page-hidden');
+
+            const target = document.getElementById(page + '-page');
+            if (target) {
+                target.classList.remove('page-hidden');
+                target.classList.add('fade-in');
             }
+
+            const mm = document.getElementById('mobile-menu');
+            if (mm) mm.classList.add('page-hidden');
 
             if (page === 'public') {
                 loadGalleryImages();
                 updatePublicDonation();
                 if (sectionId) {
-                    // Scroll ke bagian spesifik
                     setTimeout(() => {
                         const el = document.getElementById(sectionId);
-                        if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 150);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
                 } else {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             } else {
                 window.scrollTo(0, 0);
                 if (page === 'dashboard') {
-                    renderAdminImageList();
-                    loadSettings(); // Muat data donasi saat masuk dashboard
+                    switchTab('overview');
                 }
             }
         }
 
         function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+            document.getElementById('mobile-menu').classList.toggle('page-hidden');
         }
 
         function switchTab(tabName) {
-            const tabGallery = document.getElementById('tab-gallery');
-            const tabSettings = document.getElementById('tab-settings');
-            const btnGallery = document.getElementById('tab-gallery-btn');
-            const btnSettings = document.getElementById('tab-settings-btn');
+            ['overview', 'gallery', 'settings'].forEach(t => {
+                document.getElementById('tab-' + t).classList.add('page-hidden');
+                const btn = document.getElementById('btn-' + t);
+                if(btn) {
+                    btn.classList.remove('bg-slate-800', 'text-white');
+                    btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
+                }
+            });
 
-            if (tabName === 'gallery') {
-                tabGallery.classList.remove('hidden');
-                tabSettings.classList.add('hidden');
-                btnGallery.classList.add('bg-slate-900', 'text-white');
-                btnGallery.classList.remove('text-slate-500', 'hover:bg-slate-100');
-                btnSettings.classList.remove('bg-slate-900', 'text-white');
-                btnSettings.classList.add('text-slate-500', 'hover:bg-slate-100');
+            document.getElementById('tab-' + tabName).classList.remove('page-hidden');
+            document.getElementById('tab-' + tabName).classList.add('fade-in');
+            const activeBtn = document.getElementById('btn-' + tabName);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-slate-800', 'text-white');
+                activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
+            }
+
+            if (tabName === 'overview') updateOverview();
+            if (tabName === 'gallery') renderAdminImageList();
+            if (tabName === 'settings') loadSettings();
+        }
+
+        // ===== AUTENTIKASI =====
+        function handleAdminAccess() {
+            if (localStorage.getItem('isAdminLoggedIn') === 'true') {
+                navigateTo('dashboard');
             } else {
-                tabGallery.classList.add('hidden');
-                tabSettings.classList.remove('hidden');
-                btnSettings.classList.add('bg-slate-900', 'text-white');
-                btnSettings.classList.remove('text-slate-500', 'hover:bg-slate-100');
-                btnGallery.classList.remove('bg-slate-900', 'text-white');
-                btnGallery.classList.add('text-slate-500', 'hover:bg-slate-100');
-                loadSettings(); // Muat data donasi saat buka tab settings
+                navigateTo('login');
             }
         }
 
-        // ===== LIGHTBOX GALERI =====
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorBox = document.getElementById('login-error');
+
+            if (username === 'admin' && password === 'peduli123') {
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                errorBox.classList.add('page-hidden');
+                navigateTo('dashboard');
+            } else {
+                errorBox.classList.remove('page-hidden');
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('isAdminLoggedIn');
+            navigateTo('public', 'beranda');
+        }
+
+        // ===== LIGHTBOX =====
         function openLightbox(src) {
             document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').classList.remove('hidden');
-            document.getElementById('lightbox').classList.add('flex');
+            const lb = document.getElementById('lightbox');
+            lb.classList.remove('page-hidden');
+            lb.classList.add('flex');
         }
         function closeLightbox() {
-            document.getElementById('lightbox').classList.add('hidden');
-            document.getElementById('lightbox').classList.remove('flex');
+            const lb = document.getElementById('lightbox');
+            lb.classList.add('page-hidden');
+            lb.classList.remove('flex');
         }
 
         // ===== COPY REKENING =====
@@ -523,40 +593,12 @@
             const rekening = document.getElementById('display-rekening').innerText;
             navigator.clipboard.writeText(rekening).then(() => {
                 alert('Nomor rekening berhasil disalin: ' + rekening);
+            }).catch(err => {
+                alert('Silakan salin manual: ' + rekening);
             });
         }
 
-        // ===== AUTENTIKASI ADMIN =====
-        function handleAdminAccess() {
-            if (sessionStorage.getItem('isAdminLoggedIn') === 'true') {
-                navigateTo('dashboard');
-            } else {
-                navigateTo('login');
-            }
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorBox = document.getElementById('login-error');
-
-            if (username === 'admin' && password === 'peduli123') {
-                sessionStorage.setItem('isAdminLoggedIn', 'true');
-                errorBox.classList.add('hidden');
-                navigateTo('dashboard');
-            } else {
-                errorBox.classList.remove('hidden');
-                document.getElementById('password').value = '';
-            }
-        }
-
-        function handleLogout() {
-            sessionStorage.removeItem('isAdminLoggedIn');
-            navigateTo('public', 'beranda');
-        }
-
-        // ===== SYSTEM UPLOAD GAMBAR =====
+        // ===== UPLOAD GAMBAR =====
         function previewImage(input) {
             const file = input.files[0];
             const fileName = document.getElementById('file-name');
@@ -568,19 +610,21 @@
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     imagePreview.src = event.target.result;
-                    previewWrapper.classList.remove('hidden');
+                    previewWrapper.classList.remove('page-hidden');
                 };
                 reader.readAsDataURL(file);
             } else {
-                fileName.innerText = 'Tidak ada file dipilih';
-                previewWrapper.classList.add('hidden');
+                fileName.innerText = 'JPG, PNG, JPEG';
+                previewWrapper.classList.add('page-hidden');
             }
         }
 
-        function handleUpload(e) {
-            e.preventDefault();
+        function handleUpload() {
             const file = document.getElementById('imageInput').files[0];
-            if (!file) return;
+            if (!file) {
+                alert('Silakan pilih file terlebih dahulu!');
+                return;
+            }
 
             const reader = new FileReader();
             reader.onload = (event) => {
@@ -590,12 +634,13 @@
                 localStorage.setItem('galleryImages', JSON.stringify(images));
                 
                 const uploadStatus = document.getElementById('uploadStatus');
-                uploadStatus.classList.remove('hidden');
-                setTimeout(() => uploadStatus.classList.add('hidden'), 3000);
+                uploadStatus.classList.remove('page-hidden');
+                setTimeout(() => uploadStatus.classList.add('page-hidden'), 3000);
                 
-                document.getElementById('uploadForm').reset();
-                document.getElementById('file-name').innerText = 'Tidak ada file dipilih';
-                document.getElementById('previewWrapper').classList.add('hidden');
+                document.getElementById('imageInput').value = '';
+                document.getElementById('file-name').innerText = 'JPG, PNG, JPEG';
+                document.getElementById('previewWrapper').classList.add('page-hidden');
+                
                 renderAdminImageList();
             };
             reader.readAsDataURL(file);
@@ -603,6 +648,7 @@
 
         function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
+            if(!galleryContainer) return;
             let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
             
             const oldAdminImages = galleryContainer.querySelectorAll('.admin-image');
@@ -610,17 +656,14 @@
 
             images.forEach(src => {
                 const div = document.createElement('div');
-                div.className = 'admin-image bg-white rounded-2xl overflow-hidden shadow-sm card-hover cursor-pointer';
+                div.className = 'admin-image group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72';
                 div.onclick = () => openLightbox(src);
                 div.innerHTML = `
-                    <div class="relative overflow-hidden">
-                        <img src="${src}" alt="Dokumentasi Tambahan" class="w-full h-64 object-cover transition duration-500 hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition duration-300 flex items-end p-4">
-                            <span class="text-white text-sm font-medium bg-red-600 px-3 py-1 rounded-md">Foto Dokumentasi</span>
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <p class="text-slate-600 text-sm leading-relaxed">Dokumentasi tambahan dari panitia.</p>
+                    <img src="${src}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white">
+                        <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
+                        <p class="text-sm font-medium opacity-90">Dokumentasi tambahan dari panitia.</p>
                     </div>
                 `;
                 galleryContainer.appendChild(div);
@@ -631,18 +674,18 @@
             const imageList = document.getElementById('imageList');
             const noImagesBox = document.getElementById('no-images');
             const imageCount = document.getElementById('image-count');
+            if(!imageList) return;
             
             let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            
             imageCount.innerText = images.length;
             imageList.innerHTML = '';
 
             if (images.length === 0) {
-                noImagesBox.classList.remove('hidden');
+                noImagesBox.classList.remove('page-hidden');
                 return;
             }
 
-            noImagesBox.classList.add('hidden');
+            noImagesBox.classList.add('page-hidden');
 
             images.forEach((img, index) => {
                 const div = document.createElement('div');
@@ -673,10 +716,10 @@
             }
         }
 
-        // ===== SYSTEM PENGATURAN DONASI =====
+        // ===== PENGATURAN DONASI =====
         function formatRupiah(angka) {
             if(!angka) angka = 0;
-            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
         }
 
         function getDefaultSettings() {
@@ -690,29 +733,65 @@
         }
 
         function loadSettings() {
-            let settings = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            document.getElementById('set-target').value = settings.target;
-            document.getElementById('set-terkumpul').value = settings.terkumpul;
-            document.getElementById('set-bank').value = settings.bank;
-            document.getElementById('set-rekening').value = settings.rekening;
-            document.getElementById('set-atasnama').value = settings.atasNama;
+            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
+            const setTarget = document.getElementById('set-target');
+            const setTerkumpul = document.getElementById('set-terkumpul');
+            const setBank = document.getElementById('set-bank');
+            const setRekening = document.getElementById('set-rekening');
+            const setAtasnama = document.getElementById('set-atasnama');
+            
+            if(setTarget) setTarget.value = s.target;
+            if(setTerkumpul) setTerkumpul.value = s.terkumpul;
+            if(setBank) setBank.value = s.bank;
+            if(setRekening) setRekening.value = s.rekening;
+            if(setAtasnama) setAtasnama.value = s.atasNama;
         }
 
         function updatePublicDonation() {
-            let settings = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
+            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
             
-            document.getElementById('display-target').innerText = formatRupiah(settings.target);
-            document.getElementById('display-terkumpul').innerText = formatRupiah(settings.terkumpul);
-            document.getElementById('display-bank').innerText = settings.bank.toUpperCase();
-            document.getElementById('display-rekening').innerText = settings.rekening;
-            document.getElementById('display-atasnama').innerText = settings.atasNama;
+            const dTarget = document.getElementById('display-target');
+            const dTerkumpul = document.getElementById('display-terkumpul');
+            const dBank = document.getElementById('display-bank');
+            const dRekening = document.getElementById('display-rekening');
+            const dAtasnama = document.getElementById('display-atasnama');
             
-            let percentage = (settings.terkumpul / settings.target) * 100;
+            if(dTarget) dTarget.innerText = formatRupiah(s.target);
+            if(dTerkumpul) dTerkumpul.innerText = formatRupiah(s.terkumpul);
+            if(dBank) dBank.innerText = s.bank.toUpperCase();
+            if(dRekening) dRekening.innerText = s.rekening;
+            if(dAtasnama) dAtasnama.innerText = s.atasNama;
+            
+            let percentage = (s.terkumpul / s.target) * 100;
             if (percentage > 100) percentage = 100;
             if (percentage < 0) percentage = 0;
             
-            document.getElementById('progress-bar').style.width = percentage + '%';
-            document.getElementById('display-persen').innerText = percentage.toFixed(1) + '%';
+            const pbar = document.getElementById('progress-bar');
+            const dpersen = document.getElementById('display-persen');
+            if(pbar) pbar.style.width = percentage + '%';
+            if(dpersen) dpersen.innerText = percentage.toFixed(1) + '%';
+        }
+
+        function updateOverview() {
+            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
+            let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            
+            const oTerkumpul = document.getElementById('overview-terkumpul');
+            const oTarget = document.getElementById('overview-target');
+            const oCount = document.getElementById('overview-count');
+            const oProgress = document.getElementById('overview-progress');
+            const oPersen = document.getElementById('overview-persen');
+            
+            if(oTerkumpul) oTerkumpul.innerText = formatRupiah(s.terkumpul);
+            if(oTarget) oTarget.innerText = formatRupiah(s.target);
+            if(oCount) oCount.innerText = images.length;
+            
+            let percentage = (s.terkumpul / s.target) * 100;
+            if (percentage > 100) percentage = 100;
+            if (percentage < 0) percentage = 0;
+            
+            if(oProgress) oProgress.style.width = percentage + '%';
+            if(oPersen) oPersen.innerText = percentage.toFixed(1) + '%';
         }
 
         function saveSettings(e) {
@@ -727,13 +806,13 @@
             localStorage.setItem('donationSettings', JSON.stringify(settings));
             
             const savedBox = document.getElementById('settings-saved');
-            savedBox.classList.remove('hidden');
-            setTimeout(() => savedBox.classList.add('hidden'), 3000);
+            savedBox.classList.remove('page-hidden');
+            setTimeout(() => savedBox.classList.add('page-hidden'), 3000);
             
-            updatePublicDonation(); // Update langsung tampilan publik
+            updatePublicDonation();
+            updateOverview();
         }
 
-        // Inisialisasi awal saat halaman dimuat
         document.addEventListener("DOMContentLoaded", () => {
             navigateTo('public', 'beranda');
         });
