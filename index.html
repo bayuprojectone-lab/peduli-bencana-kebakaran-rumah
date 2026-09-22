@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peduli Bencana - Ibu Puji Astutik</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tambahkan SDK Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -464,6 +466,12 @@
     </div>
 
     <script>
+        // ===== INISIALISASI SUPABASE =====
+        // GANTI DUA NILAI DI BAWAH INI DENGAN URL DAN KEY DARI PROJECT SUPABASE ANDA
+        const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co'; 
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ'; 
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         // ===== SYSTEM NAVIGASI =====
         function navigateTo(page, sectionId = null) {
             document.getElementById('public-page').classList.add('page-hidden');
@@ -525,7 +533,7 @@
             if (tabName === 'settings') loadSettings();
         }
 
-        // ===== AUTENTIKASI =====
+        // ===== AUTENTIKASI (Tetap pakai Local Storage agar simpel untuk demo) =====
         function handleAdminAccess() {
             if (localStorage.getItem('isAdminLoggedIn') === 'true') {
                 navigateTo('dashboard');
@@ -580,7 +588,7 @@
             });
         }
 
-        // ===== PREVIEW & UPLOAD MEDIA =====
+        // ===== PREVIEW & UPLOAD MEDIA KE SUPABASE STORAGE =====
         function previewMedia(input) {
             const file = input.files[0];
             const fileName = document.getElementById('file-name');
@@ -610,24 +618,43 @@
             }
         }
 
-        function handleUpload() {
+        async function handleUpload() {
             const file = document.getElementById('mediaInput').files[0];
             const desc = document.getElementById('media-desc').value || 'Dokumentasi tambahan dari panitia.';
+            const btnUpload = event.target;
             
             if (!file) {
                 alert('Silakan pilih file foto atau video terlebih dahulu!');
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const base64String = event.target.result;
+            const fileExt = file.name.split('.').pop();
+            const fileName = `media_${Date.now()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            btnUpload.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengunggah...';
+            btnUpload.disabled = true;
+
+            try {
+                // 1. Upload file ke Supabase Storage (Pastikan bucket 'galeri' sudah dibuat dan bersifat Public)
+                const { data: storageData, error: storageError } = await sb.storage
+                    .from('galeri')
+                    .upload(filePath, file);
+
+                if (storageError) throw storageError;
+
+                // 2. Dapatkan URL Public
+                const { data: publicUrlData } = sb.storage.from('galeri').getPublicUrl(filePath);
+                const fileUrl = publicUrlData.publicUrl;
                 const type = file.type.startsWith('image/') ? 'image' : 'video';
-                
-                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                media.push({ url: base64String, type: type, desc: desc });
-                localStorage.setItem('galleryImages', JSON.stringify(media));
-                
+
+                // 3. Simpan data URL ke Tabel Database
+                const { error: dbError } = await sb.from('gallery').insert([
+                    { url: fileUrl, type: type, desc: desc }
+                ]);
+
+                if (dbError) throw dbError;
+
                 const uploadStatus = document.getElementById('uploadStatus');
                 uploadStatus.classList.remove('page-hidden');
                 setTimeout(() => uploadStatus.classList.add('page-hidden'), 3000);
@@ -638,20 +665,30 @@
                 document.getElementById('file-name').innerText = 'JPG, PNG, MP4, MKV';
                 document.getElementById('previewWrapper').classList.add('page-hidden');
                 
-                renderAdminImageList();
-            };
-            reader.readAsDataURL(file);
+                await renderAdminImageList();
+                await loadGalleryImages();
+
+            } catch (error) {
+                alert('Gagal upload: ' + error.message);
+                console.error('Upload Error:', error);
+            } finally {
+                btnUpload.innerHTML = '<i class="fas fa-upload"></i> Upload Media';
+                btnUpload.disabled = false;
+            }
         }
 
-        function loadGalleryImages() {
+        // ===== LOAD GALERI DARI DATABASE =====
+        async function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
             if(!galleryContainer) return;
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            
+            const { data, error } = await sb.from('gallery').select('*').order('created_at', { ascending: false });
+            if (error) return console.error(error);
             
             const oldAdminMedia = galleryContainer.querySelectorAll('.admin-media');
             oldAdminMedia.forEach(el => el.remove());
 
-            media.forEach(item => {
+            data.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'admin-media bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group flex flex-col';
                 
@@ -685,30 +722,33 @@
             });
         }
 
-        function renderAdminImageList() {
+        // ===== RENDER ADMIN LIST =====
+        async function renderAdminImageList() {
             const imageList = document.getElementById('imageList');
             const noImagesBox = document.getElementById('no-images');
             const imageCount = document.getElementById('image-count');
             if(!imageList) return;
             
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            imageCount.innerText = media.length;
+            const { data, error } = await sb.from('gallery').select('*').order('created_at', { ascending: false });
+            if (error) return console.error(error);
+            
+            imageCount.innerText = data.length;
             imageList.innerHTML = '';
 
-            if (media.length === 0) {
+            if (data.length === 0) {
                 noImagesBox.classList.remove('page-hidden');
                 return;
             }
 
             noImagesBox.classList.add('page-hidden');
 
-            media.forEach((item, index) => {
+            data.forEach((item) => {
                 const div = document.createElement('div');
                 div.className = 'border border-slate-100 rounded-2xl overflow-hidden shadow-sm group';
                 
                 let mediaHTML = '';
                 if (item.type === 'image') {
-                    mediaHTML = `<img src="${item.url}" alt="Gambar ${index+1}" class="w-full h-full object-cover">`;
+                    mediaHTML = `<img src="${item.url}" alt="Gambar" class="w-full h-full object-cover">`;
                 } else {
                     mediaHTML = `<video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>`;
                 }
@@ -717,7 +757,7 @@
                     <div class="relative overflow-hidden h-48 bg-slate-100">
                         ${mediaHTML}
                         ${item.type === 'video' ? '<div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">VIDEO</div>' : ''}
-                        <button onclick="deleteImage(${index})" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center">
+                        <button onclick="deleteImage(${item.id})" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center">
                             <i class="fas fa-trash text-sm"></i>
                         </button>
                     </div>
@@ -730,13 +770,18 @@
             });
         }
 
-        function deleteImage(index) {
+        // ===== HAPUS GAMBAR =====
+        async function deleteImage(id) {
             if(confirm('Apakah Anda yakin ingin menghapus media ini?')) {
-                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                media.splice(index, 1);
-                localStorage.setItem('galleryImages', JSON.stringify(media));
-                renderAdminImageList();
-                loadGalleryImages();
+                try {
+                    const { error: dbError } = await sb.from('gallery').delete().match({ id: id });
+                    if (dbError) throw dbError;
+
+                    await renderAdminImageList();
+                    await loadGalleryImages();
+                } catch (error) {
+                    alert('Gagal menghapus: ' + error.message);
+                }
             }
         }
 
@@ -746,65 +791,72 @@
             return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
         }
 
-        function getDefaultSettings() {
-            return {
-                terkumpul: 12500000,
-                rekening: '1234567890',
-                atasNama: 'Panitia Peduli Bencana OKU Timur'
-            };
-        }
-
-        function loadSettings() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
+        async function loadSettings() {
+            const { data, error } = await sb.from('settings').select('*').eq('id', 1).single();
+            if (error || !data) return console.error('Error load settings:', error);
+            
             const setTerkumpul = document.getElementById('set-terkumpul');
             const setRekening = document.getElementById('set-rekening');
             const setAtasnama = document.getElementById('set-atasnama');
             
-            if(setTerkumpul) setTerkumpul.value = s.terkumpul;
-            if(setRekening) setRekening.value = s.rekening;
-            if(setAtasnama) setAtasnama.value = s.atasNama;
+            if(setTerkumpul) setTerkumpul.value = data.terkumpul;
+            if(setRekening) setRekening.value = data.rekening;
+            if(setAtasnama) setAtasnama.value = data.atasNama;
         }
 
-        function updatePublicDonation() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
+        async function updatePublicDonation() {
+            const { data, error } = await sb.from('settings').select('*').eq('id', 1).single();
+            if (error || !data) return;
             
             const dTerkumpul = document.getElementById('display-terkumpul');
             const dRekening = document.getElementById('display-rekening');
             const dAtasnama = document.getElementById('display-atasnama');
             
-            if(dTerkumpul) dTerkumpul.innerText = formatRupiah(s.terkumpul);
-            if(dRekening) dRekening.innerText = s.rekening;
-            if(dAtasnama) dAtasnama.innerText = s.atasNama;
+            if(dTerkumpul) dTerkumpul.innerText = formatRupiah(data.terkumpul);
+            if(dRekening) dRekening.innerText = data.rekening;
+            if(dAtasnama) dAtasnama.innerText = data.atasNama;
         }
 
-        function updateOverview() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
+        async function updateOverview() {
+            const { data: sData, error: sError } = await sb.from('settings').select('*').eq('id', 1).single();
+            if (sError || !sData) return;
+            
+            const { count, error: countError } = await sb.from('gallery').select('*', { count: 'exact', head: true });
+            if (countError) return;
             
             const oTerkumpul = document.getElementById('overview-terkumpul');
             const oCount = document.getElementById('overview-count');
             
-            if(oTerkumpul) oTerkumpul.innerText = formatRupiah(s.terkumpul);
-            if(oCount) oCount.innerText = media.length;
+            if(oTerkumpul) oTerkumpul.innerText = formatRupiah(sData.terkumpul);
+            if(oCount) oCount.innerText = count;
         }
 
-        function saveSettings(e) {
+        async function saveSettings(e) {
             e.preventDefault();
-            let settings = {
-                terkumpul: document.getElementById('set-terkumpul').value || 0,
-                rekening: document.getElementById('set-rekening').value || '1234567890',
-                atasNama: document.getElementById('set-atasnama').value || 'Panitia'
-            };
-            localStorage.setItem('donationSettings', JSON.stringify(settings));
-            
-            const savedBox = document.getElementById('settings-saved');
-            savedBox.classList.remove('page-hidden');
-            setTimeout(() => savedBox.classList.add('page-hidden'), 3000);
-            
-            updatePublicDonation();
-            updateOverview();
+            const terkumpul = document.getElementById('set-terkumpul').value || 0;
+            const rekening = document.getElementById('set-rekening').value || '1234567890';
+            const atasNama = document.getElementById('set-atasnama').value || 'Panitia';
+
+            const { error } = await sb.from('settings').upsert({ 
+                id: 1, 
+                terkumpul: terkumpul, 
+                rekening: rekening, 
+                atasNama: atasNama 
+            });
+
+            if (error) {
+                alert('Gagal menyimpan: ' + error.message);
+            } else {
+                const savedBox = document.getElementById('settings-saved');
+                savedBox.classList.remove('page-hidden');
+                setTimeout(() => savedBox.classList.add('page-hidden'), 3000);
+                
+                await updatePublicDonation();
+                await updateOverview();
+            }
         }
 
+        // ===== INISIALISASI AWAL =====
         document.addEventListener("DOMContentLoaded", () => {
             navigateTo('public', 'beranda');
         });
