@@ -381,7 +381,6 @@
 
     <script>
         // ================= KONFIGURASI SUPABASE =================
-        // GANTI DENGAN URL DAN ANON KEY MILIK ANDA!
         const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ';
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -405,6 +404,7 @@
             }
         }
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('page-hidden'); }
+        
         function switchTab(tabName) {
             ['overview', 'gallery', 'settings'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('page-hidden');
@@ -420,18 +420,15 @@
             if (tabName === 'settings') loadSettings();
         }
 
-        // ================= AUTENTIKASI (Hardcode di JS) =================
+        // ================= AUTENTIKASI =================
         function handleAdminAccess() {
             if (localStorage.getItem('isAdminLoggedIn') === 'true') { navigateTo('dashboard'); } else { navigateTo('login'); }
         }
-        
         function handleLogin(event) {
-            if (event) event.preventDefault(); // Mencegah halaman refresh saat tekan enter/klik tombol
-            
+            if (event) event.preventDefault(); 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorBox = document.getElementById('login-error');
-            
             if (username === 'admin' && password === 'peduli123') {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 errorBox.classList.add('page-hidden');
@@ -441,7 +438,6 @@
                 document.getElementById('password').value = ''; 
             }
         }
-        
         function handleLogout() { localStorage.removeItem('isAdminLoggedIn'); navigateTo('public', 'beranda'); }
 
         // ================= LIGHTBOX & COPY =================
@@ -487,7 +483,6 @@
             btn.disabled = true;
 
             try {
-                // 1. Upload file ke Supabase Storage
                 const fileName = `media_${Date.now()}_${Math.random().toString(36).substring(7)}`;
                 const { data: uploadData, error: uploadError } = await supabase.storage
                     .from('media-peduli')
@@ -495,19 +490,16 @@
 
                 if (uploadError) throw uploadError;
 
-                // 2. Dapatkan URL Publik file
                 const { data: urlData } = supabase.storage.from('media-peduli').getPublicUrl(uploadData.path);
                 const fileUrl = urlData.publicUrl;
                 const type = file.type.startsWith('image/') ? 'image' : 'video';
 
-                // 3. Simpan info file ke Tabel Database (Supabase)
                 const { error: dbError } = await supabase
                     .from('media')
                     .insert([{ url: fileUrl, type: type, description: desc }]);
 
                 if (dbError) throw dbError;
 
-                // 4. Reset form & tampilkan status sukses
                 document.getElementById('uploadStatus').classList.remove('page-hidden');
                 setTimeout(() => document.getElementById('uploadStatus').classList.add('page-hidden'), 3000);
                 document.getElementById('mediaInput').value = '';
@@ -606,7 +598,31 @@
         // ================= PENGATURAN DONASI =================
         function formatRupiah(angka) { if(!angka) angka = 0; return 'Rp ' + parseInt(angka).toLocaleString('id-ID'); }
 
+        // Fungsi ini memastikan baris setting dengan id=1 selalu ada. Jika tidak ada, buat otomatis.
+        async function ensureSettingsExist() {
+            try {
+                const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
+                if (error) {
+                    // Jika error "PGRST116" (belum ada data), buat baris baru
+                    if (error.code === 'PGRST116' || error.details.includes('0 rows')) {
+                        const { error: insertError } = await supabase.from('settings').insert([{ 
+                            id: 1, 
+                            terkumpul: 0, 
+                            rekening: '1234567890', 
+                            atas_nama: 'Panitia Peduli Bencana OKU Timur' 
+                        }]);
+                        if (insertError) throw insertError;
+                    } else {
+                        throw error;
+                    }
+                }
+            } catch (error) {
+                console.error('Error ensuring settings exist:', error);
+            }
+        }
+
         async function loadSettings() {
+            await ensureSettingsExist(); // Pastikan data ada dulu sebelum diload
             try {
                 const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
                 if (error) throw error;
@@ -619,6 +635,7 @@
         }
 
         async function updatePublicDonation() {
+            await ensureSettingsExist();
             try {
                 const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
                 if (error) throw error;
@@ -631,6 +648,7 @@
         }
 
         async function updateOverview() {
+            await ensureSettingsExist();
             try {
                 const { data: settings, error: errS } = await supabase.from('settings').select('*').eq('id', 1).single();
                 const { count, error: errM } = await supabase.from('media').select('*', { count: 'exact', head: true });
@@ -650,11 +668,14 @@
             btn.disabled = true;
 
             try {
+                await ensureSettingsExist(); // Pastikan ada sebelum diupdate
+                
                 const updatedData = {
                     terkumpul: document.getElementById('set-terkumpul').value || 0,
                     rekening: document.getElementById('set-rekening').value || '1234567890',
                     atas_nama: document.getElementById('set-atasnama').value || 'Panitia'
                 };
+                
                 const { error } = await supabase.from('settings').update(updatedData).eq('id', 1);
                 if (error) throw error;
 
