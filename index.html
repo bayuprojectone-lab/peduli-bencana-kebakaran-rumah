@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peduli Bencana - Ibu Puji Astutik</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -107,24 +108,16 @@
                         <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Aksi Peduli</span>
                         <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
                         
-                        <div class="mb-8">
-                            <div class="flex justify-between text-sm font-bold text-slate-700 mb-2">
-                                <span class="text-emerald-600">Terkumpul: <span id="display-terkumpul">Rp 0</span></span>
-                                <span class="text-slate-400">Target: <span id="display-target">Rp 0</span></span>
-                            </div>
-                            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden mb-2">
-                                <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-green-500 h-4 rounded-full transition-all duration-1000 flex items-center justify-end pr-2" style="width: 0%">
-                                    <span class="text-[10px] font-bold text-white" id="display-persen">0%</span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-slate-400">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
+                        <div class="mb-8 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl">
+                            <p class="text-emerald-600 font-semibold text-sm mb-2">Total Dana Terkumpul</p>
+                            <h4 class="text-4xl font-extrabold text-emerald-700" id="display-terkumpul">Rp 0</h4>
+                            <p class="text-xs text-slate-400 mt-2">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
                         </div>
 
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative">
                             <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
                             <div class="flex items-center justify-between space-x-4 mb-4">
                                 <div class="flex items-center space-x-4">
-                                    <!-- LOGO BRI -->
                                     <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-xl tracking-wider shadow-sm">BRI</div>
                                     <span class="w-px h-8 bg-slate-200"></span>
                                     <h4 id="display-rekening" class="text-2xl font-extrabold text-red-600 tracking-wide">1234567890</h4>
@@ -186,8 +179,7 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" id="gallery-container">
-                    <!-- Default Image -->
-                    <div class="group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0')">
+                    <div class="group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0', 'image')">
                         <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi 1" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
                         <div class="absolute bottom-0 left-0 p-6 text-white">
@@ -199,14 +191,8 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="bg-slate-900 text-slate-400 py-12 text-center">
             <div class="container mx-auto px-6">
-                <div class="flex justify-center space-x-6 mb-6">
-                    <button onclick="alert('Facebook')" class="hover:text-white transition"><i class="fab fa-facebook-f text-xl"></i></button>
-                    <button onclick="alert('Instagram')" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></button>
-                    <button onclick="alert('WhatsApp')" class="hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></button>
-                </div>
                 <p class="text-sm">&copy; 2024 Peduli Bencana Ibu Puji Astutik. Dibangun dengan penuh kepedulian.</p>
             </div>
         </footer>
@@ -218,72 +204,51 @@
             <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="absolute inset-0 w-full h-full object-cover opacity-20">
             <div class="relative z-10 flex flex-col justify-between p-12 text-white w-full">
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('public', 'beranda')">
-                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
-                        <i class="fas fa-fire-flame-curved"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md"><i class="fas fa-fire-flame-curved"></i></div>
                     <h1 class="text-lg font-extrabold leading-none">Peduli Bencana</h1>
                 </div>
                 <div>
                     <h2 class="text-4xl font-extrabold mb-4">Portal Admin</h2>
                     <p class="text-slate-300 text-lg max-w-md">Kelola informasi donasi, pantau dana yang terkumpul, dan perbarui dokumentasi kejadian dengan mudah.</p>
                 </div>
-                <div class="text-xs text-slate-400">© 2024 Peduli Bencana OKU Timur</div>
             </div>
         </div>
 
         <div class="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 p-8">
             <div class="w-full max-w-md">
                 <div class="text-center mb-10 lg:hidden">
-                    <div class="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
+                    <div class="w-16 h-16 bg-red-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg"><i class="fas fa-user-shield"></i></div>
                     <h2 class="text-2xl font-bold text-slate-800">Login Admin</h2>
                 </div>
-
                 <div class="hidden lg:block mb-10">
                     <h2 class="text-3xl font-extrabold text-slate-800">Selamat Datang Kembali 👋</h2>
                     <p class="text-slate-500 mt-2">Silakan masuk untuk mengakses dashboard admin.</p>
                 </div>
-
                 <div id="login-error" class="page-hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-6 flex items-center space-x-2">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span>Username atau password salah!</span>
+                    <i class="fas fa-exclamation-circle"></i><span>Username atau password salah!</span>
                 </div>
-
                 <div class="space-y-5">
                     <div>
                         <label class="block text-slate-700 text-sm font-semibold mb-2">Username</label>
                         <div class="relative">
                             <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="username" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" placeholder="Masukkan username" required>
+                            <input type="text" id="username" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="admin" required>
                         </div>
                     </div>
                     <div>
                         <label class="block text-slate-700 text-sm font-semibold mb-2">Password</label>
                         <div class="relative">
                             <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="password" id="password" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition" placeholder="Masukkan password" required>
+                            <input type="password" id="password" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="peduli123" required>
                         </div>
                     </div>
-
                     <button onclick="handleLogin()" class="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold hover:bg-red-700 transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
-                        <i class="fas fa-right-to-bracket"></i>
-                        <span>Masuk ke Dashboard</span>
+                        <i class="fas fa-right-to-bracket"></i><span>Masuk ke Dashboard</span>
                     </button>
                 </div>
-
                 <button onclick="navigateTo('public', 'beranda')" class="w-full mt-6 text-slate-500 hover:text-slate-800 text-sm font-medium transition flex items-center justify-center space-x-2">
-                    <i class="fas fa-arrow-left text-xs"></i>
-                    <span>Kembali ke Halaman Utama</span>
+                    <i class="fas fa-arrow-left text-xs"></i><span>Kembali ke Halaman Utama</span>
                 </button>
-
-                <div class="mt-10 pt-6 border-t border-slate-200 text-center">
-                    <p class="text-xs text-slate-400">Kredensial Demo:</p>
-                    <div class="flex justify-center gap-4 mt-2 text-xs text-slate-500 font-mono">
-                        <span>User: <span class="font-bold text-slate-700">admin</span></span>
-                        <span>Pass: <span class="font-bold text-slate-700">peduli123</span></span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -293,44 +258,24 @@
         <aside class="w-64 bg-slate-900 text-white flex-col hidden md:flex fixed inset-y-0 z-50">
             <div class="p-6 border-b border-slate-700/50">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md">
-                        <i class="fas fa-fire-flame-curved"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-base font-extrabold leading-none">Admin Panel</h1>
-                        <p class="text-[10px] text-slate-400">Peduli Bencana</p>
-                    </div>
+                    <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center text-white text-xl shadow-md"><i class="fas fa-fire-flame-curved"></i></div>
+                    <div><h1 class="text-base font-extrabold leading-none">Admin Panel</h1><p class="text-[10px] text-slate-400">Peduli Bencana</p></div>
                 </div>
             </div>
-            
             <nav class="flex-1 p-4 space-y-2">
-                <button onclick="switchTab('overview')" id="btn-overview" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm bg-slate-800 text-white transition">
-                    <i class="fas fa-gauge-high w-5"></i><span>Dashboard</span>
-                </button>
-                <button onclick="switchTab('gallery')" id="btn-gallery" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fas fa-images w-5"></i><span>Galeri Media</span>
-                </button>
-                <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fas fa-sliders w-5"></i><span>Pengaturan Donasi</span>
-                </button>
+                <button onclick="switchTab('overview')" id="btn-overview" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm bg-slate-800 text-white transition"><i class="fas fa-gauge-high w-5"></i><span>Dashboard</span></button>
+                <button onclick="switchTab('gallery')" id="btn-gallery" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition"><i class="fas fa-images w-5"></i><span>Galeri Media</span></button>
+                <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition"><i class="fas fa-sliders w-5"></i><span>Pengaturan Donasi</span></button>
             </nav>
-
             <div class="p-4 border-t border-slate-700/50">
-                <button onclick="navigateTo('public', 'beranda')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition mb-2">
-                    <i class="fas fa-eye w-5"></i><span>Lihat Website</span>
-                </button>
-                <button onclick="handleLogout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-red-400 hover:bg-red-500/10 transition">
-                    <i class="fas fa-right-from-bracket w-5"></i><span>Keluar (Logout)</span>
-                </button>
+                <button onclick="navigateTo('public', 'beranda')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition mb-2"><i class="fas fa-eye w-5"></i><span>Lihat Website</span></button>
+                <button onclick="handleLogout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-red-400 hover:bg-red-500/10 transition"><i class="fas fa-right-from-bracket w-5"></i><span>Keluar (Logout)</span></button>
             </div>
         </aside>
 
         <main class="flex-1 md:ml-64 min-h-screen">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center md:hidden sticky top-0 z-40">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-fire-flame-curved text-sm"></i></div>
-                    <h1 class="text-sm font-bold">Admin Panel</h1>
-                </div>
+                <div class="flex items-center space-x-3"><div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white"><i class="fas fa-fire-flame-curved text-sm"></i></div><h1 class="text-sm font-bold">Admin Panel</h1></div>
                 <button onclick="handleLogout()" class="text-red-600 text-sm font-bold">Keluar</button>
             </header>
 
@@ -339,42 +284,17 @@
                 <div id="tab-overview" class="fade-in">
                     <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Ringkasan Dashboard</h2>
                     <p class="text-slate-500 mb-8">Pantau perkembangan donasi dan aktivitas website.</p>
-                    
-                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="text-slate-500 text-sm font-medium">Dana Terkumpul</span>
-                                <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600"><i class="fas fa-money-bill-wave"></i></div>
-                            </div>
+                            <div class="flex items-center justify-between mb-4"><span class="text-slate-500 text-sm font-medium">Dana Terkumpul</span><div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600"><i class="fas fa-money-bill-wave"></i></div></div>
                             <h3 class="text-2xl font-extrabold text-slate-800" id="overview-terkumpul">Rp 0</h3>
                             <p class="text-xs text-emerald-600 font-semibold mt-2">Aktif</p>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="text-slate-500 text-sm font-medium">Target Donasi</span>
-                                <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center text-red-600"><i class="fas fa-bullseye"></i></div>
-                            </div>
-                            <h3 class="text-2xl font-extrabold text-slate-800" id="overview-target">Rp 0</h3>
-                            <p class="text-xs text-slate-400 font-semibold mt-2">Target Awal</p>
-                        </div>
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="text-slate-500 text-sm font-medium">Total Media</span>
-                                <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-photo-film"></i></div>
-                            </div>
+                            <div class="flex items-center justify-between mb-4"><span class="text-slate-500 text-sm font-medium">Total Media</span><div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-photo-film"></i></div></div>
                             <h3 class="text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Item</h3>
                             <p class="text-xs text-slate-400 font-semibold mt-2">Foto & Video</p>
                         </div>
-                    </div>
-
-                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">Progress Donasi</h3>
-                        <div class="w-full bg-slate-100 rounded-full h-6 overflow-hidden mb-2">
-                            <div id="overview-progress" class="bg-gradient-to-r from-emerald-500 to-green-500 h-6 rounded-full transition-all duration-1000 flex items-center justify-end pr-3" style="width: 0%">
-                                <span class="text-xs font-bold text-white" id="overview-persen">0%</span>
-                            </div>
-                        </div>
-                        <p class="text-sm text-slate-500">Mari terus sebarluaskan informasi donasi ini agar target dapat tercapai.</p>
                     </div>
                 </div>
 
@@ -382,17 +302,14 @@
                 <div id="tab-gallery" class="page-hidden fade-in">
                     <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Media</h2>
                     <p class="text-slate-500 mb-8">Unggah foto/video dokumentasi beserta deskripsinya.</p>
-
                     <div class="grid lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-1">
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-10">
                                 <h3 class="text-lg font-bold text-slate-800 mb-4">Unggah Media Baru</h3>
-                                
                                 <div class="mb-4">
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Deskripsi / Teks Foto</label>
                                     <textarea id="media-desc" rows="3" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 resize-none" placeholder="Tulis deskripsi dokumentasi..."></textarea>
                                 </div>
-
                                 <div class="mb-4">
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Pilih File (Foto/Video)</label>
                                     <div id="uploadArea" class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-red-400 transition cursor-pointer" onclick="document.getElementById('mediaInput').click()">
@@ -402,37 +319,24 @@
                                         <input type="file" id="mediaInput" accept="image/*,video/*" class="hidden" onchange="previewMedia(this)">
                                     </div>
                                 </div>
-
                                 <div id="previewWrapper" class="page-hidden mb-4">
                                     <p class="text-sm text-slate-600 font-medium mb-2">Pratinjau:</p>
                                     <img id="imagePreview" class="w-full h-48 object-cover rounded-xl border border-slate-200 page-hidden">
                                     <video id="videoPreview" class="w-full h-48 object-cover rounded-xl border border-slate-200 page-hidden" controls></video>
                                 </div>
-
                                 <button onclick="handleUpload()" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
-                                    <i class="fas fa-upload"></i>
-                                    <span>Upload Media</span>
+                                    <i class="fas fa-upload"></i><span>Upload Media</span>
                                 </button>
-
                                 <div id="uploadStatus" class="page-hidden mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Berhasil diunggah!</span>
+                                    <i class="fas fa-check-circle"></i><span>Berhasil diunggah!</span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="lg:col-span-2">
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-lg font-bold text-slate-800">Media Terunggah</h3>
-                                    <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">Total: <span id="image-count">0</span></div>
-                                </div>
-
+                                <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold text-slate-800">Media Terunggah</h3><div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">Total: <span id="image-count">0</span></div></div>
                                 <div id="imageList" class="grid sm:grid-cols-2 gap-6"></div>
-                                <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl">
-                                    <i class="fas fa-images text-5xl text-slate-200 mb-4"></i>
-                                    <p class="text-slate-400 font-medium">Belum ada media diunggah</p>
-                                </div>
+                                <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl"><i class="fas fa-images text-5xl text-slate-200 mb-4"></i><p class="text-slate-400 font-medium">Belum ada media diunggah</p></div>
                             </div>
                         </div>
                     </div>
@@ -441,22 +345,16 @@
                 <!-- TAB SETTINGS -->
                 <div id="tab-settings" class="page-hidden fade-in">
                     <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Pengaturan Donasi</h2>
-                    <p class="text-slate-500 mb-8">Perbarui informasi rekening dan progress donasi.</p>
-
+                    <p class="text-slate-500 mb-8">Perbarui informasi rekening dan dana yang terkumpul.</p>
                     <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 max-w-3xl">
                         <form id="settingsForm" onsubmit="saveSettings(event)">
                             <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Donasi</h4>
                             <div class="grid md:grid-cols-2 gap-6 mb-8">
                                 <div>
-                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Target Donasi (Rp)</label>
-                                    <input type="number" id="set-target" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="50000000">
-                                </div>
-                                <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Dana Terkumpul (Rp)</label>
                                     <input type="number" id="set-terkumpul" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="12500000">
                                 </div>
                             </div>
-                            
                             <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening (Bank BRI)</h4>
                             <div class="grid md:grid-cols-2 gap-6 mb-8">
                                 <div>
@@ -468,16 +366,9 @@
                                     <input type="text" id="set-atasnama" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Panitia">
                                 </div>
                             </div>
-                            
                             <div class="flex items-center justify-end pt-4">
-                                <div id="settings-saved" class="page-hidden mr-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Perubahan disimpan!</span>
-                                </div>
-                                <button type="submit" class="bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center space-x-2">
-                                    <i class="fas fa-save"></i>
-                                    <span>Simpan Perubahan</span>
-                                </button>
+                                <div id="settings-saved" class="page-hidden mr-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2"><i class="fas fa-check-circle"></i><span>Perubahan disimpan!</span></div>
+                                <button type="submit" class="bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center space-x-2"><i class="fas fa-save"></i><span>Simpan Perubahan</span></button>
                             </div>
                         </form>
                     </div>
@@ -487,380 +378,290 @@
     </div>
 
     <script>
-        // ===== SYSTEM NAVIGASI =====
+        // ================= KONFIGURASI SUPABASE =================
+        // GANTI DENGAN URL DAN ANON KEY MILIK ANDA!
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ================= SYSTEM NAVIGASI =================
         function navigateTo(page, sectionId = null) {
             document.getElementById('public-page').classList.add('page-hidden');
             document.getElementById('login-page').classList.add('page-hidden');
             document.getElementById('dashboard-page').classList.add('page-hidden');
-
             const target = document.getElementById(page + '-page');
-            if (target) {
-                target.classList.remove('page-hidden');
-                target.classList.add('fade-in');
-            }
-
+            if (target) { target.classList.remove('page-hidden'); target.classList.add('fade-in'); }
             const mm = document.getElementById('mobile-menu');
             if (mm) mm.classList.add('page-hidden');
-
             if (page === 'public') {
                 loadGalleryImages();
                 updatePublicDonation();
-                if (sectionId) {
-                    setTimeout(() => {
-                        const el = document.getElementById(sectionId);
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                if (sectionId) { setTimeout(() => { const el = document.getElementById(sectionId); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100); } else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             } else {
                 window.scrollTo(0, 0);
-                if (page === 'dashboard') {
-                    switchTab('overview');
-                }
+                if (page === 'dashboard') { switchTab('overview'); }
             }
         }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('page-hidden');
-        }
-
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('page-hidden'); }
         function switchTab(tabName) {
             ['overview', 'gallery', 'settings'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('page-hidden');
                 const btn = document.getElementById('btn-' + t);
-                if(btn) {
-                    btn.classList.remove('bg-slate-800', 'text-white');
-                    btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
-                }
+                if(btn) { btn.classList.remove('bg-slate-800', 'text-white'); btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
             });
-
             document.getElementById('tab-' + tabName).classList.remove('page-hidden');
             document.getElementById('tab-' + tabName).classList.add('fade-in');
             const activeBtn = document.getElementById('btn-' + tabName);
-            if(activeBtn) {
-                activeBtn.classList.add('bg-slate-800', 'text-white');
-                activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
-            }
-
+            if(activeBtn) { activeBtn.classList.add('bg-slate-800', 'text-white'); activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
             if (tabName === 'overview') updateOverview();
             if (tabName === 'gallery') renderAdminImageList();
             if (tabName === 'settings') loadSettings();
         }
 
-        // ===== AUTENTIKASI =====
+        // ================= AUTENTIKASI (Hardcode di JS) =================
         function handleAdminAccess() {
-            if (localStorage.getItem('isAdminLoggedIn') === 'true') {
-                navigateTo('dashboard');
-            } else {
-                navigateTo('login');
-            }
+            if (localStorage.getItem('isAdminLoggedIn') === 'true') { navigateTo('dashboard'); } else { navigateTo('login'); }
         }
-
         function handleLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorBox = document.getElementById('login-error');
-
             if (username === 'admin' && password === 'peduli123') {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 errorBox.classList.add('page-hidden');
                 navigateTo('dashboard');
-            } else {
-                errorBox.classList.remove('page-hidden');
-                document.getElementById('password').value = '';
+            } else { errorBox.classList.remove('page-hidden'); document.getElementById('password').value = ''; }
+        }
+        function handleLogout() { localStorage.removeItem('isAdminLoggedIn'); navigateTo('public', 'beranda'); }
+
+        // ================= LIGHTBOX & COPY =================
+        function openLightbox(src, type) {
+            if (type === 'image') {
+                const lb = document.getElementById('lightbox');
+                document.getElementById('lightbox-img').src = src;
+                lb.classList.remove('page-hidden'); lb.classList.add('flex');
             }
         }
+        function closeLightbox() { const lb = document.getElementById('lightbox'); lb.classList.add('page-hidden'); lb.classList.remove('flex'); }
+        function copyRekening() { const rekening = document.getElementById('display-rekening').innerText; navigator.clipboard.writeText(rekening).then(() => alert('Nomor rekening BRI disalin: ' + rekening)); }
 
-        function handleLogout() {
-            localStorage.removeItem('isAdminLoggedIn');
-            navigateTo('public', 'beranda');
-        }
-
-        // ===== LIGHTBOX =====
-        function openLightbox(src) {
-            const lb = document.getElementById('lightbox');
-            const lbImg = document.getElementById('lightbox-img');
-            const lbVideo = document.getElementById('lightbox-video');
-            
-            if (src.type === 'image') {
-                lbImg.src = src.url;
-                lbImg.classList.remove('page-hidden');
-                lbVideo.classList.add('page-hidden');
-            }
-            lb.classList.remove('page-hidden');
-            lb.classList.add('flex');
-        }
-        function closeLightbox() {
-            const lb = document.getElementById('lightbox');
-            lb.classList.add('page-hidden');
-            lb.classList.remove('flex');
-        }
-
-        // ===== COPY REKENING =====
-        function copyRekening() {
-            const rekening = document.getElementById('display-rekening').innerText;
-            navigator.clipboard.writeText(rekening).then(() => {
-                alert('Nomor rekening BRI berhasil disalin: ' + rekening);
-            }).catch(err => {
-                alert('Silakan salin manual: ' + rekening);
-            });
-        }
-
-        // ===== PREVIEW & UPLOAD MEDIA =====
+        // ================= PREVIEW & UPLOAD MEDIA =================
         function previewMedia(input) {
             const file = input.files[0];
-            const fileName = document.getElementById('file-name');
-            const imagePreview = document.getElementById('imagePreview');
-            const videoPreview = document.getElementById('videoPreview');
-            const previewWrapper = document.getElementById('previewWrapper');
-            
             if (file) {
-                fileName.innerText = file.name;
+                document.getElementById('file-name').innerText = file.name;
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    previewWrapper.classList.remove('page-hidden');
+                    document.getElementById('previewWrapper').classList.remove('page-hidden');
                     if (file.type.startsWith('image/')) {
-                        imagePreview.src = event.target.result;
-                        imagePreview.classList.remove('page-hidden');
-                        videoPreview.classList.add('page-hidden');
-                    } else if (file.type.startsWith('video/')) {
-                        videoPreview.src = event.target.result;
-                        videoPreview.classList.remove('page-hidden');
-                        imagePreview.classList.add('page-hidden');
+                        document.getElementById('imagePreview').src = event.target.result;
+                        document.getElementById('imagePreview').classList.remove('page-hidden');
+                        document.getElementById('videoPreview').classList.add('page-hidden');
+                    } else {
+                        document.getElementById('videoPreview').src = event.target.result;
+                        document.getElementById('videoPreview').classList.remove('page-hidden');
+                        document.getElementById('imagePreview').classList.add('page-hidden');
                     }
                 };
                 reader.readAsDataURL(file);
-            } else {
-                fileName.innerText = 'JPG, PNG, MP4, MKV';
-                previewWrapper.classList.add('page-hidden');
             }
         }
 
-        function handleUpload() {
+        async function handleUpload() {
             const file = document.getElementById('mediaInput').files[0];
             const desc = document.getElementById('media-desc').value || 'Dokumentasi tambahan dari panitia.';
-            
-            if (!file) {
-                alert('Silakan pilih file foto atau video terlebih dahulu!');
-                return;
-            }
+            if (!file) { alert('Silakan pilih file foto atau video!'); return; }
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const base64String = event.target.result;
+            const btn = document.querySelector('button[onclick="handleUpload()"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Uploading...</span>';
+            btn.disabled = true;
+
+            try {
+                // 1. Upload file ke Supabase Storage
+                const fileName = `media_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('media-peduli')
+                    .upload(fileName, file);
+
+                if (uploadError) throw uploadError;
+
+                // 2. Dapatkan URL Publik file
+                const { data: urlData } = supabase.storage.from('media-peduli').getPublicUrl(uploadData.path);
+                const fileUrl = urlData.publicUrl;
                 const type = file.type.startsWith('image/') ? 'image' : 'video';
-                
-                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                media.push({ url: base64String, type: type, desc: desc });
-                localStorage.setItem('galleryImages', JSON.stringify(media));
-                
-                const uploadStatus = document.getElementById('uploadStatus');
-                uploadStatus.classList.remove('page-hidden');
-                setTimeout(() => uploadStatus.classList.add('page-hidden'), 3000);
-                
-                // Reset
+
+                // 3. Simpan info file ke Tabel Database (Supabase)
+                const { error: dbError } = await supabase
+                    .from('media')
+                    .insert([{ url: fileUrl, type: type, description: desc }]);
+
+                if (dbError) throw dbError;
+
+                // 4. Reset form & tampilkan status sukses
+                document.getElementById('uploadStatus').classList.remove('page-hidden');
+                setTimeout(() => document.getElementById('uploadStatus').classList.add('page-hidden'), 3000);
                 document.getElementById('mediaInput').value = '';
                 document.getElementById('media-desc').value = '';
                 document.getElementById('file-name').innerText = 'JPG, PNG, MP4, MKV';
                 document.getElementById('previewWrapper').classList.add('page-hidden');
-                
                 renderAdminImageList();
-            };
-            reader.readAsDataURL(file);
+
+            } catch (error) {
+                alert('Gagal upload: ' + error.message);
+            } finally {
+                btn.innerHTML = '<i class="fas fa-upload"></i><span>Upload Media</span>';
+                btn.disabled = false;
+            }
         }
 
-        function loadGalleryImages() {
+        // ================= LOAD DATA GALERI =================
+        async function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
             if(!galleryContainer) return;
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            
             const oldAdminMedia = galleryContainer.querySelectorAll('.admin-media');
             oldAdminMedia.forEach(el => el.remove());
 
-            media.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'admin-media bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group flex flex-col';
-                
-                if (item.type === 'image') {
-                    div.innerHTML = `
-                        <div class="relative overflow-hidden h-64 cursor-pointer" onclick="openLightbox('${item.url}', 'image')">
-                            <img src="${item.url}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
-                                <p class="text-sm font-medium opacity-90 line-clamp-2">${item.desc}</p>
+            try {
+                const { data: media, error } = await supabase.from('media').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
+
+                media.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'admin-media bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group flex flex-col';
+                    if (item.type === 'image') {
+                        div.innerHTML = `
+                            <div class="relative overflow-hidden h-64 cursor-pointer" onclick="openLightbox('${item.url}', 'image')">
+                                <img src="${item.url}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                                <div class="absolute bottom-0 left-0 p-6 text-white">
+                                    <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
+                                    <p class="text-sm font-medium opacity-90 line-clamp-2">${item.description}</p>
+                                </div>
+                            </div>`;
+                    } else {
+                        div.innerHTML = `
+                            <div class="relative bg-slate-900 h-64">
+                                <video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>
+                                <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md flex items-center space-x-1 pointer-events-none"><i class="fas fa-video text-[10px]"></i><span>VIDEO</span></div>
                             </div>
-                        </div>
-                    `;
-                } else if (item.type === 'video') {
-                    div.innerHTML = `
-                        <div class="relative bg-slate-900 h-64">
-                            <video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>
-                            <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md flex items-center space-x-1 pointer-events-none">
-                                <i class="fas fa-video text-[10px]"></i>
-                                <span>VIDEO</span>
-                            </div>
-                        </div>
-                        <div class="p-5 bg-white">
-                            <span class="text-xs font-semibold bg-red-50 text-red-600 px-3 py-1 rounded-md mb-2 inline-block">Video Dokumentasi</span>
-                            <p class="text-sm font-medium text-slate-600 mt-2 line-clamp-2">${item.desc}</p>
-                        </div>
-                    `;
-                }
-                galleryContainer.appendChild(div);
-            });
+                            <div class="p-5 bg-white"><span class="text-xs font-semibold bg-red-50 text-red-600 px-3 py-1 rounded-md mb-2 inline-block">Video Dokumentasi</span><p class="text-sm font-medium text-slate-600 mt-2 line-clamp-2">${item.description}</p></div>`;
+                    }
+                    galleryContainer.appendChild(div);
+                });
+            } catch (error) { console.error('Error loading media:', error); }
         }
 
-        function renderAdminImageList() {
+        async function renderAdminImageList() {
             const imageList = document.getElementById('imageList');
             const noImagesBox = document.getElementById('no-images');
             const imageCount = document.getElementById('image-count');
             if(!imageList) return;
             
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            imageCount.innerText = media.length;
-            imageList.innerHTML = '';
+            try {
+                const { data: media, error } = await supabase.from('media').select('*').order('created_at', { ascending: false });
+                if (error) throw error;
 
-            if (media.length === 0) {
-                noImagesBox.classList.remove('page-hidden');
-                return;
-            }
+                imageCount.innerText = media.length;
+                imageList.innerHTML = '';
 
-            noImagesBox.classList.add('page-hidden');
+                if (media.length === 0) { noImagesBox.classList.remove('page-hidden'); return; }
+                noImagesBox.classList.add('page-hidden');
 
-            media.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'border border-slate-100 rounded-2xl overflow-hidden shadow-sm group';
-                
-                let mediaHTML = '';
-                if (item.type === 'image') {
-                    mediaHTML = `<img src="${item.url}" alt="Gambar ${index+1}" class="w-full h-full object-cover">`;
-                } else {
-                    mediaHTML = `<video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>`;
-                }
-
-                div.innerHTML = `
-                    <div class="relative overflow-hidden h-48 bg-slate-100">
-                        ${mediaHTML}
-                        ${item.type === 'video' ? '<div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">VIDEO</div>' : ''}
-                        <button onclick="deleteImage(${index})" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center">
-                            <i class="fas fa-trash text-sm"></i>
-                        </button>
-                    </div>
-                    <div class="p-4 flex justify-between items-center bg-white">
-                        <span class="text-sm font-medium text-slate-700 truncate w-3/4">${item.desc}</span>
-                        <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md flex-shrink-0">Aktif</span>
-                    </div>
-                `;
-                imageList.appendChild(div);
-            });
+                media.forEach((item) => {
+                    const div = document.createElement('div');
+                    div.className = 'border border-slate-100 rounded-2xl overflow-hidden shadow-sm group';
+                    let mediaHTML = item.type === 'image' ? `<img src="${item.url}" class="w-full h-full object-cover">` : `<video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>`;
+                    div.innerHTML = `
+                        <div class="relative overflow-hidden h-48 bg-slate-100">
+                            ${mediaHTML}
+                            ${item.type === 'video' ? '<div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">VIDEO</div>' : ''}
+                            <button onclick="deleteImage('${item.id}')" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center"><i class="fas fa-trash text-sm"></i></button>
+                        </div>
+                        <div class="p-4 flex justify-between items-center bg-white"><span class="text-sm font-medium text-slate-700 truncate w-3/4">${item.description}</span><span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md flex-shrink-0">Aktif</span></div>`;
+                    imageList.appendChild(div);
+                });
+            } catch (error) { console.error('Error loading admin media:', error); }
         }
 
-        function deleteImage(index) {
-            if(confirm('Apakah Anda yakin ingin menghapus media ini?')) {
-                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                media.splice(index, 1);
-                localStorage.setItem('galleryImages', JSON.stringify(media));
+        async function deleteImage(id) {
+            if(!confirm('Apakah Anda yakin ingin menghapus media ini?')) return;
+            try {
+                const { error } = await supabase.from('media').delete().eq('id', id);
+                if (error) throw error;
                 renderAdminImageList();
                 loadGalleryImages();
+            } catch (error) { alert('Gagal hapus: ' + error.message); }
+        }
+
+        // ================= PENGATURAN DONASI =================
+        function formatRupiah(angka) { if(!angka) angka = 0; return 'Rp ' + parseInt(angka).toLocaleString('id-ID'); }
+
+        async function loadSettings() {
+            try {
+                const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
+                if (error) throw error;
+                if(data) {
+                    document.getElementById('set-terkumpul').value = data.terkumpul;
+                    document.getElementById('set-rekening').value = data.rekening;
+                    document.getElementById('set-atasnama').value = data.atas_nama;
+                }
+            } catch (error) { console.error('Error loading settings:', error); }
+        }
+
+        async function updatePublicDonation() {
+            try {
+                const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
+                if (error) throw error;
+                if(data) {
+                    document.getElementById('display-terkumpul').innerText = formatRupiah(data.terkumpul);
+                    document.getElementById('display-rekening').innerText = data.rekening;
+                    document.getElementById('display-atasnama').innerText = data.atas_nama;
+                }
+            } catch (error) { console.error('Error updating public donation:', error); }
+        }
+
+        async function updateOverview() {
+            try {
+                const { data: settings, error: errS } = await supabase.from('settings').select('*').eq('id', 1).single();
+                const { count, error: errM } = await supabase.from('media').select('*', { count: 'exact', head: true });
+                
+                if (errS) throw errS;
+                if (errM) throw errM;
+
+                document.getElementById('overview-terkumpul').innerText = formatRupiah(settings.terkumpul);
+                document.getElementById('overview-count').innerText = count || 0;
+            } catch (error) { console.error('Error updating overview:', error); }
+        }
+
+        async function saveSettings(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Menyimpan...</span>';
+            btn.disabled = true;
+
+            try {
+                const updatedData = {
+                    terkumpul: document.getElementById('set-terkumpul').value || 0,
+                    rekening: document.getElementById('set-rekening').value || '1234567890',
+                    atas_nama: document.getElementById('set-atasnama').value || 'Panitia'
+                };
+                const { error } = await supabase.from('settings').update(updatedData).eq('id', 1);
+                if (error) throw error;
+
+                document.getElementById('settings-saved').classList.remove('page-hidden');
+                setTimeout(() => document.getElementById('settings-saved').classList.add('page-hidden'), 3000);
+                updatePublicDonation();
+                updateOverview();
+            } catch (error) {
+                alert('Gagal menyimpan: ' + error.message);
+            } finally {
+                btn.innerHTML = '<i class="fas fa-save"></i><span>Simpan Perubahan</span>';
+                btn.disabled = false;
             }
         }
 
-        // ===== PENGATURAN DONASI =====
-        function formatRupiah(angka) {
-            if(!angka) angka = 0;
-            return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
-        }
-
-        function getDefaultSettings() {
-            return {
-                target: 50000000,
-                terkumpul: 12500000,
-                rekening: '1234567890',
-                atasNama: 'Panitia Peduli Bencana OKU Timur'
-            };
-        }
-
-        function loadSettings() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            const setTarget = document.getElementById('set-target');
-            const setTerkumpul = document.getElementById('set-terkumpul');
-            const setRekening = document.getElementById('set-rekening');
-            const setAtasnama = document.getElementById('set-atasnama');
-            
-            if(setTarget) setTarget.value = s.target;
-            if(setTerkumpul) setTerkumpul.value = s.terkumpul;
-            if(setRekening) setRekening.value = s.rekening;
-            if(setAtasnama) setAtasnama.value = s.atasNama;
-        }
-
-        function updatePublicDonation() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            
-            const dTarget = document.getElementById('display-target');
-            const dTerkumpul = document.getElementById('display-terkumpul');
-            const dRekening = document.getElementById('display-rekening');
-            const dAtasnama = document.getElementById('display-atasnama');
-            
-            if(dTarget) dTarget.innerText = formatRupiah(s.target);
-            if(dTerkumpul) dTerkumpul.innerText = formatRupiah(s.terkumpul);
-            if(dRekening) dRekening.innerText = s.rekening;
-            if(dAtasnama) dAtasnama.innerText = s.atasNama;
-            
-            let percentage = (s.terkumpul / s.target) * 100;
-            if (percentage > 100) percentage = 100;
-            if (percentage < 0) percentage = 0;
-            
-            const pbar = document.getElementById('progress-bar');
-            const dpersen = document.getElementById('display-persen');
-            if(pbar) pbar.style.width = percentage + '%';
-            if(dpersen) dpersen.innerText = percentage.toFixed(1) + '%';
-        }
-
-        function updateOverview() {
-            let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            
-            const oTerkumpul = document.getElementById('overview-terkumpul');
-            const oTarget = document.getElementById('overview-target');
-            const oCount = document.getElementById('overview-count');
-            const oProgress = document.getElementById('overview-progress');
-            const oPersen = document.getElementById('overview-persen');
-            
-            if(oTerkumpul) oTerkumpul.innerText = formatRupiah(s.terkumpul);
-            if(oTarget) oTarget.innerText = formatRupiah(s.target);
-            if(oCount) oCount.innerText = media.length;
-            
-            let percentage = (s.terkumpul / s.target) * 100;
-            if (percentage > 100) percentage = 100;
-            if (percentage < 0) percentage = 0;
-            
-            if(oProgress) oProgress.style.width = percentage + '%';
-            if(oPersen) oPersen.innerText = percentage.toFixed(1) + '%';
-        }
-
-        function saveSettings(e) {
-            e.preventDefault();
-            let settings = {
-                target: document.getElementById('set-target').value || 0,
-                terkumpul: document.getElementById('set-terkumpul').value || 0,
-                rekening: document.getElementById('set-rekening').value || '1234567890',
-                atasNama: document.getElementById('set-atasnama').value || 'Panitia'
-            };
-            localStorage.setItem('donationSettings', JSON.stringify(settings));
-            
-            const savedBox = document.getElementById('settings-saved');
-            savedBox.classList.remove('page-hidden');
-            setTimeout(() => savedBox.classList.add('page-hidden'), 3000);
-            
-            updatePublicDonation();
-            updateOverview();
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            navigateTo('public', 'beranda');
-        });
+        // Inisialisasi awal
+        document.addEventListener("DOMContentLoaded", () => { navigateTo('public', 'beranda'); });
     </script>
 </body>
 </html>
