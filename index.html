@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Menggunakan page-hidden agar tidak bentrok dengan sistem Tailwind */
         .page-hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -18,6 +17,7 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        video { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -46,7 +46,6 @@
                     </div>
                 </div>
                 
-                <!-- Menu Desktop (Pasti Tampil) -->
                 <div class="hidden md:flex space-x-8 items-center">
                     <button onclick="navigateTo('public', 'beranda')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Beranda</button>
                     <button onclick="navigateTo('public', 'kronologi')" class="text-slate-600 hover:text-red-600 font-medium text-sm transition">Kronologi</button>
@@ -57,14 +56,12 @@
                     </button>
                 </div>
                 
-                <!-- Menu Mobile (Pasti Tampil) -->
                 <div class="md:hidden flex items-center space-x-4">
                     <button onclick="handleAdminAccess()" class="text-slate-500 border p-2 rounded-lg"><i class="fas fa-user-shield text-sm"></i></button>
                     <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-red-600 focus:outline-none"><i class="fas fa-bars text-xl"></i></button>
                 </div>
             </div>
             
-            <!-- Dropdown Mobile -->
             <div id="mobile-menu" class="page-hidden md:hidden bg-white border-t border-slate-100 px-6 py-4 space-y-3 shadow-lg">
                 <button onclick="navigateTo('public', 'beranda')" class="block w-full text-left py-2 text-slate-600 font-medium">Beranda</button>
                 <button onclick="navigateTo('public', 'kronologi')" class="block w-full text-left py-2 text-slate-600 font-medium">Kronologi</button>
@@ -106,9 +103,8 @@
         <section id="donasi" class="relative bg-white -mt-16 z-20 scroll-mt-20">
             <div class="container mx-auto px-6">
                 <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden grid md:grid-cols-5">
-                    <!-- Kolom Kiri -->
                     <div class="md:col-span-3 p-8 md:p-12">
-                        <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Target Donasi</span>
+                        <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Aksi Peduli</span>
                         <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
                         
                         <div class="mb-8">
@@ -125,10 +121,11 @@
                         </div>
 
                         <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 relative">
-                            <p class="text-sm text-slate-500 font-medium mb-2">Transfer Melalui Rekening Resmi Panitia</p>
+                            <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
                             <div class="flex items-center justify-between space-x-4 mb-4">
                                 <div class="flex items-center space-x-4">
-                                    <span id="display-bank" class="font-bold text-2xl tracking-wider text-slate-800">BCA</span>
+                                    <!-- LOGO BRI -->
+                                    <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-xl tracking-wider shadow-sm">BRI</div>
                                     <span class="w-px h-8 bg-slate-200"></span>
                                     <h4 id="display-rekening" class="text-2xl font-extrabold text-red-600 tracking-wide">1234567890</h4>
                                 </div>
@@ -140,7 +137,6 @@
                         </div>
                     </div>
 
-                    <!-- Kolom Kanan -->
                     <div class="md:col-span-2 bg-slate-900 p-8 md:p-12 text-white flex flex-col justify-center">
                         <i class="fas fa-house-circle-exclamation text-5xl text-red-500 mb-6"></i>
                         <h4 class="text-xl font-bold mb-6">Informasi Korban</h4>
@@ -180,7 +176,7 @@
             </div>
         </section>
 
-        <!-- Galeri Gambar -->
+        <!-- Galeri Gambar & Video -->
         <section id="galeri" class="py-20 bg-white scroll-mt-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
@@ -190,6 +186,7 @@
                 </div>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" id="gallery-container">
+                    <!-- Default Image -->
                     <div class="group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0')">
                         <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi 1" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
@@ -311,7 +308,7 @@
                     <i class="fas fa-gauge-high w-5"></i><span>Dashboard</span>
                 </button>
                 <button onclick="switchTab('gallery')" id="btn-gallery" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fas fa-images w-5"></i><span>Galeri Foto</span>
+                    <i class="fas fa-images w-5"></i><span>Galeri Media</span>
                 </button>
                 <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
                     <i class="fas fa-sliders w-5"></i><span>Pengaturan Donasi</span>
@@ -362,11 +359,11 @@
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="text-slate-500 text-sm font-medium">Total Foto</span>
-                                <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-images"></i></div>
+                                <span class="text-slate-500 text-sm font-medium">Total Media</span>
+                                <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600"><i class="fas fa-photo-film"></i></div>
                             </div>
-                            <h3 class="text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Foto</h3>
-                            <p class="text-xs text-slate-400 font-semibold mt-2">Dokumentasi</p>
+                            <h3 class="text-2xl font-extrabold text-slate-800"><span id="overview-count">0</span> Item</h3>
+                            <p class="text-xs text-slate-400 font-semibold mt-2">Foto & Video</p>
                         </div>
                     </div>
 
@@ -383,29 +380,38 @@
 
                 <!-- TAB GALLERY -->
                 <div id="tab-gallery" class="page-hidden fade-in">
-                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Foto</h2>
-                    <p class="text-slate-500 mb-8">Unggah foto dokumentasi untuk ditampilkan di halaman publik.</p>
+                    <h2 class="text-2xl font-extrabold text-slate-800 mb-2">Kelola Galeri Media</h2>
+                    <p class="text-slate-500 mb-8">Unggah foto/video dokumentasi beserta deskripsinya.</p>
 
                     <div class="grid lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-1">
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 sticky top-10">
-                                <h3 class="text-lg font-bold text-slate-800 mb-4">Unggah Foto Baru</h3>
+                                <h3 class="text-lg font-bold text-slate-800 mb-4">Unggah Media Baru</h3>
                                 
-                                <div id="uploadArea" class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-red-400 transition cursor-pointer mb-4" onclick="document.getElementById('imageInput').click()">
-                                    <i class="fas fa-cloud-arrow-up text-4xl text-slate-300 mb-3"></i>
-                                    <p class="text-sm text-slate-500 font-medium">Klik untuk memilih file</p>
-                                    <p id="file-name" class="text-xs text-slate-400 mt-1">JPG, PNG, JPEG</p>
-                                    <input type="file" id="imageInput" accept="image/*" class="hidden" onchange="previewImage(this)">
+                                <div class="mb-4">
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Deskripsi / Teks Foto</label>
+                                    <textarea id="media-desc" rows="3" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 resize-none" placeholder="Tulis deskripsi dokumentasi..."></textarea>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Pilih File (Foto/Video)</label>
+                                    <div id="uploadArea" class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-red-400 transition cursor-pointer" onclick="document.getElementById('mediaInput').click()">
+                                        <i class="fas fa-cloud-arrow-up text-4xl text-slate-300 mb-3"></i>
+                                        <p class="text-sm text-slate-500 font-medium">Klik untuk memilih file</p>
+                                        <p id="file-name" class="text-xs text-slate-400 mt-1">JPG, PNG, MP4, MKV</p>
+                                        <input type="file" id="mediaInput" accept="image/*,video/*" class="hidden" onchange="previewMedia(this)">
+                                    </div>
                                 </div>
 
                                 <div id="previewWrapper" class="page-hidden mb-4">
                                     <p class="text-sm text-slate-600 font-medium mb-2">Pratinjau:</p>
-                                    <img id="imagePreview" class="w-full h-48 object-cover rounded-xl border border-slate-200">
+                                    <img id="imagePreview" class="w-full h-48 object-cover rounded-xl border border-slate-200 page-hidden">
+                                    <video id="videoPreview" class="w-full h-48 object-cover rounded-xl border border-slate-200 page-hidden" controls></video>
                                 </div>
 
                                 <button onclick="handleUpload()" class="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
                                     <i class="fas fa-upload"></i>
-                                    <span>Upload Foto</span>
+                                    <span>Upload Media</span>
                                 </button>
 
                                 <div id="uploadStatus" class="page-hidden mt-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl text-sm font-medium flex items-center space-x-2">
@@ -418,14 +424,14 @@
                         <div class="lg:col-span-2">
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                                 <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-lg font-bold text-slate-800">Foto Terunggah</h3>
+                                    <h3 class="text-lg font-bold text-slate-800">Media Terunggah</h3>
                                     <div class="bg-slate-100 px-3 py-1.5 rounded-lg text-sm font-semibold text-slate-600">Total: <span id="image-count">0</span></div>
                                 </div>
 
                                 <div id="imageList" class="grid sm:grid-cols-2 gap-6"></div>
                                 <div id="no-images" class="text-center py-16 border border-dashed border-slate-200 rounded-xl">
                                     <i class="fas fa-images text-5xl text-slate-200 mb-4"></i>
-                                    <p class="text-slate-400 font-medium">Belum ada foto diunggah</p>
+                                    <p class="text-slate-400 font-medium">Belum ada media diunggah</p>
                                 </div>
                             </div>
                         </div>
@@ -451,12 +457,8 @@
                                 </div>
                             </div>
                             
-                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening</h4>
-                            <div class="grid md:grid-cols-3 gap-6 mb-8">
-                                <div>
-                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Nama Bank</label>
-                                    <input type="text" id="set-bank" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 uppercase" placeholder="BCA">
-                                </div>
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening (Bank BRI)</h4>
+                            <div class="grid md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Nomor Rekening</label>
                                     <input type="text" id="set-rekening" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="1234567890">
@@ -485,7 +487,7 @@
     </div>
 
     <script>
-        // ===== SYSTEM NAVIGASI UTAMA =====
+        // ===== SYSTEM NAVIGASI =====
         function navigateTo(page, sectionId = null) {
             document.getElementById('public-page').classList.add('page-hidden');
             document.getElementById('login-page').classList.add('page-hidden');
@@ -577,8 +579,15 @@
 
         // ===== LIGHTBOX =====
         function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
             const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            const lbVideo = document.getElementById('lightbox-video');
+            
+            if (src.type === 'image') {
+                lbImg.src = src.url;
+                lbImg.classList.remove('page-hidden');
+                lbVideo.classList.add('page-hidden');
+            }
             lb.classList.remove('page-hidden');
             lb.classList.add('flex');
         }
@@ -592,53 +601,68 @@
         function copyRekening() {
             const rekening = document.getElementById('display-rekening').innerText;
             navigator.clipboard.writeText(rekening).then(() => {
-                alert('Nomor rekening berhasil disalin: ' + rekening);
+                alert('Nomor rekening BRI berhasil disalin: ' + rekening);
             }).catch(err => {
                 alert('Silakan salin manual: ' + rekening);
             });
         }
 
-        // ===== UPLOAD GAMBAR =====
-        function previewImage(input) {
+        // ===== PREVIEW & UPLOAD MEDIA =====
+        function previewMedia(input) {
             const file = input.files[0];
             const fileName = document.getElementById('file-name');
             const imagePreview = document.getElementById('imagePreview');
+            const videoPreview = document.getElementById('videoPreview');
             const previewWrapper = document.getElementById('previewWrapper');
             
             if (file) {
                 fileName.innerText = file.name;
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    imagePreview.src = event.target.result;
                     previewWrapper.classList.remove('page-hidden');
+                    if (file.type.startsWith('image/')) {
+                        imagePreview.src = event.target.result;
+                        imagePreview.classList.remove('page-hidden');
+                        videoPreview.classList.add('page-hidden');
+                    } else if (file.type.startsWith('video/')) {
+                        videoPreview.src = event.target.result;
+                        videoPreview.classList.remove('page-hidden');
+                        imagePreview.classList.add('page-hidden');
+                    }
                 };
                 reader.readAsDataURL(file);
             } else {
-                fileName.innerText = 'JPG, PNG, JPEG';
+                fileName.innerText = 'JPG, PNG, MP4, MKV';
                 previewWrapper.classList.add('page-hidden');
             }
         }
 
         function handleUpload() {
-            const file = document.getElementById('imageInput').files[0];
+            const file = document.getElementById('mediaInput').files[0];
+            const desc = document.getElementById('media-desc').value || 'Dokumentasi tambahan dari panitia.';
+            
             if (!file) {
-                alert('Silakan pilih file terlebih dahulu!');
+                alert('Silakan pilih file foto atau video terlebih dahulu!');
                 return;
             }
 
             const reader = new FileReader();
             reader.onload = (event) => {
                 const base64String = event.target.result;
-                let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                images.push(base64String);
-                localStorage.setItem('galleryImages', JSON.stringify(images));
+                const type = file.type.startsWith('image/') ? 'image' : 'video';
+                
+                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
+                media.push({ url: base64String, type: type, desc: desc });
+                localStorage.setItem('galleryImages', JSON.stringify(media));
                 
                 const uploadStatus = document.getElementById('uploadStatus');
                 uploadStatus.classList.remove('page-hidden');
                 setTimeout(() => uploadStatus.classList.add('page-hidden'), 3000);
                 
-                document.getElementById('imageInput').value = '';
-                document.getElementById('file-name').innerText = 'JPG, PNG, JPEG';
+                // Reset
+                document.getElementById('mediaInput').value = '';
+                document.getElementById('media-desc').value = '';
+                document.getElementById('file-name').innerText = 'JPG, PNG, MP4, MKV';
                 document.getElementById('previewWrapper').classList.add('page-hidden');
                 
                 renderAdminImageList();
@@ -649,23 +673,41 @@
         function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
             if(!galleryContainer) return;
-            let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
             
-            const oldAdminImages = galleryContainer.querySelectorAll('.admin-image');
-            oldAdminImages.forEach(el => el.remove());
+            const oldAdminMedia = galleryContainer.querySelectorAll('.admin-media');
+            oldAdminMedia.forEach(el => el.remove());
 
-            images.forEach(src => {
+            media.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'admin-image group relative rounded-2xl overflow-hidden shadow-sm cursor-pointer h-72';
-                div.onclick = () => openLightbox(src);
-                div.innerHTML = `
-                    <img src="${src}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                    <div class="absolute bottom-0 left-0 p-6 text-white">
-                        <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
-                        <p class="text-sm font-medium opacity-90">Dokumentasi tambahan dari panitia.</p>
-                    </div>
-                `;
+                div.className = 'admin-media bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 group flex flex-col';
+                
+                if (item.type === 'image') {
+                    div.innerHTML = `
+                        <div class="relative overflow-hidden h-64 cursor-pointer" onclick="openLightbox('${item.url}', 'image')">
+                            <img src="${item.url}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                            <div class="absolute bottom-0 left-0 p-6 text-white">
+                                <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
+                                <p class="text-sm font-medium opacity-90 line-clamp-2">${item.desc}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'video') {
+                    div.innerHTML = `
+                        <div class="relative bg-slate-900 h-64">
+                            <video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>
+                            <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md flex items-center space-x-1 pointer-events-none">
+                                <i class="fas fa-video text-[10px]"></i>
+                                <span>VIDEO</span>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-white">
+                            <span class="text-xs font-semibold bg-red-50 text-red-600 px-3 py-1 rounded-md mb-2 inline-block">Video Dokumentasi</span>
+                            <p class="text-sm font-medium text-slate-600 mt-2 line-clamp-2">${item.desc}</p>
+                        </div>
+                    `;
+                }
                 galleryContainer.appendChild(div);
             });
         }
@@ -676,30 +718,39 @@
             const imageCount = document.getElementById('image-count');
             if(!imageList) return;
             
-            let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
-            imageCount.innerText = images.length;
+            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            imageCount.innerText = media.length;
             imageList.innerHTML = '';
 
-            if (images.length === 0) {
+            if (media.length === 0) {
                 noImagesBox.classList.remove('page-hidden');
                 return;
             }
 
             noImagesBox.classList.add('page-hidden');
 
-            images.forEach((img, index) => {
+            media.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'border border-slate-100 rounded-2xl overflow-hidden shadow-sm group';
+                
+                let mediaHTML = '';
+                if (item.type === 'image') {
+                    mediaHTML = `<img src="${item.url}" alt="Gambar ${index+1}" class="w-full h-full object-cover">`;
+                } else {
+                    mediaHTML = `<video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>`;
+                }
+
                 div.innerHTML = `
                     <div class="relative overflow-hidden h-48 bg-slate-100">
-                        <img src="${img}" alt="Gambar ${index+1}" class="w-full h-full object-cover">
+                        ${mediaHTML}
+                        ${item.type === 'video' ? '<div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">VIDEO</div>' : ''}
                         <button onclick="deleteImage(${index})" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center">
                             <i class="fas fa-trash text-sm"></i>
                         </button>
                     </div>
                     <div class="p-4 flex justify-between items-center bg-white">
-                        <span class="text-sm font-medium text-slate-700">Dokumentasi ${index + 1}</span>
-                        <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md">Aktif</span>
+                        <span class="text-sm font-medium text-slate-700 truncate w-3/4">${item.desc}</span>
+                        <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md flex-shrink-0">Aktif</span>
                     </div>
                 `;
                 imageList.appendChild(div);
@@ -707,10 +758,10 @@
         }
 
         function deleteImage(index) {
-            if(confirm('Apakah Anda yakin ingin menghapus foto ini?')) {
-                let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
-                images.splice(index, 1);
-                localStorage.setItem('galleryImages', JSON.stringify(images));
+            if(confirm('Apakah Anda yakin ingin menghapus media ini?')) {
+                let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
+                media.splice(index, 1);
+                localStorage.setItem('galleryImages', JSON.stringify(media));
                 renderAdminImageList();
                 loadGalleryImages();
             }
@@ -726,7 +777,6 @@
             return {
                 target: 50000000,
                 terkumpul: 12500000,
-                bank: 'BCA',
                 rekening: '1234567890',
                 atasNama: 'Panitia Peduli Bencana OKU Timur'
             };
@@ -736,13 +786,11 @@
             let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
             const setTarget = document.getElementById('set-target');
             const setTerkumpul = document.getElementById('set-terkumpul');
-            const setBank = document.getElementById('set-bank');
             const setRekening = document.getElementById('set-rekening');
             const setAtasnama = document.getElementById('set-atasnama');
             
             if(setTarget) setTarget.value = s.target;
             if(setTerkumpul) setTerkumpul.value = s.terkumpul;
-            if(setBank) setBank.value = s.bank;
             if(setRekening) setRekening.value = s.rekening;
             if(setAtasnama) setAtasnama.value = s.atasNama;
         }
@@ -752,13 +800,11 @@
             
             const dTarget = document.getElementById('display-target');
             const dTerkumpul = document.getElementById('display-terkumpul');
-            const dBank = document.getElementById('display-bank');
             const dRekening = document.getElementById('display-rekening');
             const dAtasnama = document.getElementById('display-atasnama');
             
             if(dTarget) dTarget.innerText = formatRupiah(s.target);
             if(dTerkumpul) dTerkumpul.innerText = formatRupiah(s.terkumpul);
-            if(dBank) dBank.innerText = s.bank.toUpperCase();
             if(dRekening) dRekening.innerText = s.rekening;
             if(dAtasnama) dAtasnama.innerText = s.atasNama;
             
@@ -774,7 +820,7 @@
 
         function updateOverview() {
             let s = JSON.parse(localStorage.getItem('donationSettings')) || getDefaultSettings();
-            let images = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            let media = JSON.parse(localStorage.getItem('galleryImages')) || [];
             
             const oTerkumpul = document.getElementById('overview-terkumpul');
             const oTarget = document.getElementById('overview-target');
@@ -784,7 +830,7 @@
             
             if(oTerkumpul) oTerkumpul.innerText = formatRupiah(s.terkumpul);
             if(oTarget) oTarget.innerText = formatRupiah(s.target);
-            if(oCount) oCount.innerText = images.length;
+            if(oCount) oCount.innerText = media.length;
             
             let percentage = (s.terkumpul / s.target) * 100;
             if (percentage > 100) percentage = 100;
@@ -799,7 +845,6 @@
             let settings = {
                 target: document.getElementById('set-target').value || 0,
                 terkumpul: document.getElementById('set-terkumpul').value || 0,
-                bank: document.getElementById('set-bank').value || 'BCA',
                 rekening: document.getElementById('set-rekening').value || '1234567890',
                 atasNama: document.getElementById('set-atasnama').value || 'Panitia'
             };
