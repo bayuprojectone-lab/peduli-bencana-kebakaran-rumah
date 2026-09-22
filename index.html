@@ -25,9 +25,7 @@
     <!-- LIGHTBOX -->
     <div id="lightbox" class="page-hidden fixed inset-0 bg-black/90 z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
         <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
-        <button class="absolute top-6 right-6 text-white text-3xl hover:text-red-500 transition">
-            <i class="fas fa-times-circle"></i>
-        </button>
+        <button class="absolute top-6 right-6 text-white text-3xl hover:text-red-500 transition"><i class="fas fa-times-circle"></i></button>
     </div>
 
     <!-- ================= HALAMAN PUBLIK ================= -->
@@ -79,7 +77,7 @@
                 <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden grid md:grid-cols-5">
                     <div class="md:col-span-3 p-8 md:p-12">
                         <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Aksi Peduli</span>
-                        <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereja</h3>
+                        <h3 class="text-3xl font-extrabold text-slate-800 mt-2 mb-6">Bantu Bangun Kembali Rumah Mereka</h3>
                         <div class="mb-8 bg-emerald-50 border border-emerald-100 p-6 rounded-2xl">
                             <p class="text-emerald-600 font-semibold text-sm mb-2">Total Dana Terkumpul</p>
                             <h4 class="text-4xl font-extrabold text-emerald-700" id="display-terkumpul">Rp 0</h4>
@@ -228,52 +226,50 @@
         </main>
     </div>
 
-    <!-- SCRIPT DIPINDAHKAN KE BAWAH AGAN TIDAK MENGHAMBAT TOMBOL -->
+    <!-- SCRIPT DIPASANG DI BAWAH AGAR TOMBOL LANGSUNG AKTIF -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ';
-        
-        let supabase;
-        try {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        } catch (e) {
-            console.error("Supabase gagal dimuat, pastikan internet Anda stabil.", e);
+        // ================= FUNGSI DASAR (DIPASANG PERTAMA AGAR TIDAK MACET) =================
+        function navigateTo(page, sectionId = null) {
+            try {
+                document.getElementById('public-page').classList.add('page-hidden');
+                document.getElementById('login-page').classList.add('page-hidden');
+                document.getElementById('dashboard-page').classList.add('page-hidden');
+                const target = document.getElementById(page + '-page');
+                if (target) { target.classList.remove('page-hidden'); target.classList.add('fade-in'); }
+                const mm = document.getElementById('mobile-menu');
+                if (mm) mm.classList.add('page-hidden');
+                if (page === 'public') {
+                    if (sectionId) { setTimeout(() => { const el = document.getElementById(sectionId); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100); } else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            } catch(e) { console.error("Nav Error:", e); }
         }
 
-        function navigateTo(page, sectionId = null) {
-            document.getElementById('public-page').classList.add('page-hidden');
-            document.getElementById('login-page').classList.add('page-hidden');
-            document.getElementById('dashboard-page').classList.add('page-hidden');
-            const target = document.getElementById(page + '-page');
-            if (target) { target.classList.remove('page-hidden'); target.classList.add('fade-in'); }
-            const mm = document.getElementById('mobile-menu');
-            if (mm) mm.classList.add('page-hidden');
-            if (page === 'public') {
-                loadGalleryImages();
-                updatePublicDonation();
-                if (sectionId) { setTimeout(() => { const el = document.getElementById(sectionId); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100); } else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-            } else {
-                window.scrollTo(0, 0);
-                if (page === 'dashboard') { switchTab('overview'); }
-            }
-        }
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('page-hidden'); }
+        
         function switchTab(tabName) {
-            ['overview', 'gallery', 'settings'].forEach(t => {
-                document.getElementById('tab-' + t).classList.add('page-hidden');
-                const btn = document.getElementById('btn-' + t);
-                if(btn) { btn.classList.remove('bg-slate-800', 'text-white'); btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
-            });
-            document.getElementById('tab-' + tabName).classList.remove('page-hidden');
-            document.getElementById('tab-' + tabName).classList.add('fade-in');
-            const activeBtn = document.getElementById('btn-' + tabName);
-            if(activeBtn) { activeBtn.classList.add('bg-slate-800', 'text-white'); activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
-            if (tabName === 'overview') updateOverview();
-            if (tabName === 'gallery') renderAdminImageList();
-            if (tabName === 'settings') loadSettings();
+            try {
+                ['overview', 'gallery', 'settings'].forEach(t => {
+                    document.getElementById('tab-' + t).classList.add('page-hidden');
+                    const btn = document.getElementById('btn-' + t);
+                    if(btn) { btn.classList.remove('bg-slate-800', 'text-white'); btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
+                });
+                document.getElementById('tab-' + tabName).classList.remove('page-hidden');
+                document.getElementById('tab-' + tabName).classList.add('fade-in');
+                const activeBtn = document.getElementById('btn-' + tabName);
+                if(activeBtn) { activeBtn.classList.add('bg-slate-800', 'text-white'); activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white'); }
+                
+                // Panggil fungsi load data di dalam try-catch agar jika DB error, tombol tetap jalan
+                if (tabName === 'overview') updateOverview();
+                if (tabName === 'gallery') renderAdminImageList();
+                if (tabName === 'settings') loadSettings();
+            } catch(e) { console.error("SwitchTab Error:", e); }
         }
+
         function handleAdminAccess() { if (localStorage.getItem('isAdminLoggedIn') === 'true') { navigateTo('dashboard'); } else { navigateTo('login'); } }
+        
         function handleLogin(event) {
             if (event) event.preventDefault(); 
             const username = document.getElementById('username').value;
@@ -285,10 +281,12 @@
                 navigateTo('dashboard');
             } else { errorBox.classList.remove('page-hidden'); document.getElementById('password').value = ''; }
         }
+        
         function handleLogout() { localStorage.removeItem('isAdminLoggedIn'); navigateTo('public', 'beranda'); }
         function openLightbox(src, type) { if (type === 'image') { const lb = document.getElementById('lightbox'); document.getElementById('lightbox-img').src = src; lb.classList.remove('page-hidden'); lb.classList.add('flex'); } }
         function closeLightbox() { const lb = document.getElementById('lightbox'); lb.classList.add('page-hidden'); lb.classList.remove('flex'); }
         function copyRekening() { const rekening = document.getElementById('display-rekening').innerText; navigator.clipboard.writeText(rekening).then(() => alert('Nomor rekening BRI disalin: ' + rekening)); }
+        
         function previewMedia(input) {
             const file = input.files[0];
             if (file) {
@@ -302,7 +300,19 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        // ================= KONEKSI DATABASE (DIPASANG TERAKHIR) =================
+        let supabase;
+        try {
+            const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ';
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        } catch(e) {
+            console.error("Supabase gagal dimuat!", e);
+        }
+
         async function handleUpload() {
+            if(!supabase) { alert("Database belum siap!"); return; }
             const file = document.getElementById('mediaInput').files[0];
             const desc = document.getElementById('media-desc').value || 'Dokumentasi tambahan dari panitia.';
             if (!file) { alert('Silakan pilih file foto atau video!'); return; }
@@ -324,7 +334,9 @@
             } catch (error) { alert('Gagal upload: ' + error.message); } 
             finally { btn.innerHTML = '<i class="fas fa-upload"></i><span>Upload Media</span>'; btn.disabled = false; }
         }
+        
         async function loadGalleryImages() {
+            if(!supabase) return;
             const galleryContainer = document.getElementById('gallery-container');
             if(!galleryContainer) return;
             const oldAdminMedia = galleryContainer.querySelectorAll('.admin-media');
@@ -341,7 +353,9 @@
                 });
             } catch (error) { console.error('Error loading media:', error); }
         }
+        
         async function renderAdminImageList() {
+            if(!supabase) return;
             const imageList = document.getElementById('imageList');
             const noImagesBox = document.getElementById('no-images');
             const imageCount = document.getElementById('image-count');
@@ -361,7 +375,9 @@
                 });
             } catch (error) { console.error('Error loading admin media:', error); }
         }
+        
         async function deleteImage(id) {
+            if(!supabase) return;
             if(!confirm('Apakah Anda yakin ingin menghapus media ini?')) return;
             try {
                 const { error } = await supabase.from('media').delete().eq('id', id);
@@ -369,8 +385,11 @@
                 renderAdminImageList(); loadGalleryImages();
             } catch (error) { alert('Gagal hapus: ' + error.message); }
         }
+        
         function formatRupiah(angka) { if(!angka) angka = 0; return 'Rp ' + parseInt(angka).toLocaleString('id-ID'); }
+        
         async function ensureSettingsExist() {
+            if(!supabase) return;
             try {
                 const { data, error } = await supabase.from('settings').select('*').eq('id', 1).single();
                 if (error) {
@@ -381,6 +400,7 @@
                 }
             } catch (error) { console.error('Error ensuring settings exist:', error); }
         }
+        
         async function loadSettings() {
             if(!supabase) return; await ensureSettingsExist();
             try {
@@ -389,6 +409,7 @@
                 if(data) { document.getElementById('set-terkumpul').value = data.terkumpul; document.getElementById('set-rekening').value = data.rekening; document.getElementById('set-atasnama').value = data.atas_nama; }
             } catch (error) { console.error('Error loading settings:', error); }
         }
+        
         async function updatePublicDonation() {
             if(!supabase) return; await ensureSettingsExist();
             try {
@@ -397,6 +418,7 @@
                 if(data) { document.getElementById('display-terkumpul').innerText = formatRupiah(data.terkumpul); document.getElementById('display-rekening').innerText = data.rekening; document.getElementById('display-atasnama').innerText = data.atas_nama; }
             } catch (error) { console.error('Error updating public donation:', error); }
         }
+        
         async function updateOverview() {
             if(!supabase) return; await ensureSettingsExist();
             try {
@@ -407,6 +429,7 @@
                 document.getElementById('overview-count').innerText = count || 0;
             } catch (error) { console.error('Error updating overview:', error); }
         }
+        
         async function saveSettings(e) {
             e.preventDefault(); if(!supabase) { alert('Koneksi database belum siap, coba lagi.'); return; }
             const btn = e.target.querySelector('button[type="submit"]');
@@ -422,7 +445,12 @@
             } catch (error) { alert('Gagal menyimpan: ' + error.message); } 
             finally { btn.innerHTML = '<i class="fas fa-save"></i><span>Simpan Perubahan</span>'; btn.disabled = false; }
         }
-        document.addEventListener("DOMContentLoaded", () => { navigateTo('public', 'beranda'); });
+
+        // Jalankan saat halaman dibuka
+        document.addEventListener("DOMContentLoaded", () => { 
+            navigateTo('public', 'beranda'); 
+            if(supabase) { updatePublicDonation(); loadGalleryImages(); }
+        });
     </script>
 </body>
 </html>
