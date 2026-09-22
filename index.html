@@ -227,7 +227,8 @@
                 <div id="login-error" class="page-hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm mb-6 flex items-center space-x-2">
                     <i class="fas fa-exclamation-circle"></i><span>Username atau password salah!</span>
                 </div>
-                <div class="space-y-5">
+                
+                <form onsubmit="handleLogin(event)" class="space-y-5">
                     <div>
                         <label class="block text-slate-700 text-sm font-semibold mb-2">Username</label>
                         <div class="relative">
@@ -242,10 +243,11 @@
                             <input type="password" id="password" class="w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="peduli123" required>
                         </div>
                     </div>
-                    <button onclick="handleLogin()" class="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold hover:bg-red-700 transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                    <button type="submit" class="w-full bg-red-600 text-white py-3.5 rounded-xl font-bold hover:bg-red-700 transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
                         <i class="fas fa-right-to-bracket"></i><span>Masuk ke Dashboard</span>
                     </button>
-                </div>
+                </form>
+                
                 <button onclick="navigateTo('public', 'beranda')" class="w-full mt-6 text-slate-500 hover:text-slate-800 text-sm font-medium transition flex items-center justify-center space-x-2">
                     <i class="fas fa-arrow-left text-xs"></i><span>Kembali ke Halaman Utama</span>
                 </button>
@@ -380,8 +382,8 @@
     <script>
         // ================= KONFIGURASI SUPABASE =================
         // GANTI DENGAN URL DAN ANON KEY MILIK ANDA!
-        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-        const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+        const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ';
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // ================= SYSTEM NAVIGASI =================
@@ -422,16 +424,24 @@
         function handleAdminAccess() {
             if (localStorage.getItem('isAdminLoggedIn') === 'true') { navigateTo('dashboard'); } else { navigateTo('login'); }
         }
-        function handleLogin() {
+        
+        function handleLogin(event) {
+            if (event) event.preventDefault(); // Mencegah halaman refresh saat tekan enter/klik tombol
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorBox = document.getElementById('login-error');
+            
             if (username === 'admin' && password === 'peduli123') {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 errorBox.classList.add('page-hidden');
                 navigateTo('dashboard');
-            } else { errorBox.classList.remove('page-hidden'); document.getElementById('password').value = ''; }
+            } else { 
+                errorBox.classList.remove('page-hidden'); 
+                document.getElementById('password').value = ''; 
+            }
         }
+        
         function handleLogout() { localStorage.removeItem('isAdminLoggedIn'); navigateTo('public', 'beranda'); }
 
         // ================= LIGHTBOX & COPY =================
