@@ -130,22 +130,35 @@
                             <p class="text-xs text-slate-400 mt-2">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
                         </div>
 
-                        <!-- REKENING & WHATSAPP -->
+                        <!-- REKENING, FOTO PANITIA & WHATSAPP -->
                         <div class="space-y-4">
-                            <!-- Bank BRI -->
+                            <!-- Bank BRI & Foto Panitia -->
                             <div class="bg-slate-50/80 p-4 sm:p-6 rounded-2xl border border-slate-100 relative">
                                 <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
-                                <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
-                                    <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
-                                        <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
-                                        <span class="w-px h-8 bg-slate-200"></span>
-                                        <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
+                                
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+                                    <!-- Foto Panitia -->
+                                    <div class="flex-shrink-0 text-center bg-white p-2 rounded-xl shadow-sm border border-slate-100 w-full sm:w-32">
+                                        <img src="https://z-cdn-media.chatglm.cn/files/171767bf-ed1c-4537-a517-1635cbe43b8b.png?auth_key=1890124470-33d00a499ca147deadec9afe0f2bf7e7-0-4ba0794b53ab5d7a2575c842f1d54d91" alt="Ketua Panitia" class="w-24 h-28 object-cover object-top rounded-lg mx-auto mb-2">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ketua Panitia</p>
+                                        <p id="display-ketua" class="text-xs font-bold text-slate-700 truncate">Nama Panitia</p>
                                     </div>
-                                    <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
-                                        <i class="fas fa-copy text-sm"></i>
-                                    </button>
+
+                                    <!-- Rekening -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
+                                            <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                                                <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
+                                                <span class="w-px h-8 bg-slate-200"></span>
+                                                <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
+                                            </div>
+                                            <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
+                                                <i class="fas fa-copy text-sm"></i>
+                                            </button>
+                                        </div>
+                                        <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
+                                    </div>
                                 </div>
-                                <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
                             </div>
 
                             <!-- WhatsApp Konfirmasi -->
@@ -451,6 +464,10 @@
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Dana Terkumpul (Rp)</label>
                                     <input type="number" id="set-terkumpul" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="12500000">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Nama Ketua Panitia</label>
+                                    <input type="text" id="set-ketua" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Jhon Doe">
                                 </div>
                             </div>
                             
@@ -856,11 +873,13 @@
             const setRekening = document.getElementById('set-rekening');
             const setAtasnama = document.getElementById('set-atasnama');
             const setWa = document.getElementById('set-wa');
+            const setKetua = document.getElementById('set-ketua');
             
             if(setTerkumpul) setTerkumpul.value = data.terkumpul;
             if(setRekening) setRekening.value = data.rekening;
             if(setAtasnama) setAtasnama.value = data.atasNama;
             if(setWa) setWa.value = data.wa || '';
+            if(setKetua) setKetua.value = data.ketuaPanitia || '';
         }
 
         async function updatePublicDonation() {
@@ -871,6 +890,7 @@
             const dRekening = document.getElementById('display-rekening');
             const dAtasnama = document.getElementById('display-atasnama');
             const dWa = document.getElementById('display-wa');
+            const dKetua = document.getElementById('display-ketua');
             const waLink = document.getElementById('wa-link');
             const waContactBtn = document.getElementById('wa-contact-btn');
             
@@ -878,6 +898,7 @@
             if(dRekening) dRekening.innerText = data.rekening;
             if(dAtasnama) dAtasnama.innerText = data.atasNama;
             if(dWa) dWa.innerText = data.wa || '-';
+            if(dKetua) dKetua.innerText = data.ketuaPanitia || 'Nama Panitia';
             
             // Format WA link
             let waNum = (data.wa || '').replace(/[^0-9]/g, '');
@@ -909,13 +930,15 @@
             const rekening = document.getElementById('set-rekening').value || '1234567890';
             const atasNama = document.getElementById('set-atasnama').value || 'Panitia';
             const wa = document.getElementById('set-wa').value || '';
+            const ketuaPanitia = document.getElementById('set-ketua').value || '';
 
             const { error } = await sb.from('settings').upsert({ 
                 id: 1, 
                 terkumpul: terkumpul, 
                 rekening: rekening, 
                 atasNama: atasNama,
-                wa: wa 
+                wa: wa,
+                ketuaPanitia: ketuaPanitia 
             });
 
             if (error) {
