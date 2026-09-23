@@ -130,20 +130,42 @@
                             <p class="text-xs text-slate-400 mt-2">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
                         </div>
 
-                        <div class="bg-slate-50/80 p-4 sm:p-6 rounded-2xl border border-slate-100 relative">
-                            <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
-                            <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
-                                <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
-                                    <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
-                                    <span class="w-px h-8 bg-slate-200"></span>
-                                    <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
+                        <!-- REKENING & WHATSAPP -->
+                        <div class="space-y-4">
+                            <!-- Bank BRI -->
+                            <div class="bg-slate-50/80 p-4 sm:p-6 rounded-2xl border border-slate-100 relative">
+                                <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
+                                <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
+                                    <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                                        <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
+                                        <span class="w-px h-8 bg-slate-200"></span>
+                                        <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
+                                    </div>
+                                    <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
+                                        <i class="fas fa-copy text-sm"></i>
+                                    </button>
                                 </div>
-                                <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
-                                    <i class="fas fa-copy text-sm"></i>
-                                </button>
+                                <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
                             </div>
-                            <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
+
+                            <!-- WhatsApp Konfirmasi -->
+                            <div class="bg-green-50/80 p-4 sm:p-6 rounded-2xl border border-green-100 relative">
+                                <p class="text-sm text-slate-500 font-medium mb-4">Konfirmasi Donasi via WhatsApp</p>
+                                <div class="flex items-center justify-between space-x-2 sm:space-x-4">
+                                    <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
+                                        <div class="bg-green-500 w-12 h-10 rounded font-extrabold text-white text-lg sm:text-xl shadow-sm flex items-center justify-center">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </div>
+                                        <span class="w-px h-8 bg-slate-200"></span>
+                                        <h4 id="display-wa" class="text-lg sm:text-2xl font-extrabold text-green-600 tracking-wide break-all">081234567890</h4>
+                                    </div>
+                                    <a id="wa-link" href="#" target="_blank" class="bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg transition flex-shrink-0" title="Chat WhatsApp">
+                                        <i class="fas fa-paper-plane text-sm"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
 
                     <div class="md:col-span-2 bg-slate-900 p-6 sm:p-8 md:p-12 text-white flex flex-col justify-center relative overflow-hidden">
@@ -155,10 +177,10 @@
                             <li class="flex items-start"><i class="fas fa-location-dot w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Lokasi</span><span class="font-semibold text-white">Dusun Kumpul Sari, Kurungan Nyawa 1</span></div></li>
                             <li class="flex items-start"><i class="fas fa-map w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Kecamatan & Kabupaten</span><span class="font-semibold text-white">Buay Madang, OKU Timur</span></div></li>
                         </ul>
-                        <button onclick="alert('Hubungi WhatsApp: 0812-3456-7890')" class="btn-shine mt-8 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center space-x-2 relative z-10">
+                        <a id="wa-contact-btn" href="#" target="_blank" class="btn-shine mt-8 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center space-x-2 relative z-10">
                             <i class="fab fa-whatsapp text-xl"></i>
                             <span>Hubungi via WhatsApp</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -212,11 +234,6 @@
         <footer class="bg-slate-900 text-slate-400 py-12 text-center">
             <div class="container mx-auto px-6">
                 <img src="https://z-cdn-media.chatglm.cn/files/a06f6e90-2f15-4636-876d-95e3e50d63b7.png?auth_key=1890123444-8a8c017f1505414eb78dea4c1dd5b731-0-d88884f95903bcbca3d49048f176b02e" alt="OKU Timur" class="w-16 h-16 object-contain mx-auto mb-4 opacity-80">
-                <div class="flex justify-center space-x-6 mb-6">
-                    <button onclick="alert('Facebook')" class="hover:text-white transition"><i class="fab fa-facebook-f text-xl"></i></button>
-                    <button onclick="alert('Instagram')" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></button>
-                    <button onclick="alert('WhatsApp')" class="hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></button>
-                </div>
                 <p class="text-sm">&copy; 2024 Peduli Bencana Ibu Puji Astutik. Dibangun dengan penuh kepedulian.</p>
             </div>
         </footer>
@@ -446,6 +463,14 @@
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Atas Nama</label>
                                     <input type="text" id="set-atasnama" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Panitia">
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Kontak WhatsApp</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Nomor WhatsApp Panitia</label>
+                                    <input type="text" id="set-wa" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="08123456789">
                                 </div>
                             </div>
                             
@@ -830,10 +855,12 @@
             const setTerkumpul = document.getElementById('set-terkumpul');
             const setRekening = document.getElementById('set-rekening');
             const setAtasnama = document.getElementById('set-atasnama');
+            const setWa = document.getElementById('set-wa');
             
             if(setTerkumpul) setTerkumpul.value = data.terkumpul;
             if(setRekening) setRekening.value = data.rekening;
             if(setAtasnama) setAtasnama.value = data.atasNama;
+            if(setWa) setWa.value = data.wa || '';
         }
 
         async function updatePublicDonation() {
@@ -843,10 +870,23 @@
             const dTerkumpul = document.getElementById('display-terkumpul');
             const dRekening = document.getElementById('display-rekening');
             const dAtasnama = document.getElementById('display-atasnama');
+            const dWa = document.getElementById('display-wa');
+            const waLink = document.getElementById('wa-link');
+            const waContactBtn = document.getElementById('wa-contact-btn');
             
             if(dTerkumpul) dTerkumpul.innerText = formatRupiah(data.terkumpul);
             if(dRekening) dRekening.innerText = data.rekening;
             if(dAtasnama) dAtasnama.innerText = data.atasNama;
+            if(dWa) dWa.innerText = data.wa || '-';
+            
+            // Format WA link
+            let waNum = (data.wa || '').replace(/[^0-9]/g, '');
+            if (waNum.startsWith('0')) {
+                waNum = '62' + waNum.substring(1);
+            }
+            
+            if(waLink) waLink.href = `https://wa.me/${waNum}`;
+            if(waContactBtn) waContactBtn.href = `https://wa.me/${waNum}`;
         }
 
         async function updateOverview() {
@@ -868,12 +908,14 @@
             const terkumpul = document.getElementById('set-terkumpul').value || 0;
             const rekening = document.getElementById('set-rekening').value || '1234567890';
             const atasNama = document.getElementById('set-atasnama').value || 'Panitia';
+            const wa = document.getElementById('set-wa').value || '';
 
             const { error } = await sb.from('settings').upsert({ 
                 id: 1, 
                 terkumpul: terkumpul, 
                 rekening: rekening, 
-                atasNama: atasNama 
+                atasNama: atasNama,
+                wa: wa 
             });
 
             if (error) {
