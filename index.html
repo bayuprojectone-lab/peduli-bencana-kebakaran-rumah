@@ -4,8 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Peduli Bencana - Ibu Puji Astutik</title>
+    <!-- PREVIEW SHARE WHATSAPP / FACEBOOK / MESSENGER -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PEDULI BENCANA - Bantu Bangun Kembali Rumah Ibu Puji Astutik">
+    <meta property="og:description" content="Mari bersama membantu membangun kembali rumah Ibu Puji Astutik setelah musibah kebakaran. Sekecil apa pun bantuan Anda sangat berarti.">
+    <meta property="og:image" content="https://z-cdn-media.chatglm.cn/files/27613fdf-d597-4b81-a636-5961bbdbc2c8.png?auth_key=1890159026-5acf8722a8b84280bd8a59e331c510a4-0-afbc92161c5e80f4039dc593e5d165ac">
+    <meta property="og:image:secure_url" content="https://z-cdn-media.chatglm.cn/files/27613fdf-d597-4b81-a636-5961bbdbc2c8.png?auth_key=1890159026-5acf8722a8b84280bd8a59e331c510a4-0-afbc92161c5e80f4039dc593e5d165ac">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="864">
+    <meta property="og:image:alt" content="Pamflet Peduli Bencana - Bantu Bangun Kembali Rumah Ibu Puji Astutik">
+    <meta property="og:url" content="https://peduli-bencana-kurungan-nyawa1.netlify.app/">
+    <meta property="og:site_name" content="Peduli Bencana">
+
+    <!-- TWITTER / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PEDULI BENCANA - Bantu Bangun Kembali Rumah Ibu Puji Astutik">
+    <meta name="twitter:description" content="Mari bersama membantu membangun kembali rumah Ibu Puji Astutik setelah musibah kebakaran.">
+    <meta name="twitter:image" content="https://z-cdn-media.chatglm.cn/files/27613fdf-d597-4b81-a636-5961bbdbc2c8.png?auth_key=1890159026-5acf8722a8b84280bd8a59e331c510a4-0-afbc92161c5e80f4039dc593e5d165ac">
+    <meta name="twitter:image:alt" content="Pamflet Peduli Bencana - Ibu Puji Astutik">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tambahkan SDK Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,18 +34,12 @@
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         html { scroll-behavior: smooth; }
-        
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         video { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Fix Android Input Zoom */
         input, textarea, select { font-size: 16px !important; }
-
-        /* Elegant Effects */
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); }
         .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
         .hover-lift { transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -37,16 +49,219 @@
         .btn-shine { position: relative; overflow: hidden; }
         .btn-shine::after { content: ''; position: absolute; top: -50%; left: -60%; width: 40%; height: 200%; background: rgba(255,255,255,0.3); transform: skewX(-25deg); transition: left 0.6s ease; }
         .btn-shine:hover::after { left: 120%; }
+        .gallery-card { display: flex; flex-direction: column; height: 100%; }
+        
+        /* Truncate text to 3 lines */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Custom Lightbox Caption Styles */
+        .lb-caption-box {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            width: 90vw;
+            max-width: 800px;
+            margin-top: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .lb-caption-badge {
+            background: #dc2626;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .lb-caption-text {
+            color: white;
+            font-size: 1rem;
+            line-height: 1.5;
+            max-height: 35vh;
+            overflow-y: auto;
+            padding-right: 8px;
+            text-align: left;
+            width: 100%;
+        }
+        .lb-caption-text::-webkit-scrollbar {
+            width: 6px;
+        }
+        .lb-caption-text::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .lb-caption-text::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.4);
+            border-radius: 10px;
+        }
+        
+        /* Style untuk animasi Like */
+        .liked-heart {
+            color: #ef4444 !important;
+            transform: scale(1.1);
+        }
+        .animate-like-pop {
+            animation: likePop 0.4s ease-out;
+        }
+        @keyframes likePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1.1); }
+        }
+        
+        /* Hide comment section default */
+        .comment-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* CSS UNTUK HERO SLIDESHOW */
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- LIGHTBOX -->
-    <div id="lightbox" class="page-hidden fixed inset-0 bg-black/90 z-[100] items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl">
-        <button class="absolute top-6 right-6 text-white text-3xl hover:text-red-500 transition">
+    <!-- LIGHTBOX GAMBAR & VIDEO & TEKS -->
+    <div id="lightbox" class="page-hidden fixed inset-0 bg-black/90 z-[100] flex-col items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="flex flex-col items-center max-h-[95vh] w-full" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl page-hidden">
+            <video id="lightbox-video" src="" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-2xl page-hidden" controls playsinline></video>
+            <div id="lightbox-caption" class="lb-caption-box page-hidden">
+                <span id="lb-badge" class="lb-caption-badge">Foto Dokumentasi</span>
+                <p id="lb-text" class="lb-caption-text"></p>
+            </div>
+        </div>
+        <button class="absolute top-6 right-6 text-white text-3xl hover:text-red-500 transition z-10" onclick="closeLightbox()">
             <i class="fas fa-times-circle"></i>
         </button>
+        <button class="absolute top-6 left-6 bg-red-600 text-white px-4 py-2 rounded-xl font-semibold hover:bg-red-700 transition z-10 flex items-center space-x-2" onclick="shareCurrentLightbox()">
+            <i class="fas fa-share-nodes"></i>
+            <span>Bagikan</span>
+        </button>
+    </div>
+
+    <!-- MODAL PETA GOOGLE MAPS -->
+    <div id="map-modal" class="page-hidden fixed inset-0 bg-black/80 z-[110] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden">
+            <div class="p-4 border-b flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-slate-800 text-lg flex items-center space-x-2">
+                    <i class="fas fa-map-location-dot text-red-600"></i>
+                    <span>Denah Lokasi Bencana</span>
+                </h3>
+                <button onclick="closeMapModal()" class="text-slate-500 hover:text-red-600 text-2xl transition">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+            <div class="w-full h-[60vh] bg-slate-200" id="map-container">
+                <!-- Iframe Google Maps akan dimasukkan disini -->
+            </div>
+            <div class="p-4 bg-slate-50 text-center">
+                <a id="btn-direction" href="#" target="_blank" class="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition shadow-sm">
+                    <i class="fas fa-diamond-turn-right"></i>
+                    <span>Buka di Google Maps</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL BAGIKAN -->
+    <div id="share-modal" class="page-hidden fixed inset-0 bg-black/80 z-[110] flex items-end sm:items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 text-center">
+            <h3 class="font-bold text-lg text-slate-800 mb-4">Bagikan Kepedulian</h3>
+            <div class="grid grid-cols-5 gap-3 mb-6">
+                <a href="#" target="_blank" id="share-wa" class="share-btn flex flex-col items-center space-y-2 text-slate-600 hover:text-green-500">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl"><i class="fab fa-whatsapp"></i></div>
+                    <span class="text-[10px] font-medium">WhatsApp</span>
+                </a>
+                <a href="#" target="_blank" id="share-fb" class="share-btn flex flex-col items-center space-y-2 text-slate-600 hover:text-blue-500">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl"><i class="fab fa-facebook"></i></div>
+                    <span class="text-[10px] font-medium">Facebook</span>
+                </a>
+                <a href="#" target="_blank" id="share-ig" class="share-btn flex flex-col items-center space-y-2 text-slate-600 hover:text-pink-500">
+                    <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 text-xl"><i class="fab fa-instagram"></i></div>
+                    <span class="text-[10px] font-medium">Instagram</span>
+                </a>
+                <a href="#" target="_blank" id="share-tiktok" class="share-btn flex flex-col items-center space-y-2 text-slate-600 hover:text-slate-800">
+                    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-700 text-xl"><i class="fab fa-tiktok"></i></div>
+                    <span class="text-[10px] font-medium">TikTok</span>
+                </a>
+                <button onclick="copyShareLink()" class="flex flex-col items-center space-y-2 text-slate-600 hover:text-amber-500">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl"><i class="fas fa-link"></i></div>
+                    <span class="text-[10px] font-medium">Salin Link</span>
+                </button>
+            </div>
+            <button onclick="closeShareModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-600 py-3 rounded-xl font-semibold transition">Tutup</button>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT MEDIA -->
+    <div id="edit-modal" class="page-hidden fixed inset-0 bg-black/80 z-[120] flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative my-8">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-6">
+                <h3 class="font-bold text-lg text-slate-800 flex items-center space-x-2">
+                    <i class="fas fa-pen-to-square text-red-600"></i>
+                    <span>Edit Media</span>
+                </h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-red-600 text-2xl transition">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+
+            <div class="space-y-5">
+                <!-- Tampilan Media Saat Ini / Pratinjau -->
+                <div class="w-full h-48 bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200">
+                    <img id="edit-preview-image" src="" class="w-full h-full object-cover page-hidden">
+                    <video id="edit-preview-video" src="" class="w-full h-full object-cover page-hidden" controls></video>
+                    <div id="edit-preview-placeholder" class="text-slate-400 text-sm flex flex-col items-center">
+                        <i class="fas fa-photo-film text-4xl mb-2"></i>
+                        <span>Pratinjau Media</span>
+                    </div>
+                </div>
+
+                <!-- Ganti File (Opsional) -->
+                <div>
+                    <label class="block text-slate-700 text-sm font-semibold mb-2">Ganti File (Kosongkan jika tidak ingin ganti)</label>
+                    <div class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center hover:border-red-400 transition cursor-pointer" onclick="document.getElementById('editMediaInput').click()">
+                        <i class="fas fa-cloud-arrow-up text-2xl text-slate-300 mb-1"></i>
+                        <p class="text-xs text-slate-500 font-medium">Klik untuk pilih file baru</p>
+                        <p id="edit-file-name" class="text-[10px] text-slate-400 mt-1">JPG, PNG, MP4, MKV</p>
+                        <input type="file" id="editMediaInput" accept="image/*,video/*" class="hidden" onchange="previewEditMedia(this)">
+                    </div>
+                </div>
+
+                <!-- Deskripsi -->
+                <div>
+                    <label class="block text-slate-700 text-sm font-semibold mb-2">Deskripsi / Teks</label>
+                    <textarea id="edit-media-desc" rows="3" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 resize-none" placeholder="Tulis deskripsi dokumentasi..."></textarea>
+                </div>
+
+                <button onclick="handleEditUpload()" id="btn-save-edit" class="btn-shine w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
+                    <i class="fas fa-save"></i>
+                    <span>Simpan Perubahan</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ================= HALAMAN PUBLIK ================= -->
@@ -87,31 +302,51 @@
             </div>
         </nav>
 
-        <!-- Hero Section -->
+        <!-- Hero Section dengan Slideshow Background -->
         <section id="beranda" class="relative bg-slate-900 text-white overflow-hidden">
-            <div class="absolute inset-0 opacity-20" style="background-image: url('https://images.unsplash.com/photo-1599839575945-a9e5af0c3e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center;"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/50"></div>
+            <!-- Background Images Slideshow -->
+            <div class="absolute inset-0 z-0">
+                <div class="hero-slide active" style="background-image: url('https://z-cdn-media.chatglm.cn/files/16d025d7-4845-42e7-83b8-74f021f2ab0a.jpeg?auth_key=1890233967-f6d5dc51ab224ef9813015928b185319-0-b3033a8b1bc76a82015506129ebbd080');"></div>
+                <div class="hero-slide" style="background-image: url('https://z-cdn-media.chatglm.cn/files/815cd44a-d8a9-47fc-bd5a-618872d11d9b.jpeg?auth_key=1890307761-0e25a1ca7a434994bf9e93c50dc493be-0-a8eb9a479f64ddfc1248acce1218e82f');"></div>
+                <div class="hero-slide" style="background-image: url('https://z-cdn-media.chatglm.cn/files/753e4c85-9034-4556-9c9e-854fc628a99c.jpeg?auth_key=1890307761-05a33c5dc14b4471a2cd4e0fddbbdc95-0-85f6809837cdddcee5cea13929746c53');"></div>
+                <div class="hero-slide" style="background-image: url('https://z-cdn-media.chatglm.cn/files/7ecc097d-fc33-4d75-90a7-a0a0c8690e70.png?auth_key=1890307761-06726fc554324ab8883a2884c8981b9c-0-2f0a803aa51481ceeb70b3f3e3dad418');"></div>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-slate-900/20 z-10"></div>
             
-            <div class="relative container mx-auto px-4 sm:px-6 py-20 md:py-36">
+            <div class="relative container mx-auto px-4 sm:px-6 py-20 md:py-36 z-20">
                 <div class="max-w-3xl">
-                    <span class="inline-flex items-center space-x-2 bg-red-600/20 border border-red-500/40 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold text-red-300 mb-6 backdrop-blur-sm">
-                        <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        <span>BENCANA KEBAKARAN - OKU TIMUR</span>
-                    </span>
-                    <h2 class="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight">Bangkit Bersama untuk Ibu Puji Astutik</h2>
-                    <p class="text-base sm:text-lg md:text-xl text-slate-300 mb-8 md:mb-10 max-w-2xl font-light leading-relaxed">
-                        Rumah beliau di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kec. Buay Madang dilalap api. Mari kita bantu membangun kembali harapan mereka.
+                   <span class="inline-flex items-center space-x-2 bg-red-600/40 border-2 border-red-500 px-4 py-2 rounded-full text-xs font-bold text-red-100 mb-6 backdrop-blur-md shadow-lg">
+    <span class="w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse shadow-sm"></span>
+    <span>KEBAKARAN RUMAH DI DESA KURUNGAN NYAWA I</span>
+</span>
+                    <h2 class="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">BANGKIT BERSAMA UNTUK IBU PUJI ASTUTIK</h2>
+                    <p class="text-base sm:text-lg md:text-xl text-slate-200 mb-8 md:mb-10 max-w-2xl font-light leading-relaxed drop-shadow-md">
+                        Alamat Rumah beliau di Dusun IV Kumpul Sari, Desa Kurungan Nyawa 1, Kec. Buay Madang Kab. OKU Timur. Mari kita bantu membangun kembali harapan Beliau.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button onclick="navigateTo('public', 'donasi', true)" class="btn-shine bg-red-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-red-700 shadow-xl transition transform hover:-translate-y-1 flex items-center justify-center space-x-2">
                             <i class="fas fa-hand-holding-heart"></i>
                             <span>Donasi Sekarang</span>
                         </button>
-                        <button onclick="navigateTo('public', 'kronologi', true)" class="glass-card text-white px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition flex items-center justify-center space-x-2 border border-white/20">
+                        <button onclick="navigateTo('public', 'kronologi', true)" class="glass-card text-black px-8 py-4 rounded-xl font-bold hover:bg-white/20 transition flex items-center justify-center space-x-2 border border-white/10">
                             <i class="fas fa-circle-info"></i>
                             <span>Baca Kronologi</span>
                         </button>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Ajakan Section -->
+        <section id="video-ajakan" class="page-hidden relative bg-slate-100 z-20 scroll-mt-20 py-12 md:py-20 border-b border-slate-200">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="max-w-4xl mx-auto text-center mb-8">
+                    <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Mari Peduli</span>
+                    <h3 class="font-display text-2xl sm:text-3xl font-bold text-slate-800 mt-2">Dukung & Bangun Bersama</h3>
+                    <div class="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full"></div>
+                </div>
+                <div class="max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-black aspect-video">
+                    <video id="display-invite-video" class="w-full h-full object-contain" controls playsinline preload="metadata"></video>
                 </div>
             </div>
         </section>
@@ -130,38 +365,32 @@
                             <p class="text-xs text-slate-400 mt-2">Setiap bantuan Anda sangat berarti bagi keluarga Ibu Puji Astutik.</p>
                         </div>
 
-                        <!-- REKENING, FOTO PANITIA & WHATSAPP -->
                         <div class="space-y-4">
-                            <!-- Bank BRI & Foto Panitia -->
                             <div class="bg-slate-50/80 p-4 sm:p-6 rounded-2xl border border-slate-100 relative">
-                                <p class="text-sm text-slate-500 font-medium mb-4">Transfer Melalui Rekening Resmi Panitia</p>
+                                <p class="text-sm text-slate-500 font-medium mb-4 text-center">Transfer Melalui Rekening Resmi Panitia</p>
                                 
-                                <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
-                                    <!-- Foto Panitia -->
-                                    <div class="flex-shrink-0 text-center bg-white p-2 rounded-xl shadow-sm border border-slate-100 w-full sm:w-32">
-                                        <img src="https://z-cdn-media.chatglm.cn/files/171767bf-ed1c-4537-a517-1635cbe43b8b.png?auth_key=1890124470-33d00a499ca147deadec9afe0f2bf7e7-0-4ba0794b53ab5d7a2575c842f1d54d91" alt="Ketua Panitia" class="w-24 h-28 object-cover object-top rounded-lg mx-auto mb-2">
+                                <div class="flex flex-col sm:flex-row gap-6">
+                                    <div class="flex-shrink-0 text-center bg-white p-3 rounded-xl shadow-sm border border-slate-100 w-full sm:w-40 flex flex-col justify-center items-center">
+                                        <img id="display-panitia-photo" src="https://z-cdn-media.chatglm.cn/files/171767bf-ed1c-4537-a517-1635cbe43b8b.png?auth_key=1890124470-33d00a499ca147deadec9afe0f2bf7e7-0-4ba0794b53ab5d7a2575c842f1d54d91" alt="Ketua Panitia" class="w-28 h-32 object-cover object-top rounded-lg mx-auto mb-2">
                                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ketua Panitia</p>
-                                        <p id="display-ketua" class="text-xs font-bold text-slate-700 truncate">Nama Panitia</p>
+                                        <p id="display-ketua" class="text-sm font-bold text-slate-700 truncate w-full">Nama Panitia</p>
                                     </div>
 
-                                    <!-- Rekening -->
-                                    <div class="flex-1 min-w-0">
-                                        <div class="flex items-center justify-between space-x-2 sm:space-x-4 mb-4">
-                                            <div class="flex items-center space-x-2 sm:space-x-4 min-w-0">
-                                                <div class="bg-blue-600 px-3 py-1.5 rounded font-extrabold text-white text-lg sm:text-xl tracking-wider shadow-sm">BRI</div>
-                                                <span class="w-px h-8 bg-slate-200"></span>
-                                                <h4 id="display-rekening" class="text-lg sm:text-2xl font-extrabold text-red-600 tracking-wide break-all">1234567890</h4>
-                                            </div>
-                                            <button onclick="copyRekening()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 p-3 rounded-lg transition flex-shrink-0" title="Salin Nomor Rekening">
-                                                <i class="fas fa-copy text-sm"></i>
-                                            </button>
+                                    <div class="flex-1 flex flex-col items-center justify-center text-center bg-white p-4 rounded-xl border border-slate-100">
+                                        <img id="display-bank-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/BRI_2020.svg/1200px-BRI_2020.svg.png" alt="Logo Bank" class="w-40 h-40 object-contain rounded-xl p-1 mb-3">
+                                        <div class="flex flex-col items-center w-full">
+                                            <p class="text-xs text-slate-500 mb-1">Nomor Rekening:</p>
+                                            <h4 id="display-rekening" class="text-2xl sm:text-3xl font-black text-red-600 tracking-wide whitespace-nowrap inline-flex">1234567890</h4>
                                         </div>
-                                        <p class="font-semibold text-slate-700 text-sm">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
+                                        <p class="font-semibold text-slate-700 text-sm mt-2">a.n. <span id="display-atasnama" class="font-bold">Panitia Peduli Bencana OKU Timur</span></p>
+                                        <button onclick="copyRekening()" class="mt-4 bg-slate-200 hover:bg-slate-300 text-slate-600 py-2 px-4 rounded-lg transition flex items-center justify-center space-x-2 text-sm font-semibold w-full sm:w-auto">
+                                            <i class="fas fa-copy"></i>
+                                            <span>Salin Nomor Rekening</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- WhatsApp Konfirmasi -->
                             <div class="bg-green-50/80 p-4 sm:p-6 rounded-2xl border border-green-100 relative">
                                 <p class="text-sm text-slate-500 font-medium mb-4">Konfirmasi Donasi via WhatsApp</p>
                                 <div class="flex items-center justify-between space-x-2 sm:space-x-4">
@@ -181,19 +410,27 @@
 
                     </div>
 
-                    <div class="md:col-span-2 bg-slate-900 p-6 sm:p-8 md:p-12 text-white flex flex-col justify-center relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-red-600/20 rounded-full blur-3xl"></div>
-                        <i class="fas fa-house-circle-exclamation text-5xl text-red-500 mb-6 relative z-10"></i>
-                        <h4 class="text-xl font-bold mb-6 relative z-10">Informasi Korban</h4>
-                        <ul class="space-y-4 text-slate-300 text-sm relative z-10">
-                            <li class="flex items-start"><i class="fas fa-user w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Nama Korban</span><span class="font-semibold text-white">Ibu Puji Astutik</span></div></li>
-                            <li class="flex items-start"><i class="fas fa-location-dot w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Lokasi</span><span class="font-semibold text-white">Dusun Kumpul Sari, Kurungan Nyawa 1</span></div></li>
-                            <li class="flex items-start"><i class="fas fa-map w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-500">Kecamatan & Kabupaten</span><span class="font-semibold text-white">Buay Madang, OKU Timur</span></div></li>
-                        </ul>
-                        <a id="wa-contact-btn" href="#" target="_blank" class="btn-shine mt-8 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center space-x-2 relative z-10">
-                            <i class="fab fa-whatsapp text-xl"></i>
-                            <span>Hubungi via WhatsApp</span>
-                        </a>
+                    <!-- BAGIAN INFORMASI KORBAN DENGAN BACKGROUND FOTO & DIGGERAPKAN -->
+                    <div class="md:col-span-2 text-white flex flex-col justify-center relative overflow-hidden p-6 sm:p-8 md:p-12">
+                        <!-- Background Image -->
+                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://z-cdn-media.chatglm.cn/files/49f7dfbe-5c80-45ff-8047-3a631bf9a969.png?auth_key=1890266739-be08eda5c38b4ddb8f71db8b2e629f7e-0-ac672f021a36fcc93da62740675f7010');"></div>
+                        <!-- Overlay Dark -->
+                        <div class="absolute inset-0 bg-slate-900/85"></div>
+                        
+                        <div class="relative z-10">
+                            <i class="fas fa-house-circle-exclamation text-5xl text-red-500 mb-6"></i>
+                            <h4 class="text-xl font-bold mb-6">Informasi Korban</h4>
+                            <ul class="space-y-4 text-slate-300 text-sm">
+                                <li class="flex items-start"><i class="fas fa-user w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-400">Nama Korban</span><span class="font-semibold text-white">Ibu Puji Astutik</span></div></li>
+                                <li class="flex items-start"><i class="fas fa-location-dot w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-400">Lokasi</span><span class="font-semibold text-white">Dusun IV Kumpul Sari, Desa Kurungan Nyawa 1</span></div></li>
+                                <li class="flex items-start"><i class="fas fa-map w-8 text-red-400 mt-1"></i><div><span class="block text-xs text-slate-400">Kecamatan & Kabupaten</span><span class="font-semibold text-white">Kec. Buay Madang, Kab. OKU Timur</span></div></li>
+                            </ul>
+                            
+                            <button onclick="openMapModal()" class="btn-shine mt-8 w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-bold transition flex items-center justify-center space-x-2">
+                                <i class="fas fa-map-location-dot text-xl"></i>
+                                <span>Lihat Denah Lokasi</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -208,7 +445,7 @@
                     
                     <div class="prose prose-lg max-w-none text-slate-600 glass-card p-6 sm:p-8 md:p-12 rounded-3xl shadow-xl border border-white">
                         <p class="mb-4 leading-relaxed">
-                            Pada hari yang naas, rumah milik Ibu Puji Astutik yang berlokasi di Dusun Kumpul Sari, Desa Kurungan Nyawa 1, Kecamatan Buay Madang, Kabupaten OKU Timur, dilalap api. Kebakaran ini mengakibatkan kerugian materiil yang sangat besar dan membuat keluarga kehilangan tempat tinggal satu-satunya.
+                            Pada hari senin 20 september 2026 sekitar pukul 09.30 WIB, rumah milik Ibu Puji Astutik yang berlokasi di Dusun IV Kumpul Sari, Desa Kurungan Nyawa 1, Kecamatan Buay Madang, Kabupaten OKU Timur, dilalap api. Kebakaran ini mengakibatkan kerugian materiil yang sangat besar dan membuat keluarga kehilangan tempat tinggal satu-satunya.
                         </p>
                         <p class="mb-4 leading-relaxed">
                             Saat ini, Ibu Puji Astutik beserta keluarganya sedang berusaha keras untuk bangkit. Kehilangan tempat tinggal bukanlah hal yang mudah, namun dengan dukungan dari sesama, mereka dapat memulai kembali kehidupan mereka.
@@ -221,33 +458,38 @@
             </div>
         </section>
 
-        <!-- Galeri Gambar & Video -->
+        <!-- Galeri Gambar & Video dengan Fitur Like, Comment, Share -->
         <section id="galeri" class="py-20 bg-white scroll-mt-20">
             <div class="container mx-auto px-4 sm:px-6">
                 <div class="text-center mb-12">
                     <span class="text-red-600 font-semibold text-sm uppercase tracking-wider">Dokumentasi</span>
-                    <h3 class="font-display text-3xl md:text-4xl font-bold text-slate-800 mt-2">Dokumentasi Kejadian</h3>
+                    <h3 class="font-display text-3xl md:text-4xl font-bold text-slate-800 mt-2">Dokumentasi Kepedulian</h3>
                     <div class="w-20 h-1 bg-red-600 mx-auto mt-6 rounded-full"></div>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto" id="gallery-container">
-                    <div class="gallery-item group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl cursor-pointer h-72 transition-all duration-300" onclick="openLightbox('https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0', 'image')">
-                        <img src="https://z-cdn-media.chatglm.cn/files/70b371ac-ac0f-4139-a15b-713eb46cce9f.png?auth_key=1890093328-189511b34c76498cb9dc8a60e5b57424-0-7013afed44db5c90bca57456b214d3c0" alt="Dokumentasi 1" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                        <div class="absolute bottom-0 left-0 p-6 text-white">
-                            <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Kondisi Lokasi</span>
-                            <p class="text-sm font-medium opacity-90">Kondisi jalanan sekitar lokasi kebakaran dengan kerumunan warga dan petugas pemadam kebakaran.</p>
-                        </div>
-                    </div>
+                    <!-- Konten akan diisi oleh JavaScript (loadGalleryImages) -->
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
         <footer class="bg-slate-900 text-slate-400 py-12 text-center">
-            <div class="container mx-auto px-6">
-                <img src="https://z-cdn-media.chatglm.cn/files/a06f6e90-2f15-4636-876d-95e3e50d63b7.png?auth_key=1890123444-8a8c017f1505414eb78dea4c1dd5b731-0-d88884f95903bcbca3d49048f176b02e" alt="OKU Timur" class="w-16 h-16 object-contain mx-auto mb-4 opacity-80">
-                <p class="text-sm">&copy; 2024 Peduli Bencana Ibu Puji Astutik. Dibangun dengan penuh kepedulian.</p>
+            <div class="container mx-auto px-6 flex flex-col items-center">
+                <!-- Logo diubah di sini -->
+                <img src="https://z-cdn-media.chatglm.cn/files/d86a17b2-21cc-4fcd-9b3a-a23a1da3d074.png?auth_key=1890292131-422ee8131f1f4cb5baf786505636f646-0-7248e27e1b8856fe7032704e5c657aba" alt="Peduli Donasi" class="w-20 h-20 object-contain mx-auto mb-4 opacity-80">
+                <p class="text-sm">&copy; 2026 Peduli Bencana. Dibangun dengan penuh kepedulian.</p>
+                
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-slate-500">
+                    <div class="flex items-center space-x-2 bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                        <i class="fas fa-eye text-blue-400"></i>
+                        <span class="text-xs sm:text-sm">Total Pengunjung: <strong id="visitor-count" class="text-white font-bold">0</strong> Orang</span>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-slate-800 px-4 py-2 rounded-full border border-slate-700">
+                        <i class="fas fa-chart-line text-green-400"></i>
+                        <span class="text-xs sm:text-sm">Pengunjung Hari Ini: <strong id="visitor-today" class="text-white font-bold">0</strong> Orang</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
@@ -339,6 +581,10 @@
                 <button onclick="switchTab('settings')" id="btn-settings" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
                     <i class="fas fa-sliders w-5"></i><span>Pengaturan Donasi</span>
                 </button>
+                <!-- Tombol Menu Log History Baru -->
+                <button onclick="switchTab('history')" id="btn-history" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg font-medium text-sm text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fas fa-clock-rotate-left w-5"></i><span>Riwayat Log</span>
+                </button>
             </nav>
 
             <div class="p-4 border-t border-slate-700/50">
@@ -351,7 +597,7 @@
             </div>
         </aside>
 
-        <main class="flex-1 md:ml-64 min-h-screen">
+        <main class="flex-1 md:ml-64 min-h-screen pb-20 md:pb-0">
             <header class="glass-nav shadow-sm p-4 flex justify-between items-center md:hidden sticky top-0 z-40">
                 <div class="flex items-center space-x-3">
                     <button onclick="navigateTo('public', 'beranda', true)" class="text-slate-600 hover:text-red-600"><i class="fas fa-arrow-left text-lg"></i></button>
@@ -455,7 +701,7 @@
                 <!-- TAB SETTINGS -->
                 <div id="tab-settings" class="page-hidden fade-in">
                     <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-800 mb-2">Pengaturan Donasi</h2>
-                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Perbarui informasi rekening dan dana yang terkumpul.</p>
+                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Perbarui informasi rekening, dana yang terkumpul, dan media konten.</p>
 
                     <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-sm border border-white max-w-3xl">
                         <form id="settingsForm" onsubmit="saveSettings(event)">
@@ -471,7 +717,7 @@
                                 </div>
                             </div>
                             
-                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening (Bank BRI)</h4>
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Informasi Rekening (Bank)</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Nomor Rekening</label>
@@ -480,6 +726,69 @@
                                 <div>
                                     <label class="block text-slate-700 text-sm font-semibold mb-2">Atas Nama</label>
                                     <input type="text" id="set-atasnama" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="Panitia">
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Koordinat Peta (Google Maps)</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Latitude (Garis Lintang)</label>
+                                    <input type="text" id="set-lat" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="-4.123456">
+                                </div>
+                                <div>
+                                    <label class="block text-slate-700 text-sm font-semibold mb-2">Longitude (Garis Bujur)</label>
+                                    <input type="text" id="set-lng" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="104.123456">
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Foto Ketua Panitia</h4>
+                            <div class="mb-8">
+                                <p class="text-sm text-slate-500 mb-2">Unggah foto ketua panitia yang akan tampil di halaman depan.</p>
+                                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                                    <img id="preview-panitia-photo" src="https://z-cdn-media.chatglm.cn/files/171767bf-ed1c-4537-a517-1635cbe43b8b.png?auth_key=1890124470-33d00a499ca147deadec9afe0f2bf7e7-0-4ba0794b53ab5d7a2575c842f1d54d91" class="w-24 h-32 object-cover object-top rounded-lg border border-slate-200 bg-white p-1">
+                                    <div class="flex-1 w-full">
+                                        <input type="file" id="file-panitia-photo" accept="image/*" class="hidden" onchange="previewSettingMedia('file-panitia-photo', 'preview-panitia-photo')">
+                                        <button type="button" onclick="document.getElementById('file-panitia-photo').click()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg font-medium text-sm transition">
+                                            <i class="fas fa-image"></i> Pilih Foto
+                                        </button>
+                                        <button type="button" onclick="uploadSettingMedia('file-panitia-photo', 'panitiaPhotoUrl')" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium text-sm transition mt-2 sm:mt-0 sm:ml-2">
+                                            <i class="fas fa-upload"></i> Upload Foto
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Logo Bank</h4>
+                            <div class="mb-8">
+                                <p class="text-sm text-slate-500 mb-2">Unggah logo bank (BRI/Mandiri/BNI/dll) yang akan tampil di halaman depan.</p>
+                                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                                    <img id="preview-bank-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/BRI_2020.svg/1200px-BRI_2020.svg.png" class="w-24 h-24 object-contain rounded-lg border border-slate-200 bg-white p-2">
+                                    <div class="flex-1 w-full">
+                                        <input type="file" id="file-bank-logo" accept="image/*" class="hidden" onchange="previewSettingMedia('file-bank-logo', 'preview-bank-logo')">
+                                        <button type="button" onclick="document.getElementById('file-bank-logo').click()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg font-medium text-sm transition">
+                                            <i class="fas fa-image"></i> Pilih Foto
+                                        </button>
+                                        <button type="button" onclick="uploadSettingMedia('file-bank-logo', 'bankLogoUrl')" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium text-sm transition mt-2 sm:mt-0 sm:ml-2">
+                                            <i class="fas fa-upload"></i> Upload Logo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 class="font-bold text-slate-800 mb-4 text-sm border-b pb-4">Mari Kita Bangkit(Homepage)</h4>
+                            <div class="mb-8">
+                                <p class="text-sm text-slate-500 mb-2">Unggah video ajakan yang akan tampil di halaman utama website.</p>
+                                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                                    <video id="preview-invite-video" class="w-32 h-20 object-contain rounded-lg border border-slate-200 bg-white p-2" controls></video>
+                                    <div class="flex-1 w-full">
+                                        <input type="file" id="file-invite-video" accept="video/*" class="hidden" onchange="previewSettingMedia('file-invite-video', 'preview-invite-video')">
+                                        <button type="button" onclick="document.getElementById('file-invite-video').click()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg font-medium text-sm transition">
+                                            <i class="fas fa-film"></i> Pilih Video
+                                        </button>
+                                        <button type="button" onclick="uploadSettingMedia('file-invite-video', 'invitationVideoUrl')" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium text-sm transition mt-2 sm:mt-0 sm:ml-2">
+                                            <i class="fas fa-upload"></i> Upload Video
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
@@ -498,14 +807,67 @@
                                 </div>
                                 <button type="submit" class="btn-shine w-full sm:w-auto bg-red-600 text-white py-3 px-8 rounded-xl font-bold hover:bg-red-700 transition shadow-sm flex items-center justify-center space-x-2">
                                     <i class="fas fa-save"></i>
-                                    <span>Simpan Perubahan</span>
+                                    <span>Simpan Perubahan Teks</span>
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
+
+                <!-- TAB HISTORY (LOG ACTIVITY) - BARU -->
+                <div id="tab-history" class="page-hidden fade-in">
+                    <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-800 mb-2">Riwayat Aktivitas (Log)</h2>
+                    <p class="text-slate-500 mb-8 text-sm sm:text-base">Catatan aktivitas admin di dalam dashboard.</p>
+
+                    <div class="glass-card p-6 sm:p-8 rounded-2xl shadow-sm border border-white">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-bold text-slate-800">Log Sistem</h3>
+                            <button onclick="renderLogs()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 px-4 rounded-lg text-sm font-semibold transition flex items-center space-x-2">
+                                <i class="fas fa-rotate text-xs"></i><span>Refresh</span>
+                            </button>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-200 bg-slate-50">
+                                        <th class="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">Waktu</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">Aksi</th>
+                                        <th class="px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="log-list">
+                                    <tr>
+                                        <td colspan="3" class="text-center py-8 text-slate-400">Memuat data log...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
+
+        <!-- Bottom Navigation Mobile (Diperbarui) -->
+        <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-900 text-white flex justify-around items-center h-16 shadow-[0_-4px_15px_-3px_rgba(0,0,0,0.3)]">
+            <button onclick="switchTab('overview')" id="mobile-btn-overview" class="flex flex-col items-center justify-center space-y-1 text-red-500 w-1/4 h-full transition">
+                <i class="fas fa-gauge-high text-base"></i>
+                <span class="text-[9px] font-medium">Dashboard</span>
+            </button>
+            <button onclick="switchTab('gallery')" id="mobile-btn-gallery" class="flex flex-col items-center justify-center space-y-1 text-slate-400 w-1/4 h-full transition">
+                <i class="fas fa-images text-base"></i>
+                <span class="text-[9px] font-medium">Galeri</span>
+            </button>
+            <button onclick="switchTab('settings')" id="mobile-btn-settings" class="flex flex-col items-center justify-center space-y-1 text-slate-400 w-1/4 h-full transition">
+                <i class="fas fa-sliders text-base"></i>
+                <span class="text-[9px] font-medium">Setting</span>
+            </button>
+            <button onclick="switchTab('history')" id="mobile-btn-history" class="flex flex-col items-center justify-center space-y-1 text-slate-400 w-1/4 h-full transition">
+                <i class="fas fa-clock-rotate-left text-base"></i>
+                <span class="text-[9px] font-medium">Log</span>
+            </button>
+        </nav>
     </div>
 
     <script>
@@ -513,6 +875,29 @@
         const SUPABASE_URL = 'https://hsotshzvgtofljdtinbn.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhzb3RzaHp2Z3RvZmxqZHRpbmJuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTIwNDQsImV4cCI6MjEwNTY2ODA0NH0.za5w8x3neBhL-rFEb5zUm81w7O1v95qfWy048kW4SzQ'; 
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Variabel global untuk menyimpan koordinat peta
+        let currentMapLat = -4.123456; // Default Latitude
+        let currentMapLng = 104.123456; // Default Longitude
+        let currentShareUrl = window.location.href; // URL untuk dibagikan
+        
+        // Variabel untuk Lightbox
+        let currentLightboxUrl = '';
+        let currentLightboxType = 'image';
+        
+        // Variabel untuk Edit Media
+        let currentEditMediaId = null;
+        let currentEditMediaType = '';
+        let currentEditMediaUrl = '';
+
+        // ===== FUNGSI PENCATATAN LOG (BARU) =====
+        async function addLog(action, details = '') {
+            try {
+                await sb.from('logs').insert([{ action: action, details: details }]);
+            } catch (error) {
+                console.error('Gagal mencatat log:', error.message);
+            }
+        }
 
         // ===== SYSTEM NAVIGASI & HISTORY BACK (ANDROID) =====
         function navigateTo(page, sectionId = null, pushHistory = false) {
@@ -552,7 +937,6 @@
             }
         }
 
-        // Tangkap tombol back HP
         window.addEventListener('popstate', (event) => {
             if (event.state && event.state.page) {
                 navigateTo(event.state.page, event.state.sectionId, false);
@@ -566,12 +950,17 @@
         }
 
         function switchTab(tabName) {
-            ['overview', 'gallery', 'settings'].forEach(t => {
+            ['overview', 'gallery', 'settings', 'history'].forEach(t => {
                 document.getElementById('tab-' + t).classList.add('page-hidden');
                 const btn = document.getElementById('btn-' + t);
                 if(btn) {
                     btn.classList.remove('bg-slate-800', 'text-white');
                     btn.classList.add('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
+                }
+                const mBtn = document.getElementById('mobile-btn-' + t);
+                if(mBtn) {
+                    mBtn.classList.remove('text-red-500');
+                    mBtn.classList.add('text-slate-400');
                 }
             });
 
@@ -582,10 +971,16 @@
                 activeBtn.classList.add('bg-slate-800', 'text-white');
                 activeBtn.classList.remove('text-slate-400', 'hover:bg-slate-800', 'hover:text-white');
             }
+            const activeMBtn = document.getElementById('mobile-btn-' + tabName);
+            if(activeMBtn) {
+                activeMBtn.classList.add('text-red-500');
+                activeMBtn.classList.remove('text-slate-400');
+            }
 
             if (tabName === 'overview') updateOverview();
             if (tabName === 'gallery') renderAdminImageList();
             if (tabName === 'settings') loadSettings();
+            if (tabName === 'history') renderLogs();
         }
 
         // ===== AUTENTIKASI =====
@@ -597,7 +992,7 @@
             }
         }
 
-        function handleLogin() {
+        async function handleLogin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const errorBox = document.getElementById('login-error');
@@ -605,6 +1000,7 @@
             if (username === 'admin' && password === 'peduli123') {
                 localStorage.setItem('isAdminLoggedIn', 'true');
                 errorBox.classList.add('page-hidden');
+                await addLog('Login Admin', 'Admin berhasil masuk ke dashboard');
                 navigateTo('dashboard', null, true);
             } else {
                 errorBox.classList.remove('page-hidden');
@@ -613,33 +1009,291 @@
         }
 
         function handleLogout() {
+            addLog('Logout Admin', 'Admin keluar dari dashboard');
             localStorage.removeItem('isAdminLoggedIn');
             history.pushState({ page: 'public', sectionId: 'beranda' }, "", "#public");
             navigateTo('public', 'beranda', false);
         }
 
-        // ===== LIGHTBOX =====
-        function openLightbox(src, type) {
-            if (type === 'image') {
-                const lb = document.getElementById('lightbox');
-                const lbImg = document.getElementById('lightbox-img');
+        // ===== LIGHTBOX & MAP MODAL =====
+        function openLightbox(src, type, desc, badge) {
+            const lb = document.getElementById('lightbox');
+            const lbImg = document.getElementById('lightbox-img');
+            const lbVideo = document.getElementById('lightbox-video');
+            const lbCaption = document.getElementById('lightbox-caption');
+            const lbBadge = document.getElementById('lb-badge');
+            const lbText = document.getElementById('lb-text');
+
+            currentLightboxUrl = src;
+            currentLightboxType = type;
+
+            if (type === 'video') {
+                lbVideo.src = src;
+                lbVideo.classList.remove('page-hidden');
+                lbImg.classList.add('page-hidden');
+                lbImg.src = '';
+                lbBadge.innerText = badge || 'Video Dokumentasi';
+            } else {
                 lbImg.src = src;
-                lb.classList.remove('page-hidden');
-                lb.classList.add('flex');
+                lbImg.classList.remove('page-hidden');
+                lbVideo.classList.add('page-hidden');
+                lbVideo.pause();
+                lbVideo.src = '';
+                lbBadge.innerText = badge || 'Foto Dokumentasi';
             }
+
+            if (desc && desc.trim() !== '') {
+                lbText.innerText = desc;
+                lbCaption.classList.remove('page-hidden');
+            } else {
+                lbCaption.classList.add('page-hidden');
+            }
+
+            lb.classList.remove('page-hidden');
+            lb.classList.add('flex');
         }
+
         function closeLightbox() {
             const lb = document.getElementById('lightbox');
+            const lbVideo = document.getElementById('lightbox-video');
+            lbVideo.pause();
             lb.classList.add('page-hidden');
             lb.classList.remove('flex');
         }
 
-        // ===== COPY REKENING (Android Friendly) =====
+        function shareCurrentLightbox() {
+            handleNativeShare(currentLightboxUrl, currentLightboxType);
+        }
+
+        function openMapModal() {
+            const modal = document.getElementById('map-modal');
+            const container = document.getElementById('map-container');
+            const btnDir = document.getElementById('btn-direction');
+            
+            const mapEmbedUrl = `https://maps.google.com/maps?q=${currentMapLat},${currentMapLng}&z=16&output=embed`;
+            const mapDirUrl = `https://www.google.com/maps/dir/?api=1&destination=${currentMapLat},${currentMapLng}`;
+            
+            container.innerHTML = `<iframe src="${mapEmbedUrl}" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`;
+            btnDir.href = mapDirUrl;
+            
+            modal.classList.remove('page-hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('map-modal');
+            modal.classList.add('page-hidden');
+            modal.classList.remove('flex');
+            document.getElementById('map-container').innerHTML = '';
+        }
+
+        // ===== FUNGSI BAGIKAN =====
+        function openShareModal(url) {
+            currentShareUrl = url || window.location.href;
+            const shareText = "Yuk bantu bangun kembali rumah Ibu Puji Astutik yang terbakar di OKU Timur. Setiap bantuan Anda sangat berarti!";
+            const encodedUrl = encodeURIComponent(currentShareUrl);
+            const encodedText = encodeURIComponent(shareText);
+
+            document.getElementById('share-wa').href = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            document.getElementById('share-fb').href = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+            document.getElementById('share-ig').href = `https://www.instagram.com/`;
+            document.getElementById('share-ig').onclick = function(e) {
+                e.preventDefault();
+                fallbackCopyTextToClipboard(shareText + ' ' + currentShareUrl);
+                alert('Teks & link telah disalin! Silakan tempel di Instagram.');
+                window.open('https://www.instagram.com/', '_blank');
+            };
+            document.getElementById('share-tiktok').href = `https://www.tiktok.com/`;
+            document.getElementById('share-tiktok').onclick = function(e) {
+                e.preventDefault();
+                fallbackCopyTextToClipboard(shareText + ' ' + currentShareUrl);
+                alert('Teks & link telah disalin! Silakan tempel di TikTok.');
+                window.open('https://www.tiktok.com/', '_blank');
+            };
+
+            const modal = document.getElementById('share-modal');
+            modal.classList.remove('page-hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeShareModal() {
+            const modal = document.getElementById('share-modal');
+            modal.classList.add('page-hidden');
+            modal.classList.remove('flex');
+        }
+
+        function copyShareLink() {
+            fallbackCopyTextToClipboard(currentShareUrl);
+            alert('Link berhasil disalin!');
+        }
+
+        async function handleNativeShare(url, type) {
+            const shareText = "Yuk bantu bangun kembali rumah Ibu Puji Astutik yang terbakar di OKU Timur. Setiap bantuan Anda sangat berarti!";
+            const isVideo = type === 'video';
+            const fileExt = isVideo ? 'mp4' : 'jpg';
+            const fileName = `peduli-bencana.${fileExt}`;
+
+            if (navigator.share) {
+                try {
+                    const response = await fetch(url, { mode: 'cors' });
+                    if (!response.ok) throw new Error('Gagal mengunduh file');
+                    
+                    const blob = await response.blob();
+                    const file = new File([blob], fileName, { type: blob.type });
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: 'Peduli Bencana',
+                            text: shareText,
+                            files: [file]
+                        });
+                        return;
+                    } else {
+                        await navigator.share({
+                            title: 'Peduli Bencana',
+                            text: shareText,
+                            url: window.location.href
+                        });
+                        return;
+                    }
+                } catch (err) {
+                    console.error("Gagal share native:", err);
+                }
+            }
+            openShareModal(window.location.href);
+        }
+
+        // ===== FUNGSI LIKE & KOMENTAR =====
+        async function handleLike(docId, btnElement) {
+            const likesKey = `liked_${docId}`;
+            const idKey = `like_id_${docId}`;
+            const isLiked = localStorage.getItem(likesKey) === 'true';
+            
+            if (isLiked) {
+                const existingId = localStorage.getItem(idKey);
+                if (existingId) {
+                    await sb.from('dokumentasi_interactions').delete().match({ id: existingId });
+                    localStorage.removeItem(idKey);
+                }
+                localStorage.setItem(likesKey, 'false');
+                btnElement.classList.remove('liked-heart');
+            } else {
+                const { data, error } = await sb.from('dokumentasi_interactions').insert([
+                    { doc_id: docId, type: 'like', content: 'like' }
+                ]).select();
+                
+                if (!error && data && data.length > 0) {
+                    localStorage.setItem(idKey, data[0].id);
+                }
+                
+                localStorage.setItem(likesKey, 'true');
+                btnElement.classList.add('liked-heart', 'animate-like-pop');
+                setTimeout(() => btnElement.classList.remove('animate-like-pop'), 400);
+            }
+            
+            updateLikeCount(docId);
+        }
+
+        async function updateLikeCount(docId) {
+            const { count } = await sb.from('dokumentasi_interactions')
+                .select('*', { count: 'exact', head: true })
+                .eq('doc_id', docId)
+                .eq('type', 'like');
+                
+            const countElement = document.getElementById(`like-count-${docId}`);
+            if (countElement) countElement.innerText = count || 0;
+        }
+
+        function toggleCommentSection(docId) {
+            const section = document.getElementById(`comment-section-${docId}`);
+            if (section.style.display === 'block') {
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'block';
+                loadComments(docId);
+            }
+        }
+
+        async function loadComments(docId) {
+            const listEl = document.getElementById(`comment-list-${docId}`);
+            listEl.innerHTML = '<p class="text-sm text-slate-400 text-center py-4">Memuat komentar...</p>';
+            
+            const { data, error } = await sb.from('dokumentasi_interactions')
+                .select('*')
+                .eq('doc_id', docId)
+                .eq('type', 'comment')
+                .order('created_at', { ascending: false });
+                
+            if (error) {
+                listEl.innerHTML = '<p class="text-sm text-red-500 text-center py-4">Gagal memuat komentar.</p>';
+                return;
+            }
+            
+            if (data.length === 0) {
+                listEl.innerHTML = '<p class="text-sm text-slate-400 text-center py-4">Belum ada komentar. Jadilah yang pertama!</p>';
+                return;
+            }
+            
+            listEl.innerHTML = '';
+            data.forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'bg-white p-3 rounded-lg border border-slate-100';
+                const userName = c.user_name || 'Anonim';
+                const initial = userName.charAt(0).toUpperCase();
+                const colors = ['bg-red-100 text-red-600', 'bg-blue-100 text-blue-600', 'bg-green-100 text-green-600', 'bg-amber-100 text-amber-600', 'bg-purple-100 text-purple-600', 'bg-pink-100 text-pink-600'];
+                const colorIndex = userName.charCodeAt(0) % colors.length;
+                const avatarColor = colors[colorIndex];
+                
+                div.innerHTML = `
+                    <div class="flex items-center space-x-2 mb-1">
+                        <div class="w-7 h-7 ${avatarColor} rounded-full flex items-center justify-center text-xs font-bold">
+                            ${initial}
+                        </div>
+                        <span class="text-xs font-semibold text-slate-700">${userName}</span>
+                    </div>
+                    <p class="text-sm text-slate-600 pl-9">${c.content}</p>
+                `;
+                listEl.appendChild(div);
+            });
+        }
+
+        async function submitComment(docId) {
+            const inputEl = document.getElementById(`comment-input-${docId}`);
+            const nameEl = document.getElementById(`comment-name-${docId}`);
+            const text = inputEl.value.trim();
+            const name = nameEl.value.trim();
+            
+            if (!name) {
+                alert('Silakan isi nama Anda terlebih dahulu!');
+                nameEl.focus();
+                return;
+            }
+            
+            if (!text) {
+                alert('Komentar tidak boleh kosong!');
+                return;
+            }
+            
+            localStorage.setItem('commenter_name', name);
+            
+            const { error } = await sb.from('dokumentasi_interactions').insert([
+                { doc_id: docId, type: 'comment', content: text, user_name: name }
+            ]);
+            
+            if (error) {
+                alert('Gagal mengirim komentar: ' + error.message);
+            } else {
+                inputEl.value = '';
+                loadComments(docId);
+            }
+        }
+
+        // ===== COPY REKENING =====
         function copyRekening() {
             const rekening = document.getElementById('display-rekening').innerText;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(rekening).then(() => {
-                    alert('Nomor rekening BRI berhasil disalin: ' + rekening);
+                    alert('Nomor rekening berhasil disalin: ' + rekening);
                 }).catch(err => {
                     fallbackCopyTextToClipboard(rekening);
                 });
@@ -659,14 +1313,14 @@
             textArea.select();
             try {
                 const successful = document.execCommand('copy');
-                alert(successful ? 'Nomor rekening berhasil disalin: ' + text : 'Gagal menyalin, silakan salin manual: ' + text);
+                alert(successful ? 'Berhasil disalin: ' + text : 'Gagal menyalin, silakan salin manual: ' + text);
             } catch (err) {
                 alert('Silakan salin manual: ' + text);
             }
             document.body.removeChild(textArea);
         }
 
-        // ===== PREVIEW & UPLOAD MEDIA =====
+        // ===== PREVIEW & UPLOAD MEDIA GALERI =====
         function previewMedia(input) {
             const file = input.files[0];
             const fileName = document.getElementById('file-name');
@@ -741,17 +1395,18 @@
                 
                 await renderAdminImageList();
                 await loadGalleryImages();
+                
+                // Pencatatan Log
+                await addLog('Upload Media', `Mengunggah ${type} baru dengan deskripsi: "${desc}"`);
 
             } catch (error) {
                 alert('Gagal upload: ' + error.message);
-                console.error('Upload Error:', error);
             } finally {
                 btnUpload.innerHTML = '<i class="fas fa-upload"></i> Upload Media';
                 btnUpload.disabled = false;
             }
         }
 
-        // ===== LOAD GALERI DARI DATABASE =====
         async function loadGalleryImages() {
             const galleryContainer = document.getElementById('gallery-container');
             if(!galleryContainer) return;
@@ -759,44 +1414,101 @@
             const { data, error } = await sb.from('gallery').select('*').order('created_at', { ascending: false });
             if (error) return console.error(error);
             
-            const oldAdminMedia = galleryContainer.querySelectorAll('.admin-media');
-            oldAdminMedia.forEach(el => el.remove());
+            galleryContainer.innerHTML = '';
 
-            data.forEach(item => {
+            for (const item of data) {
                 const div = document.createElement('div');
-                div.className = 'admin-media gallery-item group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl cursor-pointer h-72 transition-all duration-300';
+                div.className = 'admin-media gallery-item gallery-card group relative rounded-2xl overflow-hidden shadow-md hover:shadow-2xl bg-white border border-slate-100 flex flex-col';
                 
-                if (item.type === 'image') {
-                    div.innerHTML = `
-                        <div class="relative overflow-hidden h-64 cursor-pointer" onclick="openLightbox('${item.url}', 'image')">
-                            <img src="${item.url}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
-                            <div class="absolute bottom-0 left-0 p-6 text-white">
-                                <span class="text-xs font-semibold bg-red-600 px-3 py-1 rounded-md mb-2 inline-block">Foto Dokumentasi</span>
-                                <p class="text-sm font-medium opacity-90 line-clamp-2">${item.desc}</p>
-                            </div>
+                const { count: likeCount } = await sb.from('dokumentasi_interactions')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('doc_id', item.id)
+                    .eq('type', 'like');
+                    
+                const isLiked = localStorage.getItem(`liked_${item.id}`) === 'true';
+                
+                const safeDesc = (item.desc || '').replace(/"/g, '&quot;').replace(/'/g, "&#39;");
+                const safeUrl = item.url;
+                const itemType = item.type;
+                
+                let mediaHTML = '';
+                if (itemType === 'image') {
+                    mediaHTML = `
+                        <div class="relative overflow-hidden h-64 cursor-pointer gallery-clickable" data-src="${safeUrl}" data-type="image" data-desc="${safeDesc}" data-badge="Foto Dokumentasi">
+                            <img src="${safeUrl}" alt="Dokumentasi" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
                         </div>
                     `;
-                } else if (item.type === 'video') {
-                    div.innerHTML = `
-                        <div class="relative bg-slate-900 h-64">
-                            <video src="${item.url}" class="w-full h-full object-cover" controls preload="metadata"></video>
+                } else if (itemType === 'video') {
+                    mediaHTML = `
+                        <div class="relative bg-slate-900 h-64 cursor-pointer gallery-clickable" data-src="${safeUrl}" data-type="video" data-desc="${safeDesc}" data-badge="Video Dokumentasi">
+                            <video src="${safeUrl}" class="w-full h-full object-cover" preload="metadata" muted></video>
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div class="w-16 h-16 bg-white/80 rounded-full flex items-center justify-center shadow-lg">
+                                    <i class="fas fa-play text-red-600 text-2xl pl-1"></i>
+                                </div>
+                            </div>
                             <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-md shadow-md flex items-center space-x-1 pointer-events-none">
                                 <i class="fas fa-video text-[10px]"></i>
                                 <span>VIDEO</span>
                             </div>
                         </div>
-                        <div class="p-5 bg-white">
-                            <span class="text-xs font-semibold bg-red-50 text-red-600 px-3 py-1 rounded-md mb-2 inline-block">Video Dokumentasi</span>
-                            <p class="text-sm font-medium text-slate-600 mt-2 line-clamp-2">${item.desc}</p>
-                        </div>
                     `;
                 }
+                
+                div.innerHTML = `
+                    ${mediaHTML}
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold bg-red-50 text-red-600 px-3 py-1 rounded-md mb-3 inline-block">
+                                ${itemType === 'image' ? 'Foto Dokumentasi' : 'Video Dokumentasi'}
+                            </span>
+                            <p class="text-sm font-medium text-slate-600 line-clamp-3 mb-4">${item.desc || ''}</p>
+                        </div>
+                        
+                        <div class="border-t border-slate-100 pt-3 mt-2 flex items-center justify-between text-slate-500">
+                            <button onclick="handleLike(${item.id}, this.querySelector('i'))" class="flex items-center space-x-1.5 hover:text-red-600 transition">
+                                <i class="fas fa-heart text-lg ${isLiked ? 'liked-heart' : ''}"></i>
+                                <span class="text-xs font-medium"><span id="like-count-${item.id}">${likeCount || 0}</span> Like</span>
+                            </button>
+                            <button onclick="toggleCommentSection(${item.id})" class="flex items-center space-x-1.5 hover:text-slate-800 transition">
+                                <i class="fas fa-comment-dots text-lg"></i>
+                                <span class="text-xs font-medium">Komentar</span>
+                            </button>
+                            <button onclick="handleNativeShare('${safeUrl}', '${itemType}')" class="flex items-center space-x-1.5 hover:text-blue-600 transition">
+                                <i class="fas fa-share-nodes text-lg"></i>
+                                <span class="text-xs font-medium">Bagikan</span>
+                            </button>
+                        </div>
+                        
+                        <div id="comment-section-${item.id}" class="comment-section mt-4 bg-slate-50 p-3 rounded-lg">
+                            <div id="comment-list-${item.id}" class="space-y-2 max-h-40 overflow-y-auto mb-3"></div>
+                            <div class="space-y-2">
+                                <input type="text" id="comment-name-${item.id}" placeholder="Nama Anda..." class="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-400" value="${localStorage.getItem('commenter_name') || ''}">
+                                <div class="flex space-x-2">
+                                    <input type="text" id="comment-input-${item.id}" placeholder="Tulis komentar..." class="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-red-400">
+                                    <button onclick="submitComment(${item.id})" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 galleryContainer.appendChild(div);
+            }
+
+            const clickables = galleryContainer.querySelectorAll('.gallery-clickable');
+            clickables.forEach(el => {
+                el.addEventListener('click', function() {
+                    const src = this.getAttribute('data-src');
+                    const type = this.getAttribute('data-type');
+                    const desc = this.getAttribute('data-desc');
+                    const badge = this.getAttribute('data-badge');
+                    openLightbox(src, type, desc, badge);
+                });
             });
         }
 
-        // ===== RENDER ADMIN LIST =====
         async function renderAdminImageList() {
             const imageList = document.getElementById('imageList');
             const noImagesBox = document.getElementById('no-images');
@@ -818,7 +1530,7 @@
 
             data.forEach((item) => {
                 const div = document.createElement('div');
-                div.className = 'border border-slate-100 rounded-2xl overflow-hidden shadow-sm group hover-lift bg-white';
+                div.className = 'relative border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover-lift bg-white flex flex-col';
                 
                 let mediaHTML = '';
                 if (item.type === 'image') {
@@ -828,38 +1540,172 @@
                 }
 
                 div.innerHTML = `
-                    <div class="relative overflow-hidden h-48 bg-slate-100">
+                    <div class="relative overflow-hidden h-48 bg-slate-101">
                         ${mediaHTML}
                         ${item.type === 'video' ? '<div class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-md pointer-events-none">VIDEO</div>' : ''}
-                        <button onclick="deleteImage(${item.id})" class="absolute top-3 right-3 bg-red-600 text-white w-9 h-9 rounded-lg opacity-0 group-hover:opacity-100 transition hover:bg-red-700 shadow-md flex items-center justify-center">
-                            <i class="fas fa-trash text-sm"></i>
-                        </button>
+                        
+                        <div class="absolute top-3 right-3 flex space-x-2 z-10">
+                            <button class="edit-btn bg-blue-600 text-white w-9 h-9 rounded-lg hover:bg-blue-700 shadow-md flex items-center justify-center" title="Edit Media">
+                                <i class="fas fa-pen-to-square text-sm"></i>
+                            </button>
+                            <button onclick="deleteImage(${item.id})" class="bg-red-600 text-white w-9 h-9 rounded-lg hover:bg-red-700 shadow-md flex items-center justify-center" title="Hapus Media">
+                                <i class="fas fa-trash text-sm"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="p-4 flex justify-between items-center bg-white">
+                    <div class="p-4 flex justify-between items-center bg-white flex-1">
                         <span class="text-sm font-medium text-slate-700 truncate w-3/4">${item.desc}</span>
                         <span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-1 rounded-md flex-shrink-0">Aktif</span>
                     </div>
                 `;
+
+                const editBtn = div.querySelector('.edit-btn');
+                if (editBtn) {
+                    editBtn.addEventListener('click', function() {
+                        openEditModal(item.id, item.type, item.url, item.desc || '');
+                    });
+                }
+
                 imageList.appendChild(div);
             });
         }
 
-        // ===== HAPUS GAMBAR =====
         async function deleteImage(id) {
             if(confirm('Apakah Anda yakin ingin menghapus media ini?')) {
                 try {
                     const { error: dbError } = await sb.from('gallery').delete().match({ id: id });
                     if (dbError) throw dbError;
+                    
+                    await sb.from('dokumentasi_interactions').delete().match({ doc_id: id });
 
                     await renderAdminImageList();
                     await loadGalleryImages();
+                    
+                    // Pencatatan Log
+                    await addLog('Hapus Media', `Menghapus media dengan ID: ${id}`);
+
                 } catch (error) {
                     alert('Gagal menghapus: ' + error.message);
                 }
             }
         }
 
-        // ===== PENGATURAN DONASI =====
+        // ===== FUNGSI EDIT MEDIA =====
+        function openEditModal(id, type, url, desc) {
+            currentEditMediaId = id;
+            currentEditMediaType = type;
+            currentEditMediaUrl = url;
+
+            const modal = document.getElementById('edit-modal');
+            const imgPrev = document.getElementById('edit-preview-image');
+            const vidPrev = document.getElementById('edit-preview-video');
+            const placeholder = document.getElementById('edit-preview-placeholder');
+            const descInput = document.getElementById('edit-media-desc');
+            const fileName = document.getElementById('edit-file-name');
+
+            document.getElementById('editMediaInput').value = '';
+            fileName.innerText = 'JPG, PNG, MP4, MKV';
+
+            if (type === 'image') {
+                imgPrev.src = url;
+                imgPrev.classList.remove('page-hidden');
+                vidPrev.classList.add('page-hidden');
+                placeholder.classList.add('page-hidden');
+            } else if (type === 'video') {
+                vidPrev.src = url;
+                vidPrev.classList.remove('page-hidden');
+                imgPrev.classList.add('page-hidden');
+                placeholder.classList.add('page-hidden');
+            }
+
+            descInput.value = desc;
+
+            modal.classList.remove('page-hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('edit-modal');
+            modal.classList.add('page-hidden');
+            modal.classList.remove('flex');
+            
+            const vidPrev = document.getElementById('edit-preview-video');
+            vidPrev.pause();
+            vidPrev.src = '';
+        }
+
+        function previewEditMedia(input) {
+            const file = input.files[0];
+            const fileName = document.getElementById('edit-file-name');
+            const imgPrev = document.getElementById('edit-preview-image');
+            const vidPrev = document.getElementById('edit-preview-video');
+            const placeholder = document.getElementById('edit-preview-placeholder');
+
+            if (file) {
+                fileName.innerText = file.name;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    if (file.type.startsWith('image/')) {
+                        imgPrev.src = event.target.result;
+                        imgPrev.classList.remove('page-hidden');
+                        vidPrev.classList.add('page-hidden');
+                        placeholder.classList.add('page-hidden');
+                    } else if (file.type.startsWith('video/')) {
+                        vidPrev.src = event.target.result;
+                        vidPrev.classList.remove('page-hidden');
+                        imgPrev.classList.add('page-hidden');
+                        placeholder.classList.add('page-hidden');
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function handleEditUpload() {
+            const newFile = document.getElementById('editMediaInput').files[0];
+            const newDesc = document.getElementById('edit-media-desc').value || 'Dokumentasi tambahan dari panitia.';
+            const btn = document.getElementById('btn-save-edit');
+            
+            if (!currentEditMediaId) return;
+
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            btn.disabled = true;
+
+            try {
+                let updateData = { desc: newDesc };
+
+                if (newFile) {
+                    const fileExt = newFile.name.split('.').pop();
+                    const newFileName = `media_${Date.now()}.${fileExt}`;
+                    
+                    const { error: storageError } = await sb.storage.from('galeri').upload(newFileName, newFile);
+                    if (storageError) throw storageError;
+
+                    const { data: publicUrlData } = sb.storage.from('galeri').getPublicUrl(newFileName);
+                    updateData.url = publicUrlData.publicUrl;
+                    updateData.type = newFile.type.startsWith('image/') ? 'image' : 'video';
+                }
+
+                const { error: dbError } = await sb.from('gallery').update(updateData).eq('id', currentEditMediaId);
+                if (dbError) throw dbError;
+
+                alert('Media berhasil diperbarui!');
+                closeEditModal();
+                await renderAdminImageList();
+                await loadGalleryImages();
+                
+                // Pencatatan Log
+                await addLog('Edit Media', `Memperbarui media ID: ${currentEditMediaId}`);
+
+            } catch (error) {
+                alert('Gagal menyimpan perubahan: ' + error.message);
+            } finally {
+                btn.innerHTML = '<i class="fas fa-save"></i> <span>Simpan Perubahan</span>';
+                btn.disabled = false;
+            }
+        }
+
+        // ===== PENGATURAN DONASI & KONTEN =====
         function formatRupiah(angka) {
             if(!angka) angka = 0;
             return 'Rp ' + parseInt(angka).toLocaleString('id-ID');
@@ -874,12 +1720,22 @@
             const setAtasnama = document.getElementById('set-atasnama');
             const setWa = document.getElementById('set-wa');
             const setKetua = document.getElementById('set-ketua');
+            const setLat = document.getElementById('set-lat');
+            const setLng = document.getElementById('set-lng');
+            const previewBankLogo = document.getElementById('preview-bank-logo');
+            const previewInviteVideo = document.getElementById('preview-invite-video');
+            const previewPanitiaPhoto = document.getElementById('preview-panitia-photo');
             
             if(setTerkumpul) setTerkumpul.value = data.terkumpul;
             if(setRekening) setRekening.value = data.rekening;
             if(setAtasnama) setAtasnama.value = data.atasNama;
             if(setWa) setWa.value = data.wa || '';
             if(setKetua) setKetua.value = data.ketuaPanitia || '';
+            if(setLat) setLat.value = data.mapLat || '';
+            if(setLng) setLng.value = data.mapLng || '';
+            if(previewBankLogo && data.bankLogoUrl) previewBankLogo.src = data.bankLogoUrl;
+            if(previewInviteVideo && data.invitationVideoUrl) previewInviteVideo.src = data.invitationVideoUrl;
+            if(previewPanitiaPhoto && data.panitiaPhotoUrl) previewPanitiaPhoto.src = data.panitiaPhotoUrl;
         }
 
         async function updatePublicDonation() {
@@ -891,23 +1747,36 @@
             const dAtasnama = document.getElementById('display-atasnama');
             const dWa = document.getElementById('display-wa');
             const dKetua = document.getElementById('display-ketua');
+            const dBankLogo = document.getElementById('display-bank-logo');
+            const dInviteVideo = document.getElementById('display-invite-video');
+            const videoSection = document.getElementById('video-ajakan');
             const waLink = document.getElementById('wa-link');
-            const waContactBtn = document.getElementById('wa-contact-btn');
+            const dPanitiaPhoto = document.getElementById('display-panitia-photo');
             
             if(dTerkumpul) dTerkumpul.innerText = formatRupiah(data.terkumpul);
             if(dRekening) dRekening.innerText = data.rekening;
             if(dAtasnama) dAtasnama.innerText = data.atasNama;
             if(dWa) dWa.innerText = data.wa || '-';
             if(dKetua) dKetua.innerText = data.ketuaPanitia || 'Nama Panitia';
+            if(dBankLogo && data.bankLogoUrl) dBankLogo.src = data.bankLogoUrl;
+            if(dPanitiaPhoto && data.panitiaPhotoUrl) dPanitiaPhoto.src = data.panitiaPhotoUrl;
             
-            // Format WA link
+            if(data.mapLat) currentMapLat = data.mapLat;
+            if(data.mapLng) currentMapLng = data.mapLng;
+            
+            if (data.invitationVideoUrl) {
+                if(dInviteVideo) dInviteVideo.src = data.invitationVideoUrl;
+                if(videoSection) videoSection.classList.remove('page-hidden');
+            } else {
+                if(videoSection) videoSection.classList.add('page-hidden');
+            }
+            
             let waNum = (data.wa || '').replace(/[^0-9]/g, '');
             if (waNum.startsWith('0')) {
                 waNum = '62' + waNum.substring(1);
             }
             
             if(waLink) waLink.href = `https://wa.me/${waNum}`;
-            if(waContactBtn) waContactBtn.href = `https://wa.me/${waNum}`;
         }
 
         async function updateOverview() {
@@ -931,6 +1800,8 @@
             const atasNama = document.getElementById('set-atasnama').value || 'Panitia';
             const wa = document.getElementById('set-wa').value || '';
             const ketuaPanitia = document.getElementById('set-ketua').value || '';
+            const mapLat = document.getElementById('set-lat').value || '';
+            const mapLng = document.getElementById('set-lng').value || '';
 
             const { error } = await sb.from('settings').upsert({ 
                 id: 1, 
@@ -938,7 +1809,9 @@
                 rekening: rekening, 
                 atasNama: atasNama,
                 wa: wa,
-                ketuaPanitia: ketuaPanitia 
+                ketuaPanitia: ketuaPanitia,
+                mapLat: mapLat,
+                mapLng: mapLng
             });
 
             if (error) {
@@ -950,13 +1823,184 @@
                 
                 await updatePublicDonation();
                 await updateOverview();
+                
+                // Pencatatan Log
+                await addLog('Update Pengaturan', 'Memperbarui informasi rekening, donasi, dan peta');
             }
+        }
+
+        // ===== UPLOAD LOGO BANK & VIDEO AJAKAN & FOTO PANITIA =====
+        function previewSettingMedia(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            const file = input.files[0];
+            const preview = document.getElementById(previewId);
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => { 
+                    preview.src = e.target.result; 
+                    preview.classList.remove('page-hidden'); 
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function uploadSettingMedia(inputId, columnName) {
+            const input = document.getElementById(inputId);
+            const file = input.files[0];
+            if (!file) {
+                alert('Silakan pilih file terlebih dahulu!');
+                return;
+            }
+
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengunggah...';
+            btn.disabled = true;
+
+            try {
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${columnName}_${Date.now()}.${fileExt}`;
+                
+                const { error: storageError } = await sb.storage.from('galeri').upload(fileName, file);
+                if (storageError) throw storageError;
+
+                const { data: publicUrlData } = sb.storage.from('galeri').getPublicUrl(fileName);
+                const fileUrl = publicUrlData.publicUrl;
+
+                const { error: dbError } = await sb.from('settings').upsert({ id: 1, [columnName]: fileUrl });
+                if (dbError) throw dbError;
+
+                alert('Berhasil diunggah dan disimpan!');
+                await loadSettings();
+                await updatePublicDonation();
+                input.value = '';
+                
+                // Pencatatan Log
+                await addLog('Upload File Setting', `Mengunggah file untuk ${columnName}`);
+
+            } catch (error) {
+                alert('Gagal upload: ' + error.message);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // ===== FUNGSI PENGHITUNG PENGUNJUNG =====
+        async function trackVisitor() {
+            const today = new Date().toISOString().split('T')[0];
+            const sessionId = sessionStorage.getItem('session_id');
+
+            const { data, error } = await sb.from('visitors').select('*').eq('id', 1).single();
+            
+            if (error) {
+                console.error("Gagal mengambil data pengunjung:", error.message);
+                return;
+            }
+
+            const dbDate = data.date ? new Date(data.date).toISOString().split('T')[0] : null;
+            let isNewDay = dbDate !== today;
+
+            let finalTotal = data.total_visitors || 0;
+            let finalDaily = data.daily_visitors || 0;
+
+            if (isNewDay) {
+                finalDaily = 0; 
+            }
+
+            if (!sessionId) {
+                finalTotal = finalTotal + 1;
+                finalDaily = finalDaily + 1;
+                
+                await sb.from('visitors').update({ 
+                    total_visitors: finalTotal, 
+                    daily_visitors: finalDaily, 
+                    date: today 
+                }).eq('id', 1);
+                
+                sessionStorage.setItem('session_id', Date.now().toString());
+            }
+
+            const totalEl = document.getElementById('visitor-count');
+            const dailyEl = document.getElementById('visitor-today');
+            if(totalEl) totalEl.innerText = finalTotal.toLocaleString('id-ID');
+            if(dailyEl) dailyEl.innerText = finalDaily.toLocaleString('id-ID');
+        }
+
+        // ===== FUNGSI HERO SLIDESHOW =====
+        let currentSlide = 0;
+        function startHeroSlideshow() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if (slides.length === 0) return;
+
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000);
+        }
+
+        // ===== FUNGSI RENDER LOGS (BARU) =====
+        async function renderLogs() {
+            const logList = document.getElementById('log-list');
+            if (!logList) return;
+
+            logList.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-slate-400"><i class="fas fa-spinner fa-spin mr-2"></i>Memuat data log...</td></tr>`;
+            
+            const { data, error } = await sb.from('logs').select('*').order('created_at', { ascending: false }).limit(100);
+            
+            if (error) {
+                logList.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-red-400">Gagal memuat data: ${error.message}</td></tr>`;
+                return;
+            }
+
+            if (data.length === 0) {
+                logList.innerHTML = `<tr><td colspan="3" class="text-center py-8 text-slate-400">Belum ada aktivitas tercatat.</td></tr>`;
+                return;
+            }
+
+            logList.innerHTML = '';
+            data.forEach(log => {
+                const dateObj = new Date(log.created_at);
+                const formattedDate = dateObj.toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
+                
+                let badgeColor = 'bg-slate-100 text-slate-600';
+                let icon = 'fas fa-info-circle';
+                
+                if (log.action.includes('Login') || log.action.includes('Logout')) {
+                    badgeColor = 'bg-amber-100 text-amber-700';
+                    icon = 'fas fa-right-to-bracket';
+                } else if (log.action.includes('Upload')) {
+                    badgeColor = 'bg-green-100 text-green-700';
+                    icon = 'fas fa-cloud-arrow-up';
+                } else if (log.action.includes('Hapus')) {
+                    badgeColor = 'bg-red-100 text-red-700';
+                    icon = 'fas fa-trash';
+                } else if (log.action.includes('Edit') || log.action.includes('Update')) {
+                    badgeColor = 'bg-blue-100 text-blue-700';
+                    icon = 'fas fa-pen-to-square';
+                }
+
+                logList.innerHTML += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                        <td class="px-4 py-3 text-sm text-slate-500 whitespace-nowrap">${formattedDate}</td>
+                        <td class="px-4 py-3 text-sm">
+                            <span class="px-2 py-1 rounded-md text-xs font-semibold ${badgeColor}">
+                                <i class="fas ${icon} mr-1"></i> ${log.action}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-sm text-slate-600">${log.details || '-'}</td>
+                    </tr>
+                `;
+            });
         }
 
         // ===== INISIALISASI AWAL =====
         document.addEventListener("DOMContentLoaded", () => {
             history.pushState({ page: 'public', sectionId: 'beranda' }, "", "#public");
             navigateTo('public', 'beranda', false);
+            trackVisitor();
+            startHeroSlideshow();
         });
     </script>
 </body>
